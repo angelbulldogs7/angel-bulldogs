@@ -1,0 +1,32 @@
+---
+import type { Genotype } from "../../lib/color-lab/types";
+import GeneControlGroups from "./GeneControlGroups.astro";
+import PresetPicker from "./PresetPicker.astro";
+import SavedDogManager from "./SavedDogManager.astro";
+
+interface Props {
+  prefix: "stud" | "dam";
+  title: string;
+  genotype: Genotype;
+}
+
+const { prefix, title, genotype } = Astro.props;
+const sex = prefix === "stud" ? "male" : "female";
+---
+
+<section class="cl-parent" data-parent={prefix} hidden={prefix === "dam"}>
+  <header class="cl-parent__head">
+    <h2>{title}</h2>
+    <p class="cl-guided">
+      Role: {sex}. Loading a saved dog recorded as the other sex requires an explicit confirmation.
+      The saved record is not relabeled.
+    </p>
+  </header>
+  <div class="field">
+    <label class="field__label" for={`${prefix}-name`}>Parent name</label>
+    <input id={`${prefix}-name`} type="text" maxlength="80" data-parent-name autocomplete="off" value={prefix === "stud" ? "Stud" : "Dam"} />
+  </div>
+  <SavedDogManager prefix={prefix} />
+  <PresetPicker prefix={prefix} />
+  <GeneControlGroups prefix={prefix} genotype={genotype} />
+</section>

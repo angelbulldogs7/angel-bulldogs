@@ -1,0 +1,107 @@
+---
+import { COLOR_LAB_SOURCES, MODEL_LIMITATIONS } from "../../data/color-lab/sources";
+import { CLASSIC_FAWN_PRESET_ID, applyPreset } from "../../data/color-lab/presets";
+import { defaultGenotype } from "../../lib/color-lab/genotype";
+import GeneControlGroups from "./GeneControlGroups.astro";
+import InterestDrawer from "./InterestDrawer.astro";
+import ModeToggle from "./ModeToggle.astro";
+import ParentConfigurator from "./ParentConfigurator.astro";
+import PresetPicker from "./PresetPicker.astro";
+import PuppyPreview from "./PuppyPreview.astro";
+import ResultsDashboard from "./ResultsDashboard.astro";
+import SavedDogManager from "./SavedDogManager.astro";
+
+interface Props {
+  prototypeMode: boolean;
+  formspreeEndpoint: string;
+}
+
+const { prototypeMode, formspreeEndpoint } = Astro.props;
+const classic = applyPreset(CLASSIC_FAWN_PRESET_ID) ?? defaultGenotype();
+---
+
+<div
+  class="color-lab"
+  data-color-lab
+  data-mode="guided"
+  data-prototype-mode={prototypeMode ? "true" : "false"}
+  data-formspree-endpoint={formspreeEndpoint}
+>
+  <ModeToggle guided />
+
+  <div class="cl-tabs" data-primary-tabs>
+    <div class="cl-tabs__list" role="tablist" aria-label="Color Lab tools">
+      <button type="button" role="tab" id="tab-build" aria-controls="panel-build" aria-selected="true" tabindex="0">
+        Build a Frenchie
+      </button>
+      <button type="button" role="tab" id="tab-breeding" aria-controls="panel-breeding" aria-selected="false" tabindex="-1">
+        Breeding Calculator
+      </button>
+    </div>
+
+    <div class="cl-tabs__panel" role="tabpanel" id="panel-build" aria-labelledby="tab-build">
+      <div class="cl-build">
+        <PuppyPreview prefix="build" interestSource="build" />
+        <div class="cl-build__controls">
+          <div class="cl-toolbar">
+            <button class="btn btn--secondary" type="button" data-reset-classic>Reset to Classic Fawn</button>
+          </div>
+          <PresetPicker prefix="build" />
+          <SavedDogManager prefix="build" />
+          <GeneControlGroups prefix="build" genotype={classic} />
+        </div>
+      </div>
+    </div>
+
+    <div class="cl-tabs__panel" role="tabpanel" id="panel-breeding" aria-labelledby="tab-breeding" hidden>
+      <ol class="cl-steps" data-breeding-steps>
+        <li><button type="button" class="cl-step is-active" data-step="stud">1. Configure Stud</button></li>
+        <li><button type="button" class="cl-step" data-step="dam">2. Configure Dam</button></li>
+        <li><button type="button" class="cl-step" data-step="review">3. Review</button></li>
+        <li><button type="button" class="cl-step" data-step="results">4. Results</button></li>
+      </ol>
+      <div class="cl-breeding" data-breeding>
+        <ParentConfigurator prefix="stud" title="Stud (male)" genotype={classic} />
+        <ParentConfigurator prefix="dam" title="Dam (female)" genotype={classic} />
+        <section class="cl-review" data-parent="review" hidden>
+          <h2>Review parents</h2>
+          <div class="cl-review__grid">
+            <article data-review-stud></article>
+            <article data-review-dam></article>
+          </div>
+          <div class="cl-review__actions">
+            <button class="btn btn--secondary" type="button" data-step="stud">Edit stud</button>
+            <button class="btn btn--secondary" type="button" data-step="dam">Edit dam</button>
+            <button class="btn btn--primary" type="button" data-calculate>Calculate litter</button>
+          </div>
+        </section>
+        <ResultsDashboard />
+      </div>
+    </div>
+  </div>
+
+  <section class="cl-sources">
+    <h2>How the genetics work</h2>
+    <p>
+      This tool is an educational model of commonly tested French Bulldog coat and coat-type loci.
+      It is not a laboratory report, health clearance, or breeding recommendation.
+    </p>
+    <ul>
+      {MODEL_LIMITATIONS.map((item) => <li>{item}</li>)}
+    </ul>
+    <h3>Sources &amp; limitations</h3>
+    <ul>
+      {
+        COLOR_LAB_SOURCES.map((source) => (
+          <li>
+            <a href={source.href}>{source.title}</a>
+            <span> (accessed {source.accessed})</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <p class="visually-hidden" aria-live="polite" data-live></p>
+  <InterestDrawer />
+</div>

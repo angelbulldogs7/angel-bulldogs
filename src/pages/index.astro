@@ -1,17 +1,88 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ButtonLink from "../components/ButtonLink.astro";
+import HeroMedia from "../components/HeroMedia.astro";
+import TrustStrip from "../components/TrustStrip.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import PuppyGrid from "../components/PuppyGrid.astro";
+import BellaFeature from "../components/BellaFeature.astro";
+import ProgramValues from "../components/ProgramValues.astro";
+import RootsStory from "../components/RootsStory.astro";
+import ProcessSteps from "../components/ProcessSteps.astro";
+import NationwideCallout from "../components/NationwideCallout.astro";
+import FaqAccordion from "../components/FaqAccordion.astro";
+import CtaBanner from "../components/CtaBanner.astro";
+import { getFeaturedAvailablePuppies } from "../data/puppies";
+import { getFeaturedFaqs } from "../data/faqs";
 
+const featuredPuppies = getFeaturedAvailablePuppies(3);
+const featuredFaqs = getFeaturedFaqs(5);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="Angel Bulldogs | Home-Raised French Bulldogs in Chicago"
+  description="Angel Bulldogs is a small, family-guided French Bulldog program in Chicago. Home-raised puppies, rare colors, and nationwide delivery for approved families."
+  path="/"
+>
+  <section class="hero">
+    <HeroMedia />
+    <div class="container hero__content">
+      <p class="eyebrow">Chicago-based · Nationwide placement</p>
+      <h1>French Bulldogs raised with intention, love, and personal care.</h1>
+      <p class="lede">
+        Angel Bulldogs is a small family-guided program rooted in Serbian breeding experience,
+        focusing on thoughtfully raised French Bulldogs, rare colors, and a personal relationship
+        with every future family.
+      </p>
+      <div class="cluster hero__actions">
+        <ButtonLink href="/puppies">View Available Puppies</ButtonLink>
+        <ButtonLink href="/bella" variant="secondary">Meet Bella</ButtonLink>
+      </div>
+    </div>
+  </section>
+
+  <TrustStrip />
+
+  <section class="section">
+    <div class="container">
+      <div class="reveal" data-reveal>
+        <SectionHeading
+          eyebrow="Placement"
+          title="Meet Our Available Puppies"
+          lede="Every placement begins with a personal conversation. Pricing is available upon inquiry."
+        />
+      </div>
+      <div class="reveal" data-reveal>
+        <PuppyGrid puppies={featuredPuppies} />
+      </div>
+      {
+        featuredPuppies.length > 0 && (
+          <p class="cluster reveal" data-reveal>
+            <ButtonLink href="/puppies" variant="secondary">View all available puppies</ButtonLink>
+          </p>
+        )
+      }
+    </div>
+  </section>
+
+  <BellaFeature />
+  <ProgramValues />
+  <RootsStory />
+  <ProcessSteps />
+  <NationwideCallout />
+
+  <section class="section section--ivory">
+    <div class="container reveal" data-reveal>
+      <SectionHeading
+        title="A few questions, answered"
+        lede="Clearer answers live on the FAQ page. These are the ones families ask first."
+      />
+      <FaqAccordion items={featuredFaqs} />
+      <p class="cluster">
+        <ButtonLink href="/faq" variant="secondary">Read the full FAQ</ButtonLink>
+      </p>
+    </div>
+  </section>
+
+  <CtaBanner />
+</BaseLayout>

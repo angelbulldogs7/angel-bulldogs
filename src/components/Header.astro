@@ -1,0 +1,81 @@
+---
+interface Props {
+  currentPath: string;
+}
+
+import { siteConfig } from "../config/site";
+import { isCurrentPath } from "../utils/format";
+import AnnouncementBar from "./AnnouncementBar.astro";
+import ButtonLink from "./ButtonLink.astro";
+import TextWordmark from "./TextWordmark.astro";
+
+const { currentPath } = Astro.props;
+---
+
+<header class="site-header">
+  <AnnouncementBar />
+  <div class="container header-inner">
+    <TextWordmark />
+    <nav class="desktop-nav" aria-label="Primary">
+      {
+        siteConfig.nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isCurrentPath(currentPath, item.href) ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <div class="header-actions">
+      <ButtonLink href="/puppies" class="btn--header">View Puppies</ButtonLink>
+      <button
+        class="menu-toggle"
+        type="button"
+        data-nav-toggle
+        aria-controls="mobile-nav"
+        aria-expanded="false"
+        aria-label="Open menu"
+      >
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+  <div class="nav-overlay" data-nav-overlay hidden></div>
+  <div
+    class="mobile-drawer"
+    id="mobile-nav"
+    data-nav-drawer
+    role="dialog"
+    aria-modal="true"
+    aria-label="Menu"
+    aria-hidden="true"
+    inert
+    tabindex="-1"
+  >
+    <div class="drawer-head">
+      <TextWordmark />
+      <button class="drawer-close" type="button" data-nav-close aria-label="Close menu">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <nav aria-label="Mobile">
+      {
+        siteConfig.nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isCurrentPath(currentPath, item.href) ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <ButtonLink href="/puppies">View Puppies</ButtonLink>
+  </div>
+</header>
+
+<script>
+  import "../scripts/mobile-nav";
+</script>

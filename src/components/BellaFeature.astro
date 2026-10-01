@@ -1,0 +1,35 @@
+---
+import { getDam } from "../data/parents";
+import ButtonLink from "./ButtonLink.astro";
+import MediaImage from "./MediaImage.astro";
+
+const bella = getDam();
+---
+
+<section class="section">
+  <div class="container split split--2 reveal" data-reveal>
+    <div class="media-frame aspect-portrait">
+      <MediaImage
+        src={bella.portrait.src}
+        alt={bella.portrait.alt}
+        width={bella.portrait.width}
+        height={bella.portrait.height}
+      />
+    </div>
+    <div>
+      <p class="eyebrow">The heart of Angel Bulldogs</p>
+      <h2>Meet Bella</h2>
+      <p>
+        Bella came from Serbia and now lives as part of our family in Chicago. She is central
+        to Angel Bulldogs—companionship and careful raising first, with a rare {bella.coat} coat that is part of her story, not the whole of it.
+      </p>
+      <p>
+        Her puppies are raised inside our home, with the same personal attention we give Bella
+        herself.
+      </p>
+      <div class="cluster">
+        <ButtonLink href="/bella">Meet Bella &amp; our story</ButtonLink>
+      </div>
+    </div>
+  </div>
+</section>

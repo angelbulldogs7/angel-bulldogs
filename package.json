@@ -1,5 +1,5 @@
 {
-  "name": "puppy-website",
+  "name": "angel-bulldogs",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -7,14 +7,23 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "check": "astro check",
+    "test": "node --experimental-strip-types --import ./scripts/color-lab-test-register.mjs --test src/lib/color-lab/*.test.ts",
+    "color-lab:manifest": "node --experimental-strip-types --import ./scripts/color-lab-test-register.mjs scripts/generate-color-lab-manifest.mjs",
+    "color-lab:phenotypes": "node --experimental-strip-types --import ./scripts/color-lab-test-register.mjs scripts/export-color-lab-phenotypes.mjs",
+    "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.2.8"
+    "astro": "^7.2.8",
+    "gsap": "^3.15.0"
   },
   "allowScripts": {
     "esbuild": true
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^5.9.2"
   }
 }

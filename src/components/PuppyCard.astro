@@ -1,0 +1,218 @@
+---
+import type { Puppy } from "../data/types";
+import { PRICE_LABEL } from "../config/site";
+import { getDam, getSire, displayParentName } from "../data/parents";
+import { formatDate, formatSex } from "../utils/format";
+import ButtonLink from "./ButtonLink.astro";
+import MediaImage from "./MediaImage.astro";
+
+interface Props {
+  puppy: Puppy;
+}
+
+const { puppy } = Astro.props;
+const dam = getDam();
+const sire = getSire();
+const titleId = `puppy-title-${puppy.slug}`;
+const panelId = `puppy-panel-${puppy.slug}`;
+const gallery = [puppy.primaryImage, ...puppy.gallery.filter((asset) => asset.src !== puppy.primaryImage.src)];
+const statusLabel = puppy.status === "available" ? "Available" : "Unavailable";
+const hasGallery = gallery.length > 1;
+const galleryJson = JSON.stringify(
+  gallery.map((asset) => ({
+    src: asset.src,
+    alt: asset.alt,
+    width: asset.width,
+    height: asset.height,
+  })),
+);
+---
+
+<article
+  class="puppy-card"
+  data-puppy-card
+  data-puppy-name={puppy.name}
+  data-flip-id={puppy.slug}
+  data-gallery={galleryJson}
+>
+  <div class="puppy-card__summary">
+    <div class="puppy-card__media" data-flip-id={`${puppy.slug}-media`} data-gallery-stage>
+      <MediaImage
+        class="puppy-card__photo puppy-card__photo--primary"
+        src={gallery[0].src}
+        alt={gallery[0].alt}
+        width={gallery[0].width}
+        height={gallery[0].height}
+      />
+      {
+        hasGallery && (
+          <div class="puppy-card__gallery-nav" data-gallery-controls>
+            <button
+              type="button"
+              class="puppy-card__gallery-btn"
+              data-gallery-prev
+              aria-label={`Previous photo of ${puppy.name}`}
+            >
+              ‹
+            </button>
+            <p class="puppy-card__gallery-count" data-gallery-count aria-live="polite">
+              1 / {gallery.length}
+            </p>
+            <button
+              type="button"
+              class="puppy-card__gallery-btn"
+              data-gallery-next
+              aria-label={`Next photo of ${puppy.name}`}
+            >
+              ›
+            </button>
+          </div>
+        )
+      }
+    </div>
+    <div class="puppy-card__body">
+      <div class="cluster">
+        <span class="status-pill">{statusLabel}</span>
+        {puppy.placeholder && <span class="dev-notice">Placeholder record</span>}
+      </div>
+      <h3 class="puppy-card__title" id={titleId}>{puppy.name}</h3>
+      <div class="puppy-card__meta">
+        <span>{formatSex(puppy.sex)}</span>
+        <span>{puppy.dateOfBirth ? `Born ${formatDate(puppy.dateOfBirth)}` : formatDate(null)}</span>
+        <span>{puppy.color}</span>
+        <span>{puppy.coatType}</span>
+      </div>
+      {puppy.shortDescription && <p>{puppy.shortDescription}</p>}
+      <p class="price-note">{PRICE_LABEL}</p>
+      <div class="puppy-card__actions">
+        <button
+          class="btn btn--secondary"
+          type="button"
+          data-expand
+          aria-expanded="false"
+          aria-controls={panelId}
+          aria-label={`View details for ${puppy.name}`}
+        >
+          <span data-expand-label>View details</span>
+        </button>
+        <ButtonLink href={`/contact?puppy=${puppy.slug}`} variant="ghost">
+          Inquire about {puppy.name}
+        </ButtonLink>
+      </div>
+    </div>
+  </div>
+  <div
+    class="puppy-card__panel"
+    id={panelId}
+    data-panel
+    hidden
+    inert
+    tabindex="-1"
+    role="region"
+    aria-labelledby={titleId}
+  >
+    <div class="stack">
+      <div class="puppy-card__panel-head">
+        <h4>More about {puppy.name}</h4>
+        <button
+          class="btn btn--ghost puppy-card__close"
+          type="button"
+          data-collapse
+          aria-label={`Close details for ${puppy.name}`}
+        >
+          Close
+        </button>
+      </div>
+      {
+        puppy.longDescription && (
+          <div data-reveal-group>
+            <p>{puppy.longDescription}</p>
+          </div>
+        )
+      }
+      <div class="puppy-card__media-block" data-reveal-group>
+        {
+          hasGallery ? (
+            <div class="gallery" role="list" aria-label={`Photos of ${puppy.name}`}>
+              {gallery.map((asset, index) => (
+                <button
+                  type="button"
+                  class="gallery__thumb"
+                  role="listitem"
+                  data-gallery-thumb
+                  data-gallery-index={String(index)}
+                  aria-label={`Show photo ${index + 1} of ${puppy.name}`}
+                  aria-current={index === 0 ? "true" : "false"}
+                >
+                  <MediaImage src={asset.src} alt="" width={asset.width} height={asset.height} />
+                </button>
+              ))}
+            </div>
+          ) : null
+        }
+        {
+          puppy.video ? (
+            <div class="media-frame aspect-gallery">
+              <video
+                controls
+                playsinline
+                preload="none"
+                poster={puppy.primaryImage.src}
+                width={puppy.video.width}
+                height={puppy.video.height}
+              >
+                <source src={puppy.video.src} type="video/mp4" />
+              </video>
+            </div>
+          ) : (
+            <p class="field__hint">A puppy video will appear here when one is added in the puppy record.</p>
+          )
+        }
+      </div>
+      <div class="parents-mini" data-reveal-group>
+        <article>
+          <MediaImage
+            src={dam.portrait.src}
+            alt={dam.portrait.alt}
+            width={dam.portrait.width}
+            height={dam.portrait.height}
+          />
+          <div>
+            <p class="eyebrow">Dam</p>
+            <p><strong>{displayParentName(dam)}</strong></p>
+            {dam.coat && <p class="field__hint">{dam.coat}</p>}
+          </div>
+        </article>
+        <article>
+          <MediaImage
+            src={sire.portrait.src}
+            alt={sire.portrait.alt}
+            width={sire.portrait.width}
+            height={sire.portrait.height}
+          />
+          <div>
+            <p class="eyebrow">Sire</p>
+            <p><strong>{displayParentName(sire)}</strong></p>
+            {sire.coat ? (
+              <p class="field__hint">{sire.coat}</p>
+            ) : (
+              <p class="field__hint">Verified sire details will appear here when added.</p>
+            )}
+          </div>
+        </article>
+      </div>
+      <div class="puppy-card__actions" data-reveal-group>
+        <ButtonLink href={`/application?puppy=${puppy.slug}`}>Apply for {puppy.name}</ButtonLink>
+        <ButtonLink href={`/contact?puppy=${puppy.slug}`} variant="secondary">Contact us</ButtonLink>
+        <button
+          class="btn btn--ghost"
+          type="button"
+          data-collapse
+          aria-label={`Close details for ${puppy.name}`}
+        >
+          Close details
+        </button>
+      </div>
+    </div>
+  </div>
+</article>

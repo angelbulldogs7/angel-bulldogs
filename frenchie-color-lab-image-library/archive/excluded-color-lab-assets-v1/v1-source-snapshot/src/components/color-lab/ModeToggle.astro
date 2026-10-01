@@ -1,0 +1,22 @@
+---
+interface Props {
+  guided: boolean;
+}
+
+const { guided } = Astro.props;
+---
+
+<div class="cl-mode" data-mode-toggle>
+  <p class="cl-mode__label" id="cl-mode-label">Copy density</p>
+  <div class="cl-mode__switch" role="group" aria-labelledby="cl-mode-label">
+    <button type="button" class="cl-mode__btn" data-mode-option="guided" aria-pressed={guided ? "true" : "false"}>
+      Guided
+    </button>
+    <button type="button" class="cl-mode__btn" data-mode-option="advanced" aria-pressed={guided ? "false" : "true"}>
+      Advanced
+    </button>
+  </div>
+  <p class="cl-mode__hint cl-guided">
+    Same allele choices in both modes. Guided adds plain-language help; Advanced keeps denser labels.
+  </p>
+</div>

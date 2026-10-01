@@ -1,0 +1,46 @@
+---
+import { copyrightYear } from "../utils/format";
+import { getPublicEmail, siteConfig } from "../config/site";
+import NewsletterPrototype from "./NewsletterPrototype.astro";
+import TextWordmark from "./TextWordmark.astro";
+
+const { address, notice } = getPublicEmail();
+const year = copyrightYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <TextWordmark />
+      <p>
+        A small, family-guided French Bulldog program in {siteConfig.location}, raising puppies
+        at home with personal care.
+      </p>
+      <p>{siteConfig.locationShort} · {siteConfig.serviceArea} for approved families.</p>
+      {
+        address ? (
+          <p>
+            <a href={`mailto:${address}`}>{address}</a>
+          </p>
+        ) : (
+          <p><span class="dev-notice">{notice}</span></p>
+        )
+      }
+    </div>
+    <nav class="footer-nav" aria-label="Footer">
+      {
+        siteConfig.nav.map((item) => (
+          <a href={item.href}>{item.label}</a>
+        ))
+      }
+    </nav>
+    <div>
+      <h2 class="eyebrow">Join the Angel Bulldogs list</h2>
+      <p>Be the first to hear when a puppy becomes available.</p>
+      <NewsletterPrototype />
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© {year} {siteConfig.name}. All rights reserved.</p>
+  </div>
+</footer>

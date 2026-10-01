@@ -1,0 +1,32 @@
+---
+import { presetGroups } from "../../data/color-lab/presets";
+
+interface Props {
+  prefix: string;
+}
+
+const { prefix } = Astro.props;
+const groups = presetGroups();
+---
+
+<section class="cl-presets" data-presets data-prefix={prefix}>
+  <h2>Color presets</h2>
+  <p class="cl-guided">
+    Applying a preset replaces every locus with that preset’s canonical DNA. It does not leave
+    leftover alleles from the previous dog.
+  </p>
+  {
+    groups.map((group) => (
+      <div class="cl-presets__group">
+        <h3>{group.group}</h3>
+        <div class="cl-presets__list">
+          {group.presets.map((preset) => (
+            <button type="button" class="cl-chip" data-apply-preset={preset.id}>
+              {preset.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    ))
+  }
+</section>

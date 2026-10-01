@@ -1,0 +1,75 @@
+---
+import { resolveVisual } from "../../lib/color-lab/visualCache";
+import type { DogState } from "../../lib/color-lab/types";
+import { dogPreviewModel } from "../../lib/color-lab/viewModels";
+import VisualFrame from "./VisualFrame.astro";
+
+interface Props {
+  state: DogState;
+}
+
+const { state } = Astro.props;
+const model = dogPreviewModel(state);
+const result = model.result;
+const hiddenLines = [...model.carriers, ...model.hidden];
+---
+
+<aside class="cl-preview" data-preview aria-labelledby="cl-preview-name">
+  <VisualFrame publicName={result.publicName} resolution={resolveVisual(result.recipe)} />
+  <div class="cl-preview__body">
+    <p class="cl-preview__eyebrow">Representative preview</p>
+    <h2 class="cl-preview__name" id="cl-preview-name" data-preview-name>{result.publicName}</h2>
+    <p class="cl-preview__subtitle" data-preview-subtitle hidden={!result.subtitle}>{result.subtitle}</p>
+    <p class="cl-preview__alias" data-preview-alias hidden={result.aliases.length === 0}>
+      {result.aliases.length > 0 ? `Also called ${result.aliases.join(", ")}` : ""}
+    </p>
+    <ul class="cl-tags" data-preview-tags>
+      <li class="cl-tag" data-tone="neutral">DNA: Assumed</li>
+    </ul>
+    <div class="cl-notices" data-preview-notices>
+      {
+        model.notices.map((notice) => (
+          <p class="cl-notice" data-severity={notice.severity}>
+            <strong>{notice.title}.</strong> {notice.text}
+          </p>
+        ))
+      }
+    </div>
+    <details class="cl-dna">
+      <summary>Hidden DNA &amp; full genotype</summary>
+      <div class="cl-dna__body">
+        <h3 class="cl-dna__title">Hidden DNA</h3>
+        <ul class="cl-dna__hidden" data-preview-hidden>
+          {
+            hiddenLines.length > 0 ? (
+              hiddenLines.map((line) => <li>{line}</li>)
+            ) : (
+              <li>No hidden carriers or masked genes.</li>
+            )
+          }
+        </ul>
+        <h3 class="cl-dna__title">Selected genotype</h3>
+        <dl class="cl-dna__rows" data-preview-rows>
+          {
+            model.dnaRows.map((row) => (
+              <div class="cl-dna__row">
+                <dt>{row.locusName}</dt>
+                <dd>
+                  {row.genotypes.map((item) => (
+                    <span class="cl-dna__genotype">
+                      {item.display} <span class="cl-dna__label">{item.label}</span>
+                    </span>
+                  ))}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </details>
+    <div class="cl-preview__actions">
+      <button type="button" class="btn btn--primary" data-open-interest="build">I’m Interested in This Puppy</button>
+      <p class="cl-ineligible" data-interest-blocked hidden></p>
+    </div>
+  </div>
+</aside>

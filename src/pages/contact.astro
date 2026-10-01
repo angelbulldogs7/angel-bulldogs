@@ -1,0 +1,41 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import ContactForm from "../components/ContactForm.astro";
+import { getPublicEmail, siteConfig } from "../config/site";
+
+const { address, notice } = getPublicEmail();
+---
+
+<BaseLayout
+  title="Contact Angel Bulldogs | Chicago"
+  description="Contact Angel Bulldogs, a Chicago-based French Bulldog program. Inquire about available puppies, applications, nationwide delivery, or breeding rights."
+  path="/contact"
+>
+  <PageHero
+    title="Contact"
+    lede="We would rather have a real conversation than a crowded inbox of forms. Tell us what you need, and we will follow up."
+  />
+  <section class="section">
+    <div class="container split split--2">
+      <div>
+        <p class="eyebrow">Angel Bulldogs</p>
+        <h2>{siteConfig.location}</h2>
+        <p>{siteConfig.serviceArea} for approved families.</p>
+        <p>Email is our primary public contact method.</p>
+        {
+          address ? (
+            <p>
+              <a href={`mailto:${address}`}>{address}</a>
+            </p>
+          ) : (
+            <p>
+              <span class="dev-notice">{notice}</span>
+            </p>
+          )
+        }
+      </div>
+      <ContactForm />
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Angel Bulldogs">
+  <rect width="1200" height="630" fill="#f2e8d9"/>
+  <rect x="60" y="60" width="1080" height="510" rx="24" fill="#e6d3ae"/>
+<ellipse cx="860" cy="315" rx="200" ry="180" fill="#c8a66a" opacity="0.5"/>
+  <text x="600.0" y="453.59999999999997" text-anchor="middle" fill="#49352b" font-family="Georgia, 'Times New Roman', serif" font-size="33.6">Angel Bulldogs</text>
+  <text x="600.0" y="489.59999999999997" text-anchor="middle" fill="#71594c" font-family="system-ui, sans-serif" font-size="19.2">Open Graph placeholder 1.91:1 — not final photography</text>
+</svg>

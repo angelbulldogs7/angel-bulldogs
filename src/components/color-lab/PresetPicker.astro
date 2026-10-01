@@ -1,0 +1,31 @@
+---
+import { quickPresets } from "../../data/color-lab/presets";
+
+interface Props {
+  workspace: string;
+}
+
+const { workspace } = Astro.props;
+const titleId = `${workspace}-presets-title`;
+---
+
+<section class="cl-presets" aria-labelledby={titleId}>
+  <div class="cl-presets__head">
+    <h3 class="cl-presets__title" id={titleId}>Start from a preset</h3>
+    <button type="button" class="btn btn--ghost cl-presets__all" data-open-presets aria-haspopup="dialog">
+      View All
+    </button>
+  </div>
+  <p class="cl-presets__hint">A preset resets every gene, Big Rope, and the lab-report box.</p>
+  <ul class="cl-presets__grid cl-presets__grid--quick">
+    {
+      quickPresets().map((preset) => (
+        <li>
+          <button type="button" class="cl-chip" data-apply-preset={preset.id}>
+            {preset.label}
+          </button>
+        </li>
+      ))
+    }
+  </ul>
+</section>

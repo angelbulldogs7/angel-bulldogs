@@ -1,0 +1,19 @@
+---
+import { siteConfig } from "../config/site";
+
+const { locationShort, serviceArea, siteInDevelopment } = siteConfig;
+---
+
+{
+  siteInDevelopment ? (
+    <div class="utility-bar utility-bar--dev" role="status">
+      <p>Website in development — more coming soon.</p>
+    </div>
+  ) : (
+    <div class="utility-bar">
+      <p>
+        {locationShort} · {serviceArea}
+      </p>
+    </div>
+  )
+}

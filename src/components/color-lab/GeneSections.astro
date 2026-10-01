@@ -1,0 +1,54 @@
+---
+import { BIG_ROPE_CONTROL, SECTIONS } from "../../data/color-lab/loci";
+import type { DogState } from "../../lib/color-lab/types";
+import LocusSelect from "./LocusSelect.astro";
+
+interface Props {
+  workspace: string;
+  state: DogState;
+}
+
+const { workspace, state } = Astro.props;
+const ropeId = `${workspace}-big-rope`;
+const ropeNameId = `${ropeId}-name`;
+const ropeHelpId = `${ropeId}-help`;
+---
+
+<div class="cl-genes">
+  {
+    SECTIONS.map((section) => (
+      <fieldset class="cl-genes__section">
+        <legend class="cl-genes__legend">{section.title}</legend>
+        {section.loci.map((locus) => (
+          <LocusSelect workspace={workspace} locus={locus} value={state.genotype[locus]} />
+        ))}
+        {section.id === "coat" && (
+          <div class="cl-gene cl-gene--visual" data-big-rope-control data-value={state.bigRope ? "on" : "off"}>
+            <div class="cl-gene__picker cl-gene__picker--toggle" role="group" aria-labelledby={ropeNameId} aria-describedby={ropeHelpId}>
+              <div class="cl-gene__alleles cl-gene__alleles--toggle" role="radiogroup" aria-label={`${BIG_ROPE_CONTROL.name} setting`}>
+                {BIG_ROPE_CONTROL.options.map((option) => (
+                  <button
+                    type="button"
+                    class="cl-allele"
+                    role="radio"
+                    aria-checked={(option.value === "on") === state.bigRope ? "true" : "false"}
+                    data-big-rope={option.value}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+              <div class="cl-gene__center" id={ropeNameId}>
+                <span class="cl-gene__name">{BIG_ROPE_CONTROL.name}</span>
+                <span class="cl-gene__locus">visual only</span>
+              </div>
+            </div>
+            <p class="cl-gene__help" id={ropeHelpId}>
+              <strong>{BIG_ROPE_CONTROL.qualifier}.</strong> {BIG_ROPE_CONTROL.help}
+            </p>
+          </div>
+        )}
+      </fieldset>
+    ))
+  }
+</div>

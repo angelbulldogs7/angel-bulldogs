@@ -1,0 +1,39 @@
+---
+import { siteConfig } from "../config/site";
+import MediaImage from "./MediaImage.astro";
+
+const poster = siteConfig.heroPoster;
+const video = siteConfig.heroVideo;
+---
+
+<div class="hero__media" data-hero-media>
+  <MediaImage
+    src={poster}
+    alt="Placeholder for a cinematic hero of Bella with puppies"
+    width={1600}
+    height={900}
+    loading="eager"
+    fetchpriority="high"
+    class="hero-poster"
+    heroPoster
+  />
+  {
+    video ? (
+      <video
+        muted
+        loop
+        playsinline
+        autoplay
+        poster={poster}
+        aria-label="Muted looping video of Bella and puppies"
+      >
+        <source src={video} type="video/mp4" />
+      </video>
+    ) : null
+  }
+  <div class="hero__shade" aria-hidden="true"></div>
+</div>
+
+<script>
+  import "../scripts/hero-media";
+</script>

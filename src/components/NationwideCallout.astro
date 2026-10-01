@@ -1,0 +1,22 @@
+---
+import { siteConfig } from "../config/site";
+import ButtonLink from "./ButtonLink.astro";
+---
+
+<section class="section">
+  <div class="container">
+    <div class="callout reveal" data-reveal>
+      <p class="eyebrow">Nationwide</p>
+      <h2>Chicago-based, with delivery discussed individually.</h2>
+      <p class="measure">
+        Angel Bulldogs is based in {siteConfig.location} and can coordinate nationwide delivery
+        for approved families. Exact arrangements are planned together after a personal
+        conversation. We do not publish a single method, carrier, price, or timeline.
+      </p>
+      <div class="cta-actions cluster">
+        <ButtonLink href="/contact">Ask about delivery</ButtonLink>
+        <ButtonLink href="/application" variant="secondary">Submit an application</ButtonLink>
+      </div>
+    </div>
+  </div>
+</section>

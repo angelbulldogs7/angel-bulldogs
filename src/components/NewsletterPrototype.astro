@@ -1,0 +1,39 @@
+<form class="newsletter" data-newsletter-form novalidate>
+  <div class="newsletter-row">
+    <div class="field" data-field>
+      <label class="field__label" for="newsletter-email">Email</label>
+      <input
+        id="newsletter-email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        required
+        placeholder="you@example.com"
+      />
+      <p class="field__error" data-error hidden></p>
+    </div>
+    <button class="btn btn--primary" type="submit">
+      <span>Join the list</span>
+    </button>
+  </div>
+  <p class="field__hint">
+    Subscribers will eventually receive availability updates. Joining does not reserve a puppy.
+  </p>
+  <p class="prototype-banner" data-form-notice role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  import { initPrototypeForm } from "../scripts/prototype-form";
+
+  const form = document.querySelector<HTMLFormElement>("[data-newsletter-form]");
+  const notice = form?.querySelector<HTMLElement>("[data-form-notice]");
+
+  if (form && notice) {
+    // TODO: Connect Brevo here. Do not call fetch() until a verified list endpoint exists.
+    initPrototypeForm({
+      form,
+      notice,
+      message: "Frontend preview only — newsletter signup will be connected before launch.",
+    });
+  }
+</script>

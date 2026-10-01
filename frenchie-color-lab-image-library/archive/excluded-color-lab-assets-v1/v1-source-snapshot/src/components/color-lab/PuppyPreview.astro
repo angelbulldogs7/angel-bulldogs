@@ -1,0 +1,55 @@
+---
+import { COLOR_LAB_IMAGE_HEIGHT, COLOR_LAB_IMAGE_WIDTH, COLOR_LAB_PLACEHOLDER_SRC } from "../../data/color-lab/imageRegistry";
+
+interface Props {
+  prefix: string;
+  interestSource: "build" | "breeding";
+}
+
+const { prefix, interestSource } = Astro.props;
+---
+
+<aside class="cl-preview" data-preview data-prefix={prefix}>
+  <div class="cl-preview__frame media-frame aspect-portrait">
+    <img
+      class="cl-preview__img is-active"
+      data-preview-img="a"
+      src={COLOR_LAB_PLACEHOLDER_SRC}
+      width={COLOR_LAB_IMAGE_WIDTH}
+      height={COLOR_LAB_IMAGE_HEIGHT}
+      alt="Representative French Bulldog puppy placeholder."
+    />
+    <img
+      class="cl-preview__img"
+      data-preview-img="b"
+      src={COLOR_LAB_PLACEHOLDER_SRC}
+      width={COLOR_LAB_IMAGE_WIDTH}
+      height={COLOR_LAB_IMAGE_HEIGHT}
+      alt=""
+      hidden
+    />
+  </div>
+  <p class="cl-preview__badge" data-breeder-term hidden>
+    Breeder term
+    <span class="cl-preview__tip">Common usage varies; the genotype below is the exact description.</span>
+  </p>
+  <h2 class="cl-preview__name" data-common-name>Classic Fawn</h2>
+  <p class="cl-preview__geno" data-geno-summary></p>
+  <div class="cl-preview__block">
+    <h3>Carried / hidden</h3>
+    <ul data-carried></ul>
+  </div>
+  <div class="cl-preview__block">
+    <h3>Limitations</h3>
+    <ul data-caveats></ul>
+  </div>
+  <div class="cl-preview__flags" data-flags></div>
+  <button
+    class="btn btn--primary"
+    type="button"
+    data-open-interest
+    data-interest-source={interestSource}
+  >
+    I’m Interested in This Puppy
+  </button>
+</aside>

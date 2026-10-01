@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "ruleset_version": "2.0.0",
+  "paid_generation_default": false,
+  "default_model": "gpt-image-2.5-flare",
+  "fallback_model": "gpt-image-2.5-sunburst",
+  "image_size": "1024x1024",
+  "quality": "medium",
+  "concurrency": 1,
+  "max_retries": 2,
+  "retry_backoff_seconds": [2, 6, 18],
+  "prompt_files": [
+    "prompts/master.md",
+    "prompts/coat-rules.json",
+    "prompts/phenotype-rules.md",
+    "prompts/qa-checklist.md"
+  ],
+  "budget_profiles": {
+    "phase1": {
+      "usd_limit": 0,
+      "paid_execution": false,
+      "notes": "Offline-only implementation and checks."
+    },
+    "pilot": {
+      "usd_limit": 10,
+      "paid_execution": true,
+      "notes": "Cumulative testing budget across pilot and retries."
+    },
+    "production": {
+      "usd_limit": null,
+      "paid_execution": false,
+      "notes": "Unset until explicit owner authorization."
+    }
+  },
+  "token_estimates": {
+    "input_text_tokens": 2400,
+    "input_image_tokens": 380000,
+    "output_image_tokens": 350000
+  },
+  "retry_reserve_fraction": 0.3
+}

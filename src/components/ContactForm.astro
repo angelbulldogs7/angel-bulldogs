@@ -1,0 +1,85 @@
+---
+import { getAvailablePuppyOptions } from "../data/puppies";
+
+const puppies = getAvailablePuppyOptions();
+---
+
+<form class="form" data-contact-form novalidate>
+  <fieldset class="fieldset">
+    <legend>Send a note</legend>
+    <div class="form-grid form-grid--2">
+      <div class="field" data-field>
+        <label class="field__label" for="contact-name">Name</label>
+        <input id="contact-name" name="name" type="text" autocomplete="name" required />
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="contact-email">Email</label>
+        <input id="contact-email" name="email" type="email" autocomplete="email" required />
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="topic">Topic</label>
+        <select id="topic" name="topic" required>
+          <option value="">Select one</option>
+          <option value="available-puppy">Available Puppy</option>
+          <option value="application">Application Question</option>
+          <option value="delivery">Nationwide Delivery</option>
+          <option value="breeding-rights">Breeding Rights</option>
+          <option value="general">General Question</option>
+        </select>
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="contact-puppy">Puppy <span class="optional">(optional)</span></label>
+        <select id="contact-puppy" name="puppy" data-contact-puppy>
+          <option value="">No specific puppy</option>
+          {puppies.map((puppy) => <option value={puppy.slug}>{puppy.name}</option>)}
+        </select>
+        <p class="field__hint" data-unknown-puppy hidden>
+          We could not match that puppy to a current listing. You can still send a general note.
+        </p>
+      </div>
+      <div class="field full" data-field>
+        <label class="field__label" for="message">Message</label>
+        <textarea id="message" name="message" required></textarea>
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field full" data-field>
+        <label class="check">
+          <input type="checkbox" name="prototypeAck" required />
+          <span>I understand that submitting this prototype form does not send data yet.</span>
+        </label>
+        <p class="field__error" data-error hidden></p>
+      </div>
+    </div>
+  </fieldset>
+  <div>
+    <button class="btn btn--primary btn--full-mobile" type="submit">
+      <span>Send message</span>
+      <span class="btn__arrow" aria-hidden="true">→</span>
+    </button>
+    <p class="prototype-banner" data-form-notice role="status" aria-live="polite"></p>
+  </div>
+</form>
+
+<script>
+  import { initPrototypeForm, populateSelectFromQuery } from "../scripts/prototype-form";
+
+  const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+  const notice = form?.querySelector<HTMLElement>("[data-form-notice]");
+  const puppySelect = form?.querySelector<HTMLSelectElement>("[data-contact-puppy]");
+  const unknown = form?.querySelector<HTMLElement>("[data-unknown-puppy]");
+
+  if (form && notice) {
+    initPrototypeForm({
+      form,
+      notice,
+      message: "Frontend preview only — contact delivery will be connected before launch.",
+    });
+  }
+
+  if (puppySelect) {
+    populateSelectFromQuery(puppySelect, "puppy", unknown ?? undefined);
+  }
+</script>

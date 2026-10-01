@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ButtonLink from "../components/ButtonLink.astro";
+---
+
+<BaseLayout
+  title="Page not found | Angel Bulldogs"
+  description="That page is not on the Angel Bulldogs website. Visit available puppies, meet Bella, or contact us."
+  path="/404"
+>
+  <section class="error-page">
+    <div class="container">
+      <p class="eyebrow">404</p>
+      <h1>This page is not part of our story.</h1>
+      <p class="lede measure">
+        The link may be outdated, or the page may have moved. You can return home, see available
+        puppies, or send us a note.
+      </p>
+      <div class="cluster">
+        <ButtonLink href="/">Return home</ButtonLink>
+        <ButtonLink href="/puppies" variant="secondary">View puppies</ButtonLink>
+        <ButtonLink href="/contact" variant="ghost">Contact</ButtonLink>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

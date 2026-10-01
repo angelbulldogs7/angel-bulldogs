@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img" aria-label="Puppy detail 02">
+  <rect width="1200" height="900" fill="#f2e8d9"/>
+  <rect x="70" y="70" width="1060" height="760" rx="28" fill="#fffdf8"/>
+<rect x="220" y="180" width="760" height="480" rx="28" fill="#e6d3ae"/>
+<ellipse cx="600" cy="420" rx="200" ry="160" fill="#a58e7e" opacity="0.35"/>
+  <text x="600.0" y="648.0" text-anchor="middle" fill="#49352b" font-family="Georgia, 'Times New Roman', serif" font-size="33.6">Puppy detail 02</text>
+  <text x="600.0" y="684.0" text-anchor="middle" fill="#71594c" font-family="system-ui, sans-serif" font-size="19.2">4:3 gallery placeholder — not final photography</text>
+</svg>

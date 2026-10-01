@@ -1,0 +1,28 @@
+---
+import { GENERAL_QUALIFICATION } from "../../lib/color-lab/safetyRules";
+import GenotypeResults from "./GenotypeResults.astro";
+import PhenotypeResults from "./PhenotypeResults.astro";
+---
+
+<section class="cl-results" data-step-panel="results" aria-labelledby="cl-results-title" hidden>
+  <div class="cl-results__head">
+    <h2 id="cl-results-title" tabindex="-1">Litter results</h2>
+    <button type="button" class="btn btn--secondary" data-edit-parents>Edit Parents</button>
+  </div>
+  <div class="cl-results__parents" data-results-parents></div>
+  <div class="cl-warnings" data-results-warnings></div>
+  <div class="cl-results__summary" data-results-summary></div>
+  <p class="cl-qualify">{GENERAL_QUALIFICATION}</p>
+  <div class="cl-tabs cl-tabs--sub" data-result-tabs>
+    <div class="cl-tabs__list" role="tablist" aria-label="Litter results">
+      <button type="button" role="tab" id="cl-tab-phenotypes" aria-controls="cl-panel-phenotypes" aria-selected="true" tabindex="0">
+        Phenotypes
+      </button>
+      <button type="button" role="tab" id="cl-tab-genotypes" aria-controls="cl-panel-genotypes" aria-selected="false" tabindex="-1">
+        Genotypes
+      </button>
+    </div>
+    <PhenotypeResults />
+    <GenotypeResults />
+  </div>
+</section>

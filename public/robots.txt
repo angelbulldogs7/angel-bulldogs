@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# TODO: Confirm indexing rules before launch. Add Disallow for any prototype-only paths if needed.

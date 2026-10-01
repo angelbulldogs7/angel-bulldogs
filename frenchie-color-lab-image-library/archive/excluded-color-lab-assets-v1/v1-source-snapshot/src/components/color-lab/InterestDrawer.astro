@@ -1,0 +1,75 @@
+---
+import { getPublicEmail } from "../../config/site";
+
+const { notice } = getPublicEmail();
+---
+
+<dialog class="cl-drawer" data-interest-drawer aria-labelledby="cl-interest-title">
+  <div class="cl-drawer__sheet">
+    <header class="cl-drawer__head">
+      <h2 id="cl-interest-title">I’m interested in this puppy</h2>
+      <button class="drawer-close" type="button" data-drawer-close aria-label="Close interest form">
+        <span aria-hidden="true">×</span>
+      </button>
+    </header>
+    <p data-interest-context></p>
+    <form class="form" data-interest-form novalidate>
+      <p class="cl-honeypot">
+        <label>
+          Company
+          <input type="text" name="company" tabindex="-1" autocomplete="off" />
+        </label>
+      </p>
+      <div class="form-grid form-grid--2">
+        <div class="field" data-field>
+          <label class="field__label" for="cl-full-name">Full name</label>
+          <input id="cl-full-name" name="fullName" type="text" autocomplete="name" required />
+          <p class="field__error" data-error hidden></p>
+        </div>
+        <div class="field" data-field>
+          <label class="field__label" for="cl-email">Email</label>
+          <input id="cl-email" name="email" type="email" autocomplete="email" required />
+          <p class="field__error" data-error hidden></p>
+        </div>
+        <div class="field" data-field>
+          <label class="field__label" for="cl-phone">Phone</label>
+          <input id="cl-phone" name="phone" type="tel" autocomplete="tel" required />
+          <p class="field__error" data-error hidden></p>
+        </div>
+        <div class="field" data-field>
+          <label class="field__label" for="cl-city">City</label>
+          <input id="cl-city" name="city" type="text" autocomplete="address-level2" required />
+          <p class="field__error" data-error hidden></p>
+        </div>
+        <div class="field" data-field>
+          <label class="field__label" for="cl-state">State</label>
+          <input id="cl-state" name="state" type="text" autocomplete="address-level1" required />
+          <p class="field__error" data-error hidden></p>
+        </div>
+        <div class="field" data-field>
+          <label class="field__label" for="cl-timeframe">Desired timeframe</label>
+          <select id="cl-timeframe" name="timeframe" required>
+            <option value="">Select one</option>
+            <option value="0-3 months">0–3 months</option>
+            <option value="3-6 months">3–6 months</option>
+            <option value="6-12 months">6–12 months</option>
+            <option value="just exploring">Just exploring</option>
+          </select>
+          <p class="field__error" data-error hidden></p>
+        </div>
+      </div>
+      <p class="field__hint">
+        We use this only to follow up about puppy interest. Do not include a street address.
+        {notice ? ` ${notice}.` : ""}
+      </p>
+      <p class="cl-consent">
+        <label>
+          <input type="checkbox" name="consent" required />
+          I understand this is an interest inquiry, not a reservation or purchase.
+        </label>
+      </p>
+      <p class="prototype-banner" data-interest-notice role="status" aria-live="polite" hidden></p>
+      <button class="btn btn--primary" type="submit" data-interest-submit>Send interest</button>
+    </form>
+  </div>
+</dialog>

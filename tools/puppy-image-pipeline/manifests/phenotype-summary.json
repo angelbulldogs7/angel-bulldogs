@@ -1,0 +1,75 @@
+{
+  "generated_at": "2026-09-24T23:35:51.354Z",
+  "ruleset_version": "2.0.0",
+  "schema_version": 2,
+  "total_visual_signatures": 1554,
+  "historical_target": 3454,
+  "target_delta": -1900,
+  "counts_by_coat_type": {
+    "fluffy": 518,
+    "hairless": 518,
+    "short": 518
+  },
+  "counts_by_pigment_family": {
+    "black": 192,
+    "blue": 192,
+    "chocolate": 192,
+    "cocoa": 192,
+    "isabella": 192,
+    "lilac": 192,
+    "new-shade-isabella": 192,
+    "new-shade-rojo": 192,
+    "none": 18
+  },
+  "counts_by_big_rope": {
+    "on": 777,
+    "off": 777
+  },
+  "exclusions": {
+    "viable": 24576,
+    "concerning": 12288,
+    "nonviable_selectable": 0,
+    "nonviable_including_conception_only_foxi3": 18432
+  },
+  "deduplicated_aliases": {
+    "signatures_with_aliases": 6,
+    "alias_labels": 6,
+    "sample": [
+      {
+        "visual_id": "clv2-1c5fcd2b",
+        "public_name": "Platinum New Shade Isabella Solid Fluffy Big Rope",
+        "aliases": [
+          "Platinum Solid Fluffy Big Rope"
+        ]
+      },
+      {
+        "visual_id": "clv2-1b5fcb98",
+        "public_name": "Platinum New Shade Isabella Solid Fluffy",
+        "aliases": [
+          "Platinum Solid Fluffy"
+        ]
+      },
+      {
+        "visual_id": "clv2-d1932cd8",
+        "public_name": "Hairless Platinum New Shade Isabella Solid Big Rope",
+        "aliases": [
+          "Hairless Platinum Solid Big Rope"
+        ]
+      },
+      {
+        "visual_id": "clv2-d2932e6b",
+        "public_name": "Hairless Platinum New Shade Isabella Solid",
+        "aliases": [
+          "Hairless Platinum Solid"
+        ]
+      },
+      {
+        "visual_id": "clv2-24c72efc",
+        "public_name": "Platinum New Shade Isabella Solid Big Rope",
+        "aliases": [
+          "Platinum Solid Big Rope"
+        ]
+      }
+    ]
+  }
+}

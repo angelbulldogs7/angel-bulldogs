@@ -1,0 +1,26 @@
+---
+interface Props {
+  title?: string;
+  lede?: string;
+}
+
+import ButtonLink from "./ButtonLink.astro";
+
+const {
+  title = "Ready to meet your future Frenchie?",
+  lede = "Begin with the puppies, or tell us about your home. Placement stays personal from the first conversation.",
+} = Astro.props;
+---
+
+<section class="section">
+  <div class="container">
+    <div class="cta-banner center reveal" data-reveal>
+      <h2>{title}</h2>
+      <p class="lede">{lede}</p>
+      <div class="cta-actions cluster cluster--center">
+        <ButtonLink href="/puppies">View Available Puppies</ButtonLink>
+        <ButtonLink href="/application" variant="secondary">Submit an Application</ButtonLink>
+      </div>
+    </div>
+  </div>
+</section>

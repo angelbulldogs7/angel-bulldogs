@@ -1,0 +1,32 @@
+---
+import { LOCUS_GROUPS, LOCI } from "../../data/color-lab/loci";
+import type { Genotype } from "../../lib/color-lab/types";
+import LocusCard from "./LocusCard.astro";
+
+interface Props {
+  prefix: string;
+  genotype: Genotype;
+}
+
+const { prefix, genotype } = Astro.props;
+---
+
+<div class="cl-genes" data-gene-groups data-prefix={prefix}>
+  {
+    LOCUS_GROUPS.map((group) => (
+      <section class="cl-gene-group" aria-labelledby={`${prefix}-${group.id}-title`}>
+        <h2 class="cl-gene-group__title" id={`${prefix}-${group.id}-title`}>
+          {group.title}
+        </h2>
+        {LOCI.filter((locus) => locus.group === group.id).map((locus) => (
+          <LocusCard
+            locus={locus}
+            prefix={prefix}
+            alleleA={genotype[locus.id][0]}
+            alleleB={genotype[locus.id][1]}
+          />
+        ))}
+      </section>
+    ))
+  }
+</div>

@@ -1,0 +1,48 @@
+---
+const steps = [
+  {
+    num: "01",
+    title: "Meet the puppies",
+    body: "Review currently available puppies and see which one feels like a possible match.",
+  },
+  {
+    num: "02",
+    title: "Apply",
+    body: "Complete the standard puppy application so we can understand your home and hopes.",
+  },
+  {
+    num: "03",
+    title: "Connect personally",
+    body: "We review the application and talk through fit, questions, and breeding-rights requests case by case.",
+  },
+  {
+    num: "04",
+    title: "Plan the homecoming",
+    body: "Approved families coordinate paperwork, payment, Chicago pickup, or nationwide delivery privately.",
+  },
+];
+---
+
+<section class="section section--cream">
+  <div class="container">
+    <div class="reveal" data-reveal>
+      <p class="eyebrow">Placement</p>
+      <h2>A personal process, not a checkout.</h2>
+      <p class="lede measure">
+        Submitting an application does not reserve a puppy. Placement begins with a conversation
+        and continues only when the fit feels right on both sides.
+      </p>
+    </div>
+    <ol class="process-grid reveal" data-reveal>
+      {
+        steps.map((step) => (
+          <li class="process-card">
+            <p class="num">{step.num}</p>
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

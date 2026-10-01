@@ -1,0 +1,32 @@
+[project]
+name = "puppy-image-pipeline"
+version = "0.1.0"
+description = "Offline-first, resumable image pipeline for Angel Bulldogs Color Lab."
+requires-python = ">=3.11"
+dependencies = [
+  "openai>=1.101.0",
+  "Pillow>=11.0.0",
+  "pydantic>=2.9.2",
+  "python-dotenv>=1.0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3.3",
+]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = [
+  "tests",
+]
+
+[build-system]
+requires = ["setuptools>=75.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

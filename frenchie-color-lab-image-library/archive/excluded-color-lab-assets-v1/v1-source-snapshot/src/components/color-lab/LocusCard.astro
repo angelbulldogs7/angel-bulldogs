@@ -1,0 +1,91 @@
+---
+import type { LocusDefinition } from "../../lib/color-lab/types";
+
+interface Props {
+  locus: LocusDefinition;
+  prefix: string;
+  alleleA: string;
+  alleleB: string;
+}
+
+const { locus, prefix, alleleA, alleleB } = Astro.props;
+const nameA = `${prefix}-${locus.id}-0`;
+const nameB = `${prefix}-${locus.id}-1`;
+---
+
+<article class="cl-locus" data-locus-card data-locus={locus.id} data-prefix={prefix}>
+  <header class="cl-locus__head">
+    <div>
+      <h3>{locus.publicName}</h3>
+      <p class="cl-locus__meta">
+        <span>{locus.gene}</span>
+        <span aria-hidden="true">·</span>
+        <span>{locus.notation}</span>
+      </p>
+    </div>
+    <p class="cl-locus__status">
+      <span data-genotype-label></span>
+      <span class="cl-locus__prov" data-provenance>Assumed</span>
+    </p>
+  </header>
+
+  <div class="cl-locus__pairs">
+    <fieldset class="cl-alleles">
+      <legend>Allele 1</legend>
+      <div class="cl-alleles__list" role="radiogroup" aria-label={`${locus.publicName} allele 1`}>
+        {
+          locus.alleles.map((allele) => (
+            <label class="cl-allele">
+              <input
+                type="radio"
+                name={nameA}
+                value={allele.id}
+                checked={allele.id === alleleA}
+                data-locus={locus.id}
+                data-slot="0"
+              />
+              <span class="cl-allele__ui">
+                <span class="cl-allele__mark" aria-hidden="true"></span>
+                <span class="cl-allele__text">
+                  <span class="cl-allele__id">{allele.label}</span>
+                  {allele.legacyAliases.length > 0 && (
+                    <span class="cl-allele__alias cl-guided">Legacy: {allele.legacyAliases.join(", ")}</span>
+                  )}
+                </span>
+              </span>
+            </label>
+          ))
+        }
+      </div>
+    </fieldset>
+    <fieldset class="cl-alleles">
+      <legend>Allele 2</legend>
+      <div class="cl-alleles__list" role="radiogroup" aria-label={`${locus.publicName} allele 2`}>
+        {
+          locus.alleles.map((allele) => (
+            <label class="cl-allele">
+              <input
+                type="radio"
+                name={nameB}
+                value={allele.id}
+                checked={allele.id === alleleB}
+                data-locus={locus.id}
+                data-slot="1"
+              />
+              <span class="cl-allele__ui">
+                <span class="cl-allele__mark" aria-hidden="true"></span>
+                <span class="cl-allele__text">
+                  <span class="cl-allele__id">{allele.label}</span>
+                </span>
+              </span>
+            </label>
+          ))
+        }
+      </div>
+    </fieldset>
+  </div>
+
+  <p class="cl-locus__help cl-guided">{locus.guidedHelp}</p>
+  <p class="cl-locus__help cl-guided">{locus.inheritanceHint}</p>
+  <p class="cl-locus__help cl-advanced">{locus.advancedHint}</p>
+</article>

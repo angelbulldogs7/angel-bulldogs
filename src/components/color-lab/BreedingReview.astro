@@ -1,0 +1,18 @@
+---
+import { GENERAL_QUALIFICATION } from "../../lib/color-lab/safetyRules";
+---
+
+<section class="cl-review" data-step-panel="review" aria-labelledby="cl-review-title" hidden>
+  <h2 id="cl-review-title" tabindex="-1">Review parents</h2>
+  <div class="cl-review__grid">
+    <article class="cl-review__parent" data-review="stud"></article>
+    <article class="cl-review__parent" data-review="dam"></article>
+  </div>
+  <div class="cl-warnings" data-pairing-warnings></div>
+  <p class="cl-qualify">{GENERAL_QUALIFICATION}</p>
+  <div class="cl-review__actions">
+    <button type="button" class="btn btn--secondary" data-go-step="stud">Edit Stud</button>
+    <button type="button" class="btn btn--secondary" data-go-step="dam">Edit Dam</button>
+    <button type="button" class="btn btn--primary" data-calculate>Calculate litter</button>
+  </div>
+</section>

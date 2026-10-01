@@ -1,5 +1,9 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 
-// https://astro.build/config
-export default defineConfig({});
+// Static HTML/CSS/JS only. Do not enable SSR, adapters, or server actions
+// without explicit approval.
+export default defineConfig({
+  output: "static",
+  site: "https://angelbulldogs.com",
+});

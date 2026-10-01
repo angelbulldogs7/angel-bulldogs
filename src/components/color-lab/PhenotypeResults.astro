@@ -1,0 +1,20 @@
+---
+---
+
+<div class="cl-tabs__panel" role="tabpanel" id="cl-panel-phenotypes" aria-labelledby="cl-tab-phenotypes" tabindex="0">
+  <p class="cl-results__intro">
+    Each card is one visible appearance group. Percentages are per conception, shown with two
+    decimals; the displayed list uses largest-remainder rounding so it totals exactly 100.00%,
+    including any nonviable share. Carrier percentages are in the Genotypes tab.
+  </p>
+  <div data-nonviable-note></div>
+  <div class="cl-results__toolbar">
+    <label class="field__label" for="cl-sort">Sort</label>
+    <select id="cl-sort" class="cl-gene__select" data-sort>
+      <option value="probability">Most likely first</option>
+      <option value="name">Name (A–Z)</option>
+    </select>
+  </div>
+  <ul class="cl-cards" data-cards></ul>
+  <button type="button" class="btn btn--secondary cl-results__more" data-show-more hidden>Show more</button>
+</div>

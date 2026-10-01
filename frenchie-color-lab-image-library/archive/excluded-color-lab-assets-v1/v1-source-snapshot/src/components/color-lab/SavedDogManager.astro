@@ -1,0 +1,31 @@
+---
+interface Props {
+  prefix: string;
+}
+
+const { prefix } = Astro.props;
+---
+
+<section class="cl-saved" data-saved-dogs data-prefix={prefix}>
+  <h2>Saved dogs</h2>
+  <p class="cl-guided">Saved only in this browser. Nothing is stored on Angel Bulldogs’ servers.</p>
+  <div class="cl-saved__form">
+    <div class="field">
+      <label class="field__label" for={`${prefix}-dog-name`}>Dog name</label>
+      <input id={`${prefix}-dog-name`} name={`${prefix}DogName`} type="text" maxlength="80" data-dog-name autocomplete="off" />
+    </div>
+    <fieldset class="cl-inline-fieldset">
+      <legend>Sex</legend>
+      <label class="cl-allele">
+        <input type="radio" name={`${prefix}-dog-sex`} value="female" data-dog-sex checked />
+        <span class="cl-allele__ui"><span class="cl-allele__mark" aria-hidden="true"></span><span>Female</span></span>
+      </label>
+      <label class="cl-allele">
+        <input type="radio" name={`${prefix}-dog-sex`} value="male" data-dog-sex />
+        <span class="cl-allele__ui"><span class="cl-allele__mark" aria-hidden="true"></span><span>Male</span></span>
+      </label>
+    </fieldset>
+    <button class="btn btn--secondary" type="button" data-save-dog>Save this dog</button>
+  </div>
+  <ul class="cl-saved__list" data-saved-list></ul>
+</section>

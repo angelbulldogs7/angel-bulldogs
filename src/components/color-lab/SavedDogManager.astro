@@ -1,0 +1,46 @@
+---
+interface Props {
+  workspace: "build" | "stud" | "dam";
+  headingLevel?: 2 | 3;
+}
+
+const { workspace, headingLevel = 2 } = Astro.props;
+const Heading = headingLevel === 2 ? "h2" : "h3";
+const isBuild = workspace === "build";
+const role = workspace === "stud" ? "stud" : "dam";
+const titleId = `${workspace}-saved-title`;
+---
+
+<section class="cl-saved" data-saved={workspace} aria-labelledby={titleId}>
+  <Heading class="cl-saved__title" id={titleId}>{isBuild ? "Saved dogs" : "Load or save a dog"}</Heading>
+  <p class="cl-saved__hint">Saved privately in this browser only. Nothing is sent to Angel Bulldogs.</p>
+  <ul class="cl-saved__list" data-saved-list>
+    <li class="cl-saved__empty">No dogs saved in this browser yet.</li>
+  </ul>
+  <form class="cl-saved__form" data-save-form novalidate>
+    {
+      isBuild && (
+        <div class="cl-saved__fields">
+          <div class="field">
+            <label class="field__label" for="build-dog-name">Dog name</label>
+            <input id="build-dog-name" name="dogName" type="text" maxlength="80" autocomplete="off" data-save-name />
+          </div>
+          <fieldset class="cl-saved__sex">
+            <legend class="field__label">Sex</legend>
+            <label class="check">
+              <input type="radio" name="build-dog-sex" value="female" checked />
+              <span>Female</span>
+            </label>
+            <label class="check">
+              <input type="radio" name="build-dog-sex" value="male" />
+              <span>Male</span>
+            </label>
+          </fieldset>
+        </div>
+      )
+    }
+    {!isBuild && <p class="cl-saved__hint">Saves this {role} with the name entered above.</p>}
+    <p class="field__error" data-save-error hidden></p>
+    <button type="submit" class="btn btn--secondary">{isBuild ? "Save this dog" : `Save this ${role}`}</button>
+  </form>
+</section>

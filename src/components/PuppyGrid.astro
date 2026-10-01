@@ -1,0 +1,42 @@
+---
+import type { Puppy } from "../data/types";
+import PuppyCard from "./PuppyCard.astro";
+import ButtonLink from "./ButtonLink.astro";
+
+interface Props {
+  puppies: Puppy[];
+}
+
+const { puppies } = Astro.props;
+---
+
+{
+  puppies.length === 0 ? (
+    <div class="empty-state">
+      <p class="eyebrow">Availability</p>
+      <h2>No puppies listed right now</h2>
+      <p class="lede measure">
+        We do not have a puppy publicly available at this moment. You can join our list for
+        future availability or contact us to introduce yourself.
+      </p>
+      <div class="cluster">
+        <ButtonLink href="/application">Submit an application</ButtonLink>
+        <ButtonLink href="/contact" variant="secondary">Contact Angel Bulldogs</ButtonLink>
+      </div>
+    </div>
+  ) : (
+    <div class="puppy-grid" data-puppy-grid>
+      {puppies.map((puppy) => (
+        <PuppyCard puppy={puppy} />
+      ))}
+    </div>
+  )
+}
+
+{
+  puppies.length > 0 && (
+    <script>
+      import "../scripts/puppy-cards";
+    </script>
+  )
+}

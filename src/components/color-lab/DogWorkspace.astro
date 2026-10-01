@@ -1,0 +1,38 @@
+---
+import type { DogState } from "../../lib/color-lab/types";
+import GeneSections from "./GeneSections.astro";
+import PresetPicker from "./PresetPicker.astro";
+
+interface Props {
+  workspace: "build" | "stud" | "dam";
+  state: DogState;
+  heading?: string;
+}
+
+const { workspace, state, heading } = Astro.props;
+const labId = `${workspace}-lab`;
+const confirmed = state.confirmation === "lab-confirmed";
+---
+
+<div class="cl-workspace" data-workspace={workspace}>
+  {heading && <h2 class="cl-workspace__title">{heading}</h2>}
+  <PresetPicker workspace={workspace} />
+  <div class="cl-applied" data-applied hidden>
+    <p class="cl-applied__text" data-applied-text></p>
+    <button type="button" class="btn btn--ghost" data-undo>Undo</button>
+  </div>
+  <GeneSections workspace={workspace} state={state} />
+  <div class="cl-lab">
+    <label class="check" for={labId}>
+      <input type="checkbox" id={labId} data-lab-confirmed checked={confirmed} aria-describedby={`${labId}-status`} />
+      <span>These selections come from a laboratory DNA report</span>
+    </label>
+    <p class="cl-lab__status" id={`${labId}-status`} data-lab-status>
+      {
+        confirmed
+          ? "Status: Lab-confirmed. Changing any gene or applying a preset clears this."
+          : "Status: Assumed. Filled in by the tool or a preset, not a lab result."
+      }
+    </p>
+  </div>
+</div>

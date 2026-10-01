@@ -1,0 +1,73 @@
+---
+import { getLocus } from "../../data/color-lab/loci";
+import { alleleSymbol, optionText, requireOption } from "../../lib/color-lab/genotype";
+import type { LocusId } from "../../lib/color-lab/types";
+
+interface Props {
+  workspace: string;
+  locus: LocusId;
+  value: string;
+}
+
+const { workspace, locus, value } = Astro.props;
+const definition = getLocus(locus);
+const id = `${workspace}-${locus}`;
+const nameId = `${id}-name`;
+const meaningId = `${id}-meaning`;
+const helpId = `${id}-help`;
+const option = requireOption(locus, value);
+const [leftAllele, rightAllele] = option.alleles;
+const describedBy = [meaningId, definition.help ? helpId : null].filter(Boolean).join(" ");
+---
+
+<div
+  class="cl-gene"
+  data-gene
+  data-locus={locus}
+  data-left={leftAllele}
+  data-right={rightAllele}
+>
+  <div class="cl-gene__picker" role="group" aria-labelledby={nameId} aria-describedby={describedBy}>
+    <div class="cl-gene__alleles" role="radiogroup" aria-label={`${definition.name} first allele`}>
+      {
+        definition.alleles.map((allele) => (
+          <button
+            type="button"
+            class="cl-allele"
+            role="radio"
+            aria-checked={allele.id === leftAllele ? "true" : "false"}
+            data-allele-side="left"
+            data-allele={allele.id}
+          >
+            {alleleSymbol(locus, allele.id)}
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="cl-gene__center" id={nameId}>
+      <span class="cl-gene__name">{definition.name}</span>
+      {definition.locusLabel && <span class="cl-gene__locus">{definition.locusLabel}</span>}
+    </div>
+
+    <div class="cl-gene__alleles" role="radiogroup" aria-label={`${definition.name} second allele`}>
+      {
+        definition.alleles.map((allele) => (
+          <button
+            type="button"
+            class="cl-allele"
+            role="radio"
+            aria-checked={allele.id === rightAllele ? "true" : "false"}
+            data-allele-side="right"
+            data-allele={allele.id}
+          >
+            {alleleSymbol(locus, allele.id)}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <p class="cl-gene__meaning" id={meaningId} data-gene-meaning>{optionText(locus, value)}</p>
+  {definition.help && <p class="cl-gene__help" id={helpId}>{definition.help}</p>}
+</div>

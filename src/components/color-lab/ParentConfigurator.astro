@@ -1,0 +1,45 @@
+---
+import type { DogState } from "../../lib/color-lab/types";
+import { resolveDog } from "../../lib/color-lab/phenotypeResolver";
+import DogWorkspace from "./DogWorkspace.astro";
+import SavedDogManager from "./SavedDogManager.astro";
+
+interface Props {
+  role: "stud" | "dam";
+  state: DogState;
+}
+
+const { role, state } = Astro.props;
+const isStud = role === "stud";
+const title = isStud ? "Stud (Male)" : "Dam (Female)";
+const label = isStud ? "Stud" : "Dam";
+---
+
+<section class="cl-parent" data-step-panel={role} aria-labelledby={`cl-${role}-title`} hidden={!isStud}>
+  <header class="cl-parent__head">
+    <h2 class="cl-parent__title" id={`cl-${role}-title`} tabindex="-1">{title}</h2>
+    <p class="cl-parent__summary" data-parent-summary={role}>
+      {resolveDog(state).publicName} · DNA: Assumed
+    </p>
+  </header>
+  <div class="field cl-parent__name">
+    <label class="field__label" for={`${role}-name`}>
+      {label} name <span class="optional">(optional)</span>
+    </label>
+    <input id={`${role}-name`} type="text" maxlength="80" autocomplete="off" placeholder={label} data-parent-name={role} />
+  </div>
+  <SavedDogManager workspace={role} headingLevel={3} />
+  <DogWorkspace workspace={role} state={state} />
+  <div class="cl-parent__nav">
+    {
+      !isStud && (
+        <button type="button" class="btn btn--secondary" data-go-step="stud">
+          Back to Stud
+        </button>
+      )
+    }
+    <button type="button" class="btn btn--primary" data-go-step={isStud ? "dam" : "review"}>
+      {isStud ? "Continue to Dam" : "Review parents"}
+    </button>
+  </div>
+</section>

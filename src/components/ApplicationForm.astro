@@ -1,0 +1,290 @@
+---
+import { getAvailablePuppyOptions } from "../data/puppies";
+
+const puppies = getAvailablePuppyOptions();
+---
+
+<form class="form" data-application-form novalidate>
+  <fieldset class="fieldset">
+    <legend>About you</legend>
+    <div class="form-grid form-grid--2">
+      <div class="field" data-field>
+        <label class="field__label" for="full-name">Full name</label>
+        <input id="full-name" name="fullName" type="text" autocomplete="name" required />
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required />
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="phone">Phone <span class="optional">(optional)</span></label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel" />
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="city">City</label>
+        <input id="city" name="city" type="text" autocomplete="address-level2" required />
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="state">State</label>
+        <input id="state" name="state" type="text" autocomplete="address-level1" required />
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="zip">ZIP code</label>
+        <input id="zip" name="zip" type="text" inputmode="numeric" autocomplete="postal-code" required />
+        <p class="field__hint">City, state, and ZIP only — please do not include a street address.</p>
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field full" data-field>
+        <label class="field__label" for="contact-method">Preferred contact method</label>
+        <select id="contact-method" name="contactMethod" required>
+          <option value="">Select one</option>
+          <option value="email">Email</option>
+          <option value="website">Website response</option>
+        </select>
+        <p class="field__error" data-error hidden></p>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend>Your home</legend>
+    <div class="form-grid form-grid--2">
+      <div class="field" data-field>
+        <label class="field__label" for="residence">Residence type</label>
+        <select id="residence" name="residence" required>
+          <option value="">Select one</option>
+          <option value="house">House</option>
+          <option value="apartment">Apartment</option>
+          <option value="townhome">Townhome</option>
+          <option value="other">Other</option>
+        </select>
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="own-rent">Own or rent</label>
+        <select id="own-rent" name="ownRent" data-own-rent required>
+          <option value="">Select one</option>
+          <option value="own">Own</option>
+          <option value="rent">Rent</option>
+        </select>
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field full" data-field>
+        <label class="field__label" for="pets-permitted">If renting, are pets permitted?</label>
+        <select id="pets-permitted" name="petsPermitted" data-pets-permitted>
+          <option value="">Select one</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+          <option value="na">Not applicable</option>
+        </select>
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="adults">Adults in household</label>
+        <input id="adults" name="adults" type="number" min="1" max="20" required />
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="children">Children and age ranges <span class="optional">(optional)</span></label>
+        <input id="children" name="children" type="text" />
+      </div>
+      <div class="field full" data-field>
+        <label class="field__label" for="current-pets">Current pets</label>
+        <textarea id="current-pets" name="currentPets" required></textarea>
+        <p class="field__hint">Include species, ages, and whether they have lived with a French Bulldog before.</p>
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="caregiver">Who will be the puppy’s primary caregiver?</label>
+        <input id="caregiver" name="caregiver" type="text" required />
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="alone-time">Typical time the puppy may be alone</label>
+        <select id="alone-time" name="aloneTime" required>
+          <option value="">Select one</option>
+          <option value="rarely">Rarely — someone is usually home</option>
+          <option value="under-4">Usually under 4 hours</option>
+          <option value="4-6">About 4–6 hours</option>
+          <option value="discuss">Something we should discuss</option>
+        </select>
+        <p class="field__error" data-error hidden></p>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend>French Bulldog experience</legend>
+    <div class="form-grid">
+      <div class="field" data-field>
+        <label class="field__label" for="owned-before">Have you owned a French Bulldog before?</label>
+        <select id="owned-before" name="ownedBefore" required>
+          <option value="">Select one</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="care-needs">What do you understand about French Bulldog care and potential needs?</label>
+        <textarea id="care-needs" name="careNeeds" required></textarea>
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="why-frenchie">Why are you interested in a French Bulldog?</label>
+        <textarea id="why-frenchie" name="whyFrenchie" required></textarea>
+        <p class="field__error" data-error hidden></p>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend>Puppy preferences</legend>
+    <p class="field__hint" data-unknown-puppy hidden>
+      We could not match that puppy to a current listing. You can still choose a puppy below or continue with a general application.
+    </p>
+    <div class="form-grid form-grid--2">
+      <div class="field" data-field>
+        <label class="field__label" for="puppy">Specific puppy</label>
+        <select id="puppy" name="puppy" data-puppy-select>
+          <option value="">No specific puppy yet</option>
+          {puppies.map((puppy) => <option value={puppy.slug}>{puppy.name}</option>)}
+        </select>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="sex-pref">Sex preference</label>
+        <select id="sex-pref" name="sexPreference" required>
+          <option value="">Select one</option>
+          <option value="female">Female</option>
+          <option value="male">Male</option>
+          <option value="none">No preference</option>
+        </select>
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field full" data-field>
+        <label class="field__label" for="color-pref">Color or coat preference</label>
+        <input id="color-pref" name="colorPreference" type="text" />
+        <p class="field__hint">Fit, care, and companionship matter beyond appearance. Share what you are drawn to, knowing placement is not based on color alone.</p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="home-intent">Pet home or breeding-rights discussion</label>
+        <select id="home-intent" name="homeIntent" required>
+          <option value="">Select one</option>
+          <option value="pet">Pet home</option>
+          <option value="breeding">Request to discuss breeding rights</option>
+        </select>
+        <p class="field__hint">Breeding rights are considered case by case and are not automatically included.</p>
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="timing">Desired timing</label>
+        <select id="timing" name="timing" required>
+          <option value="">Select one</option>
+          <option value="ready">Ready when a puppy is available</option>
+          <option value="few-months">Within a few months</option>
+          <option value="flexible">Flexible</option>
+        </select>
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field full" data-field>
+        <label class="field__label" for="travel">Chicago pickup or nationwide delivery</label>
+        <select id="travel" name="travel" required>
+          <option value="">Select one</option>
+          <option value="chicago">Chicago pickup</option>
+          <option value="delivery">Nationwide delivery discussion</option>
+          <option value="both">Open to discussing both</option>
+        </select>
+        <p class="field__error" data-error hidden></p>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend>Final questions and acknowledgements</legend>
+    <div class="form-grid">
+      <div class="field" data-field>
+        <label class="field__label" for="fit">Why do you believe your home is a good fit?</label>
+        <textarea id="fit" name="fit" required></textarea>
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="field__label" for="questions">Questions for Angel Bulldogs <span class="optional">(optional)</span></label>
+        <textarea id="questions" name="questions"></textarea>
+      </div>
+      <div class="field" data-field>
+        <label class="check">
+          <input type="checkbox" name="notReservation" required />
+          <span>I understand that submitting an application does not reserve a puppy or guarantee approval.</span>
+        </label>
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="check">
+          <input type="checkbox" name="priceInquiry" required />
+          <span>I understand that price is provided by inquiry and discussed before any commitment.</span>
+        </label>
+        <p class="field__error" data-error hidden></p>
+      </div>
+      <div class="field" data-field>
+        <label class="check">
+          <input type="checkbox" name="privacyAck" required />
+          <span>
+            I understand this privacy acknowledgement is a prototype placeholder and must be reviewed by
+            Angel Bulldogs’ owner and legal counsel before public launch.
+          </span>
+        </label>
+        <p class="field__hint">Owner/legal review required before launch. Do not treat this wording as an approved privacy policy.</p>
+        <p class="field__error" data-error hidden></p>
+      </div>
+    </div>
+  </fieldset>
+
+  <div>
+    <button class="btn btn--primary btn--full-mobile" type="submit">
+      <span>Submit application</span>
+      <span class="btn__arrow" aria-hidden="true">→</span>
+    </button>
+    <p class="prototype-banner" data-form-notice role="status" aria-live="polite"></p>
+  </div>
+</form>
+
+<script>
+  import { initPrototypeForm, populateSelectFromQuery } from "../scripts/prototype-form";
+
+  const form = document.querySelector<HTMLFormElement>("[data-application-form]");
+  const notice = form?.querySelector<HTMLElement>("[data-form-notice]");
+  const puppySelect = form?.querySelector<HTMLSelectElement>("[data-puppy-select]");
+  const unknown = form?.querySelector<HTMLElement>("[data-unknown-puppy]");
+  const ownRent = form?.querySelector<HTMLSelectElement>("[data-own-rent]");
+  const petsPermitted = form?.querySelector<HTMLSelectElement>("[data-pets-permitted]");
+
+  if (form && notice) {
+    initPrototypeForm({
+      form,
+      notice,
+      message:
+        "Frontend preview only — application delivery will be connected before launch.",
+    });
+  }
+
+  if (puppySelect) {
+    populateSelectFromQuery(puppySelect, "puppy", unknown ?? undefined);
+  }
+
+  const syncRenting = () => {
+    if (!ownRent || !petsPermitted) return;
+    const renting = ownRent.value === "rent";
+    petsPermitted.required = renting;
+    if (!renting && petsPermitted.value === "") {
+      petsPermitted.value = "na";
+    }
+  };
+
+  ownRent?.addEventListener("change", syncRenting);
+  syncRenting();
+</script>

@@ -1,0 +1,45 @@
+---
+import { LOCI } from "../../data/color-lab/loci";
+---
+
+<section class="cl-results" data-results hidden>
+  <div class="cl-results__toolbar">
+    <button class="btn btn--secondary" type="button" data-edit-parents>Edit parents</button>
+  </div>
+  <div class="cl-results__safety" data-pairing-flags></div>
+  <p class="cl-results__summary" data-most-likely></p>
+  <div class="cl-tabs cl-tabs--sub" data-result-tabs>
+    <div class="cl-tabs__list" role="tablist" aria-label="Breeding results">
+      <button type="button" role="tab" id="tab-phenotypes" aria-controls="panel-phenotypes" aria-selected="true" tabindex="0">
+        Phenotypes
+      </button>
+      <button type="button" role="tab" id="tab-genotypes" aria-controls="panel-genotypes" aria-selected="false" tabindex="-1">
+        Genotypes
+      </button>
+    </div>
+    <div class="cl-tabs__panel" role="tabpanel" id="panel-phenotypes" aria-labelledby="tab-phenotypes" data-phenotype-results>
+      <p class="cl-guided">
+        Probabilities are per conception/puppy, not a promised litter count. Displayed percents use
+        largest-remainder rounding so the list totals 100.00%.
+      </p>
+      <div data-viable-note></div>
+      <ul class="cl-pheno-list" data-pheno-list></ul>
+    </div>
+    <div class="cl-tabs__panel" role="tabpanel" id="panel-genotypes" aria-labelledby="tab-genotypes" hidden data-genotype-results>
+      <p class="cl-guided">Per-locus child genotypes. Full multilocus combinations are not listed.</p>
+      {
+        LOCI.map((locus) => (
+          <article class="cl-locus-result" data-locus-result={locus.id}>
+            <h3>
+              {locus.publicName}
+              <span>
+                {locus.gene} · {locus.notation}
+              </span>
+            </h3>
+            <ul data-locus-rows></ul>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

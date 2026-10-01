@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img" aria-label="Bella home life 03">
+  <rect width="1200" height="800" fill="#f2e8d9"/>
+  <rect x="70" y="70" width="1060" height="660" rx="28" fill="#faf6ee"/>
+<ellipse cx="780" cy="400" rx="250" ry="210" fill="#e6d3ae"/>
+<ellipse cx="360" cy="430" rx="160" ry="190" fill="#c8a66a" opacity="0.45"/>
+  <text x="600.0" y="576.0" text-anchor="middle" fill="#49352b" font-family="Georgia, 'Times New Roman', serif" font-size="33.6">Bella home life 03</text>
+  <text x="600.0" y="612.0" text-anchor="middle" fill="#71594c" font-family="system-ui, sans-serif" font-size="19.2">3:2 placeholder — not final photography</text>
+</svg>

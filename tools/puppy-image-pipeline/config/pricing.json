@@ -1,0 +1,19 @@
+{
+  "captured_at": "2026-09-24",
+  "source_urls": [
+    "https://developers.openai.com/api/docs/models/gpt-image-2.5-flare",
+    "https://developers.openai.com/api/docs/models/gpt-image-2.5-sunburst"
+  ],
+  "models": {
+    "gpt-image-2.5-flare": {
+      "input_text_per_million": 5,
+      "input_image_per_million": 8,
+      "output_image_per_million": 30
+    },
+    "gpt-image-2.5-sunburst": {
+      "input_text_per_million": 5,
+      "input_image_per_million": 8,
+      "output_image_per_million": 30
+    }
+  }
+}

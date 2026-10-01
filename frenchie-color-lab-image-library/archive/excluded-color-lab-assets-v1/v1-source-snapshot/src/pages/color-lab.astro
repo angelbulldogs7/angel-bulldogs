@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import ColorLabShell from "../components/color-lab/ColorLabShell.astro";
+import { siteConfig } from "../config/site";
+import "../styles/color-lab.css";
+---
+
+<BaseLayout
+  title="Frenchie Color Lab | Angel Bulldogs"
+  description="Explore French Bulldog coat genetics and estimate educational breeding outcomes with Angel Bulldogs’ Frenchie Color Lab. Results are probabilities, not guarantees."
+  path="/color-lab"
+>
+  <PageHero
+    eyebrow="Frenchie Color Lab"
+    title="Build a Frenchie, or estimate a pairing."
+    lede="Explore coat and coat-type genetics, or configure a stud and dam to see educational probability estimates for each puppy. This is a planning tool, not a reservation."
+  >
+    <p class="cl-qualify">
+      Results are educational probability estimates for each puppy, not a guarantee of litter
+      composition, appearance, health, or availability. Confirm breeding decisions and DNA results
+      with qualified veterinary and genetic-testing professionals.
+    </p>
+  </PageHero>
+
+  <noscript>
+    <p class="container cl-noscript">
+      JavaScript is required to use the Color Lab tools. The page introduction and source notes
+      remain available.
+    </p>
+  </noscript>
+
+  <section class="section cl-section">
+    <div class="container">
+      <ColorLabShell
+        prototypeMode={siteConfig.prototypeMode}
+        formspreeEndpoint={siteConfig.colorLabFormspreeEndpoint}
+      />
+    </div>
+  </section>
+  <script>
+    import "../scripts/color-lab/app";
+  </script>
+</BaseLayout>

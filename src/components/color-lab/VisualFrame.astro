@@ -1,0 +1,44 @@
+---
+import {
+  COMING_SOON_SRC,
+  VISUAL_DISCLOSURE,
+  VISUAL_HEIGHT,
+  VISUAL_WIDTH,
+} from "../../data/color-lab/visualRegistry";
+import type { VisualResolution } from "../../lib/color-lab/types";
+import { visualAlt } from "../../lib/color-lab/visualRecipe";
+
+interface Props {
+  publicName: string;
+  resolution: VisualResolution;
+}
+
+const { publicName, resolution } = Astro.props;
+const layers =
+  resolution.status === "approved"
+    ? resolution.layers
+    : [{ src: COMING_SOON_SRC, width: VISUAL_WIDTH, height: VISUAL_HEIGHT }];
+const alt = visualAlt(publicName, resolution.status === "approved");
+---
+
+<figure class="cl-visual" data-visual data-visual-id={resolution.visualId}>
+  <div class="cl-visual__frame" data-visual-frame>
+    <div class="cl-visual__stack">
+      {
+        layers.map((layer, index) => (
+          <img
+            class="cl-visual__layer"
+            src={layer.src}
+            width={layer.width}
+            height={layer.height}
+            alt={index === 0 ? alt : ""}
+            loading="eager"
+            decoding="async"
+            fetchpriority={index === 0 ? "high" : undefined}
+          />
+        ))
+      }
+    </div>
+  </div>
+  <figcaption class="cl-visual__caption">{VISUAL_DISCLOSURE}</figcaption>
+</figure>

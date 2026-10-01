@@ -1,0 +1,223 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CtaBanner from "../components/CtaBanner.astro";
+import MediaImage from "../components/MediaImage.astro";
+import { formatDate } from "../utils/format";
+import { displayParentName, getDam, getSire } from "../data/parents";
+
+const bella = getDam();
+const sire = getSire();
+const facts = [
+  { label: "Name", value: bella.name },
+  { label: "Origin", value: bella.origin },
+  { label: "Date of birth", value: bella.dateOfBirth ? formatDate(bella.dateOfBirth) : null },
+  { label: "Coat", value: bella.coat },
+].filter((fact): fact is { label: string; value: string } => Boolean(fact.value));
+
+const homeGallery = [
+  {
+    src: "/placeholders/bella-lifestyle.svg",
+    alt: "Placeholder for a lifestyle photograph of Bella, 3:2",
+    width: 1200,
+    height: 800,
+  },
+  {
+    src: "/placeholders/bella-home-01.svg",
+    alt: "Placeholder for Bella at home, 3:2",
+    width: 1200,
+    height: 800,
+  },
+  {
+    src: "/placeholders/bella-home-02.svg",
+    alt: "Placeholder for Bella in family life, 3:2",
+    width: 1200,
+    height: 800,
+  },
+  {
+    src: "/placeholders/bella-home-03.svg",
+    alt: "Placeholder for a third home-life photograph of Bella, 3:2",
+    width: 1200,
+    height: 800,
+  },
+];
+---
+
+<BaseLayout
+  title="Meet Bella | Angel Bulldogs"
+  description="Meet Bella, the heart of Angel Bulldogs. A home-raised French Bulldog from Serbia now living with her family in Chicago."
+  path="/bella"
+>
+  <section class="section">
+    <div class="container split split--2">
+      <div class="media-frame aspect-portrait">
+        <MediaImage
+          src={bella.portrait.src}
+          alt={bella.portrait.alt}
+          width={bella.portrait.width}
+          height={bella.portrait.height}
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+      <div>
+        <p class="eyebrow">The heart of Angel Bulldogs</p>
+        <h1>Meet Bella</h1>
+        <p class="lede">
+          Bella came from Serbia and now lives as part of our family in Chicago. She is the
+          center of this small program—loved first as a companion, and trusted as the dam of
+          our home-raised puppies.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--ivory">
+    <div class="container reveal" data-reveal>
+      <p class="eyebrow">Bella at a glance</p>
+      <h2>Confirmed details only.</h2>
+      <dl class="fact-row">
+        {
+          facts.map((fact) => (
+            <div class="fact">
+              <dt>{fact.label}</dt>
+              <dd>{fact.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split split--2 reveal" data-reveal>
+      <div>
+        <p class="eyebrow">From Serbia to Chicago</p>
+        <h2>A family dog, and the start of Angel Bulldogs.</h2>
+        <p>
+          Bella’s story begins in Serbia. She now lives inside our home in Chicago, woven into
+          ordinary days—naps, company, and the kind of close observation that a kennel cannot
+          offer.
+        </p>
+        <p>
+          Her {bella.coat} coat is part of what families notice. It is not more important than
+          her temperament, her care, or the puppies she raises beside us.
+        </p>
+      </div>
+      <div class="media-frame aspect-landscape">
+        <MediaImage
+          src="/placeholders/bella-lifestyle.svg"
+          alt="Placeholder for a lifestyle photograph of Bella at home, 3:2"
+          width={1200}
+          height={800}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cream">
+    <div class="container reveal" data-reveal>
+      <p class="eyebrow">At home</p>
+      <h2>Life with Bella</h2>
+      <p class="lede measure">Photography will replace these composition placeholders.</p>
+      <div class="gallery">
+        {
+          homeGallery.map((image) => (
+            <div class="media-frame aspect-landscape">
+              <MediaImage src={image.src} alt={image.alt} width={image.width} height={image.height} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container measure reveal" data-reveal>
+      <p class="eyebrow">Quality over quantity</p>
+      <h2>Three litters, chosen with care.</h2>
+      <p>
+        Bella will have a maximum of three litters in her lifetime. That decision keeps Angel
+        Bulldogs small: enough time to raise puppies inside the home, to know them well, and to
+        stay close to the families who welcome them.
+      </p>
+      <p>
+        The limit is a program philosophy. It does not, by itself, guarantee health outcomes.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--ivory">
+    <div class="container measure reveal" data-reveal>
+      <p class="eyebrow">Natural whelping</p>
+      <h2>A family history of natural delivery.</h2>
+      <p>
+        Bella naturally delivered her litter. Her mother, maternal grandmother, and maternal
+        aunt also whelped naturally. We share that family history because it is part of how we
+        understand Bella—not as a promise about every future birth or a substitute for
+        veterinary care.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split split--2 reveal" data-reveal>
+      <div class="media-frame aspect-landscape">
+        <MediaImage
+          src="/placeholders/serbian-roots.svg"
+          alt="Placeholder for an editorial visual about Serbian breeding roots"
+          width={1600}
+          height={1000}
+        />
+      </div>
+      <div>
+        <p class="eyebrow">Family connection</p>
+        <h2>Serbian breeding experience, now in Chicago.</h2>
+        <p>
+          The family and partner connected to Angel Bulldogs have extensive French Bulldog
+          breeding experience in Serbia. That same family connection is part of Bella’s original
+          breeding story.
+        </p>
+        <p>
+          Angel Bulldogs brings that experience into a small Chicago home. We do not present
+          this as a long-established U.S. business under the Angel Bulldogs name.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cream">
+    <div class="container split split--2 reveal" data-reveal>
+      <div class="media-frame aspect-portrait">
+        <MediaImage
+          src={sire.portrait.src}
+          alt={sire.portrait.alt}
+          width={sire.portrait.width}
+          height={sire.portrait.height}
+        />
+      </div>
+      <div>
+        <p class="eyebrow">Supporting parent</p>
+        <h2>{displayParentName(sire)}</h2>
+        {
+          sire.intro ? (
+            <p>{sire.intro}</p>
+          ) : (
+            <p>
+              The sire appears here as supporting lineage for Bella’s puppies. His verified name
+              and details will replace this placeholder when they are supplied.
+            </p>
+          )
+        }
+        {
+          sire.coat && <p>Coat: {sire.coat}</p>
+        }
+        <p class="dev-notice">Add verified sire details in src/data/parents.ts</p>
+      </div>
+    </div>
+  </section>
+
+  <CtaBanner
+    title="Meet the puppies Bella is raising"
+    lede="When a puppy is available, we introduce them here. You can also apply so we can get to know your home."
+  />
+</BaseLayout>

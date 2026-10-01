@@ -1,0 +1,87 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import ButtonLink from "../components/ButtonLink.astro";
+import ColorLabShell from "../components/color-lab/ColorLabShell.astro";
+import { siteConfig } from "../config/site";
+import { GENERAL_QUALIFICATION } from "../lib/color-lab/safetyRules";
+import { parseFormspreeEndpoint } from "../lib/color-lab/interestSubmit";
+import "../styles/color-lab.css";
+
+const comingSoon = siteConfig.colorLabComingSoon;
+const formspreeEndpoint = parseFormspreeEndpoint(import.meta.env.PUBLIC_FORMSPREE_COLOR_LAB_ENDPOINT);
+---
+
+<BaseLayout
+  title="Frenchie Color Lab | Angel Bulldogs"
+  description={
+    comingSoon
+      ? "The Angel Bulldogs Frenchie Color Lab is coming soon — build a French Bulldog from gene choices and explore educational pairing outcomes."
+      : "Build a French Bulldog from simple gene choices, or estimate educational per-conception outcomes for a stud and dam with the Angel Bulldogs Frenchie Color Lab."
+  }
+  path="/color-lab"
+>
+  {
+    comingSoon ? (
+      <>
+        <PageHero
+          eyebrow="Frenchie Color Lab"
+          title="Coming soon."
+          lede="We're finishing the main Angel Bulldogs website first. The Color Lab — build a Frenchie from gene choices, or explore educational pairing outcomes — will open after launch."
+        />
+        <section class="section cl-section" aria-label="Color Lab coming soon">
+          <div class="container">
+            <div class="cl-coming-soon">
+              <img
+                class="cl-coming-soon__image"
+                src="/images/color-lab/coming-soon.svg"
+                alt=""
+                width="400"
+                height="500"
+                decoding="async"
+              />
+              <div class="cl-coming-soon__copy">
+                <h2>Still in the works</h2>
+                <p>
+                  We&apos;re pausing the Color Lab while we finish the main site and picture library.
+                  It will open later. In the meantime, browse available puppies or reach out with
+                  questions.
+                </p>
+                <div class="cl-coming-soon__actions">
+                  <ButtonLink href="/puppies">View Available Puppies</ButtonLink>
+                  <ButtonLink href="/contact" variant="secondary">Contact</ButtonLink>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </>
+    ) : (
+      <>
+        <PageHero
+          eyebrow="Frenchie Color Lab"
+          title="Build a Frenchie, or estimate a pairing."
+          lede="Tap each side of a gene to set the DNA pair and see a representative puppy, or set up a stud and dam to see each outcome's chance. Every gene starts filled in, so you can change only what you know."
+        >
+          <p class="cl-qualify">{GENERAL_QUALIFICATION}</p>
+        </PageHero>
+
+        <noscript>
+          <p class="container cl-noscript">
+            JavaScript is required to change genes and calculate litters. The starting Fawn Solid
+            example, gene explanations, and sources below still work without it.
+          </p>
+        </noscript>
+
+        <section class="section cl-section" aria-label="Frenchie Color Lab tools">
+          <div class="container">
+            <ColorLabShell prototypeMode={siteConfig.prototypeMode} formspreeEndpoint={formspreeEndpoint} />
+          </div>
+        </section>
+        <script>
+          import "../scripts/color-lab/app";
+        </script>
+      </>
+    )
+  }
+</BaseLayout>

@@ -1,0 +1,33 @@
+---
+import { PRESETS, PRESET_GROUPS } from "../../data/color-lab/presets";
+---
+
+<dialog class="cl-drawer" data-preset-dialog aria-labelledby="cl-presets-dialog-title">
+  <div class="cl-drawer__sheet">
+    <header class="cl-drawer__head">
+      <h2 id="cl-presets-dialog-title">All presets</h2>
+      <button class="drawer-close" type="button" data-dialog-close aria-label="Close presets">
+        <span aria-hidden="true">×</span>
+      </button>
+    </header>
+    <p class="cl-drawer__lede">
+      Choosing a preset resets every gene, Big Rope, and the lab-report box for <span data-preset-target>this dog</span>.
+    </p>
+    {
+      PRESET_GROUPS.map((group) => (
+        <section class="cl-preset-group" aria-labelledby={`cl-preset-group-${group.id}`}>
+          <h3 id={`cl-preset-group-${group.id}`}>{group.title}</h3>
+          <ul class="cl-presets__grid">
+            {PRESETS.filter((preset) => preset.group === group.id).map((preset) => (
+              <li>
+                <button type="button" class="cl-chip" data-dialog-preset={preset.id}>
+                  {preset.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</dialog>

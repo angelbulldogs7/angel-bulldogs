@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Bella portrait">
+  <rect width="800" height="1000" fill="#f2e8d9"/>
+  <rect x="70" y="70" width="660" height="860" rx="28" fill="#e6d3ae"/>
+<ellipse cx="400" cy="390" rx="190" ry="230" fill="#c8a66a" opacity="0.6"/>
+<circle cx="400" cy="300" r="110" fill="#a58e7e" opacity="0.4"/>
+  <text x="400.0" y="720.0" text-anchor="middle" fill="#49352b" font-family="Georgia, 'Times New Roman', serif" font-size="28">Bella portrait</text>
+  <text x="400.0" y="756.0" text-anchor="middle" fill="#71594c" font-family="system-ui, sans-serif" font-size="16">4:5 placeholder — not final photography</text>
+</svg>

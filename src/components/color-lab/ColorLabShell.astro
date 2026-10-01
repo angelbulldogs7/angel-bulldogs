@@ -1,0 +1,99 @@
+---
+import { COLOR_LAB_SOURCES, MODEL_LIMITATIONS } from "../../data/color-lab/sources";
+import { BREEDER_TERMS_NOTE } from "../../data/color-lab/phenotypeNames";
+import { baselineDogState } from "../../lib/color-lab/dogState";
+import InterestDrawer from "./InterestDrawer.astro";
+import ParentConfigurator from "./ParentConfigurator.astro";
+import PresetDrawer from "./PresetDrawer.astro";
+import PuppyPreview from "./PuppyPreview.astro";
+import ResultsDashboard from "./ResultsDashboard.astro";
+import SavedDogManager from "./SavedDogManager.astro";
+import DogWorkspace from "./DogWorkspace.astro";
+import BreedingReview from "./BreedingReview.astro";
+
+interface Props {
+  prototypeMode: boolean;
+  formspreeEndpoint: string | null;
+}
+
+const { prototypeMode, formspreeEndpoint } = Astro.props;
+const baseline = baselineDogState();
+const scienceSources = COLOR_LAB_SOURCES.filter((source) => source.kind === "science");
+---
+
+<div
+  class="color-lab"
+  data-color-lab
+  data-prototype-mode={prototypeMode ? "true" : "false"}
+  data-formspree-endpoint={formspreeEndpoint ?? ""}
+>
+  <div class="cl-tabs" data-primary-tabs>
+    <div class="cl-tabs__list" role="tablist" aria-label="Color Lab tools">
+      <button type="button" role="tab" id="cl-tab-build" aria-controls="cl-panel-build" aria-selected="true" tabindex="0">
+        Build a Frenchie
+      </button>
+      <button type="button" role="tab" id="cl-tab-breeding" aria-controls="cl-panel-breeding" aria-selected="false" tabindex="-1">
+        Breeding Calculator
+      </button>
+    </div>
+
+    <div class="cl-tabs__panel" role="tabpanel" id="cl-panel-build" aria-labelledby="cl-tab-build" tabindex="0">
+      <div class="cl-build">
+        <PuppyPreview state={baseline} />
+        <div class="cl-build__controls">
+          <DogWorkspace workspace="build" state={baseline} heading="Choose your Frenchie's genes" />
+          <SavedDogManager workspace="build" />
+        </div>
+      </div>
+    </div>
+
+    <div class="cl-tabs__panel" role="tabpanel" id="cl-panel-breeding" aria-labelledby="cl-tab-breeding" tabindex="0" hidden>
+      <nav class="cl-steps" aria-label="Breeding Calculator steps">
+        <ol>
+          <li><button type="button" class="cl-step" data-go-step="stud" aria-current="step">1. Stud (Male)</button></li>
+          <li><button type="button" class="cl-step" data-go-step="dam">2. Dam (Female)</button></li>
+          <li><button type="button" class="cl-step" data-go-step="review">3. Review</button></li>
+          <li><button type="button" class="cl-step" data-go-step="results" disabled>4. Results</button></li>
+        </ol>
+      </nav>
+      <ParentConfigurator role="stud" state={baseline} />
+      <ParentConfigurator role="dam" state={baseline} />
+      <BreedingReview />
+      <ResultsDashboard />
+    </div>
+  </div>
+
+  <section class="cl-about" aria-labelledby="cl-about-title">
+    <h2 id="cl-about-title">How the genetics work</h2>
+    <p>
+      This is an educational model of commonly tested French Bulldog coat genes. It is not a
+      laboratory report, a health clearance, or a breeding recommendation.
+    </p>
+    <details class="cl-about__details">
+      <summary>Model limitations</summary>
+      <ul>
+        {MODEL_LIMITATIONS.map((item) => <li>{item}</li>)}
+        <li>{BREEDER_TERMS_NOTE}</li>
+      </ul>
+    </details>
+    <details class="cl-about__details">
+      <summary>Sources</summary>
+      <ul>
+        {
+          scienceSources.map((source) => (
+            <li>
+              <a href={source.href} rel="noopener">
+                {source.title}
+              </a>
+              <span class="cl-about__date"> (accessed {source.accessed})</span>
+            </li>
+          ))
+        }
+      </ul>
+    </details>
+  </section>
+
+  <p class="sr-only" aria-live="polite" data-live></p>
+  <PresetDrawer />
+  <InterestDrawer />
+</div>

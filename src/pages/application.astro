@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import ApplicationForm from "../components/ApplicationForm.astro";
+---
+
+<BaseLayout
+  title="Puppy Application | Angel Bulldogs"
+  description="Apply to welcome a home-raised French Bulldog from Angel Bulldogs in Chicago. An application does not reserve a puppy or guarantee approval."
+  path="/application"
+>
+  <PageHero
+    eyebrow="Placement"
+    title="Puppy Application"
+    lede="This application helps us understand your home. Submitting it does not guarantee approval or reserve a puppy. Pricing and availability are confirmed personally, and breeding rights are considered case by case."
+  />
+  <section class="section">
+    <div class="container">
+      <ApplicationForm />
+    </div>
+  </section>
+</BaseLayout>

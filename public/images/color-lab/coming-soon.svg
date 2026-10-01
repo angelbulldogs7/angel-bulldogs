@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Image coming soon</title>
+  <desc id="desc">Placeholder for an approved representative Frenchie Color Lab visualization.</desc>
+  <rect width="800" height="1000" fill="#faf6ee"/>
+  <rect x="80" y="250" width="640" height="500" rx="24" fill="#f2e8d9"/>
+  <text x="400" y="160" text-anchor="middle" fill="#49352b" font-family="Georgia, 'Iowan Old Style', serif" font-size="28" letter-spacing="6">ANGEL BULLDOGS</text>
+  <line x1="330" y1="190" x2="470" y2="190" stroke="#c8a66a" stroke-width="1.5"/>
+  <text x="400" y="490" text-anchor="middle" fill="#49352b" font-family="Georgia, 'Iowan Old Style', serif" font-size="44">Image coming soon</text>
+  <text x="400" y="545" text-anchor="middle" fill="#5c5049" font-family="'Avenir Next', 'Segoe UI', system-ui, sans-serif" font-size="22">Representative visualization in progress</text>
+  <line x1="300" y1="850" x2="500" y2="850" stroke="#c8a66a" stroke-width="1.5"/>
+</svg>

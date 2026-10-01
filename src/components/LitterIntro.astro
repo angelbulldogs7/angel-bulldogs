@@ -1,0 +1,47 @@
+---
+import { currentLitter } from "../data/litter";
+import { getDam, getSire, displayParentName } from "../data/parents";
+import MediaImage from "./MediaImage.astro";
+import ButtonLink from "./ButtonLink.astro";
+
+const dam = getDam();
+const sire = getSire();
+---
+
+<section class="litter-intro" aria-labelledby="litter-intro-title">
+  <div class="litter-intro__media">
+    <MediaImage
+      class="litter-intro__photo"
+      src={currentLitter.hero.src}
+      alt={currentLitter.hero.alt}
+      width={currentLitter.hero.width}
+      height={currentLitter.hero.height}
+      loading="eager"
+      fetchpriority="high"
+    />
+  </div>
+  <div class="litter-intro__copy">
+    <p class="eyebrow">Current litter</p>
+    <h2 id="litter-intro-title">{currentLitter.label}</h2>
+    <p class="lede">{currentLitter.lede}</p>
+    <div class="litter-intro__parents">
+      <article>
+        <p class="eyebrow">Dam</p>
+        <p><strong>{displayParentName(dam)}</strong></p>
+        {dam.coat && <p class="field__hint">{dam.coat}</p>}
+        <ButtonLink href="/bella" variant="ghost">Meet Bella</ButtonLink>
+      </article>
+      <article>
+        <p class="eyebrow">Sire</p>
+        <p><strong>{displayParentName(sire)}</strong></p>
+        {
+          sire.coat ? (
+            <p class="field__hint">{sire.coat}</p>
+          ) : (
+            <p class="field__hint">Verified sire name and details will appear here when added.</p>
+          )
+        }
+      </article>
+    </div>
+  </div>
+</section>

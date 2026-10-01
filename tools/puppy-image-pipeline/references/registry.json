@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "generated_by": "contact-sheet-import-2026-09-24",
+  "references": [
+    {
+      "id": "master/classic-fawn-solid-master-v2",
+      "kind": "master-identity",
+      "path": "frenchie-color-lab-image-library/assets/masters/classic-fawn-solid-master-v2.png",
+      "approved": true,
+      "approval_evidence": "Approved for pilot use from the owner-provided 10-image reference set on 2026-09-24.",
+      "notes": "Permanent identity source expected by master prompt. Never overwrite. Contact-sheet extract is provisional."
+    },
+    {
+      "id": "anchor/standard",
+      "kind": "anchor",
+      "path": "frenchie-color-lab-image-library/assets/anchors/standard-anchor-approved.png",
+      "approved": true,
+      "approval_evidence": "Approved for pilot use from the owner-provided 10-image reference set on 2026-09-24.",
+      "notes": "Square short-coat anchor derived from approved master. Contact-sheet extract is provisional."
+    },
+    {
+      "id": "anchor/fluffy",
+      "kind": "anchor",
+      "path": "frenchie-color-lab-image-library/assets/anchors/fluffy-anchor-approved.png",
+      "approved": true,
+      "approval_evidence": "Approved for pilot use from the owner-provided 10-image reference set on 2026-09-24.",
+      "notes": "Natural fluffy anchor candidate from contact-sheet extract."
+    },
+    {
+      "id": "anchor/hairless",
+      "kind": "anchor",
+      "path": "frenchie-color-lab-image-library/assets/anchors/hairless-anchor-approved.png",
+      "approved": true,
+      "approval_evidence": "Approved for pilot use from the owner-provided 10-image reference set on 2026-09-24.",
+      "notes": "Hairless candidate remains draft per source label."
+    },
+    {
+      "id": "anchor/big-rope-standard",
+      "kind": "big-rope-anchor",
+      "path": "frenchie-color-lab-image-library/assets/anchors/big-rope-standard-anchor-approved.png",
+      "approved": true,
+      "approval_evidence": "Approved for pilot use from the owner-provided 10-image reference set on 2026-09-24.",
+      "notes": "Use only when Big Rope is selected. Contact-sheet extract is provisional."
+    },
+    {
+      "id": "reference/merle-standard",
+      "kind": "pattern-reference",
+      "path": "frenchie-color-lab-image-library/assets/references/merle-standard-approved.png",
+      "approved": true,
+      "approval_evidence": "Approved for pilot use from the owner-provided 10-image reference set on 2026-09-24.",
+      "notes": "Representative natural irregular Merle map candidate."
+    },
+    {
+      "id": "reference/pied-map",
+      "kind": "pattern-reference",
+      "path": "frenchie-color-lab-image-library/assets/references/pied-map-approved.png",
+      "approved": true,
+      "approval_evidence": "Approved for pilot use from the owner-provided 10-image reference set on 2026-09-24.",
+      "notes": "Single representative Pied map candidate."
+    },
+    {
+      "id": "reference-set/contact-sheet-preview",
+      "kind": "reference-set-preview",
+      "path": "frenchie-color-lab-image-library/assets/references/contact-sheet-crops/contact-sheet-preview.jpg",
+      "approved": false,
+      "approval_evidence": "Provided directly in chat as one 10-image preview sheet.",
+      "notes": "Provenance artifact only; never use as the direct generation attachment."
+    },
+    {
+      "id": "reference/ref-04-black-solid",
+      "kind": "supplemental-color-reference",
+      "path": "frenchie-color-lab-image-library/assets/references/contact-sheet-crops/ref-04-black-solid.png",
+      "approved": false,
+      "approval_evidence": "Imported from provided 10-image contact sheet (REF-04 crop).",
+      "notes": "Supplemental color/pigment guide candidate."
+    },
+    {
+      "id": "reference/ref-05-chocolate-solid",
+      "kind": "supplemental-color-reference",
+      "path": "frenchie-color-lab-image-library/assets/references/contact-sheet-crops/ref-05-chocolate-solid.png",
+      "approved": false,
+      "approval_evidence": "Imported from provided 10-image contact sheet (REF-05 crop).",
+      "notes": "Supplemental color/pigment guide candidate."
+    },
+    {
+      "id": "reference/ref-06-blue-solid",
+      "kind": "supplemental-color-reference",
+      "path": "frenchie-color-lab-image-library/assets/references/contact-sheet-crops/ref-06-blue-solid.png",
+      "approved": false,
+      "approval_evidence": "Imported from provided 10-image contact sheet (REF-06 crop).",
+      "notes": "Supplemental color/pigment guide candidate."
+    },
+    {
+      "id": "reference/ref-07-fawn-brindle",
+      "kind": "supplemental-pattern-reference",
+      "path": "frenchie-color-lab-image-library/assets/references/contact-sheet-crops/ref-07-fawn-brindle.png",
+      "approved": false,
+      "approval_evidence": "Imported from provided 10-image contact sheet (REF-07 crop).",
+      "notes": "Supplemental brindle pattern guide candidate."
+    }
+  ]
+}

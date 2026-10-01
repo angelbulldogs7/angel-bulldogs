@@ -5,6 +5,10 @@ dist/
 
 # dependencies
 node_modules/
+.venv-img/
+
+# local scratch / source photo conversions
+tmp/
 
 # logs
 npm-debug.log*
@@ -16,9 +20,27 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+tools/puppy-image-pipeline/.env
+
+# puppy image pipeline local environment + state
+tools/puppy-image-pipeline/.venv/
+tools/puppy-image-pipeline/.pytest_cache/
+tools/puppy-image-pipeline/state/jobs.sqlite
+tools/puppy-image-pipeline/outputs/raw/
+tools/puppy-image-pipeline/outputs/drafts/
+tools/puppy-image-pipeline/outputs/logs/
+tools/puppy-image-pipeline/outputs/review/gallery.html
 
 # macOS-specific files
 .DS_Store
 
 # jetbrains setting folder
 .idea/
+
+# editor / agent local config
+.cursor/
+
+# local Python packaging metadata
+**/__pycache__/
+**/*.egg-info/
+tools/puppy-image-pipeline/outputs/

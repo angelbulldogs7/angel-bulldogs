@@ -437,6 +437,30 @@ figure {
   resize: vertical;
 }
 
+.field textarea[rows="3"] {
+  min-height: 5.25rem;
+}
+
+.form-notice__heading {
+  display: block;
+  margin: 0 0 0.35rem;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: var(--color-cocoa);
+}
+
+.form-notice__body {
+  margin: 0;
+}
+
+.form-narrow {
+  max-width: 42rem;
+}
+
+.form-privacy-note {
+  margin-top: 0.85rem;
+}
+
 .field input:user-invalid,
 .field select:user-invalid,
 .field textarea:user-invalid {
@@ -1282,11 +1306,20 @@ figure {
 }
 
 .footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 2.5rem;
   padding-top: 1.25rem;
   border-top: 1px solid var(--color-border);
   color: var(--color-text-muted);
   font-size: 0.9rem;
+}
+
+.footer-bottom p {
+  margin: 0;
 }
 
 .newsletter {

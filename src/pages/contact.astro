@@ -9,12 +9,22 @@ const { address, notice } = getPublicEmail();
 
 <BaseLayout
   title="Contact Angel Bulldogs | Chicago"
-  description="Contact Angel Bulldogs, a Chicago-based French Bulldog program. Inquire about available puppies, applications, nationwide delivery, or breeding rights."
+  description="Contact Angel Bulldogs, a Chicago-based French Bulldog program. Ask a general question, or start a short puppy inquiry for availability and pricing."
   path="/contact"
 >
+  <!-- Legacy /contact?puppy=<slug> → canonical Puppy Inquiry (static-site safe). -->
+  <script is:inline>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      if (!params.get("puppy")) return;
+      var next = new URL("/application", window.location.origin);
+      next.search = params.toString();
+      window.location.replace(next.toString());
+    })();
+  </script>
   <PageHero
     title="Contact"
-    lede="We would rather have a real conversation than a crowded inbox of forms. Tell us what you need, and we will follow up."
+    lede="For general questions, send a short note here. For availability and pricing, start with a puppy inquiry — it only takes a couple of minutes."
   />
   <section class="section">
     <div class="container split split--2">
@@ -34,6 +44,13 @@ const { address, notice } = getPublicEmail();
             </p>
           )
         }
+        <p>
+          Looking for a puppy?
+          <a href="/application">Start a Puppy Inquiry</a>.
+        </p>
+        <p class="field__hint">
+          <a href="/privacy">Privacy Policy</a>
+        </p>
       </div>
       <ContactForm />
     </div>

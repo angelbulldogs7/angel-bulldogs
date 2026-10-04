@@ -95,7 +95,7 @@ const galleryJson = JSON.stringify(
         >
           <span data-expand-label>View details</span>
         </button>
-        <ButtonLink href={`/contact?puppy=${puppy.slug}`} variant="ghost">
+        <ButtonLink href={`/application?puppy=${puppy.slug}`} variant="ghost">
           Inquire about {puppy.name}
         </ButtonLink>
       </div>
@@ -202,8 +202,8 @@ const galleryJson = JSON.stringify(
         </article>
       </div>
       <div class="puppy-card__actions" data-reveal-group>
-        <ButtonLink href={`/application?puppy=${puppy.slug}`}>Apply for {puppy.name}</ButtonLink>
-        <ButtonLink href={`/contact?puppy=${puppy.slug}`} variant="secondary">Contact us</ButtonLink>
+        <ButtonLink href={`/application?puppy=${puppy.slug}`}>Inquire about {puppy.name}</ButtonLink>
+        <ButtonLink href="/contact" variant="secondary">General contact</ButtonLink>
         <button
           class="btn btn--ghost"
           type="button"

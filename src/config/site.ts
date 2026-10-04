@@ -60,13 +60,15 @@ export const siteConfig = {
     { href: "/puppies", label: "Available Puppies" },
     { href: "/color-lab", label: "Color Lab" },
     { href: "/bella", label: "Meet Bella" },
-    { href: "/application", label: "Puppy Application" },
+    { href: "/application", label: "Puppy Inquiry" },
     { href: "/faq", label: "FAQ" },
     { href: "/contact", label: "Contact" },
   ],
 } as const satisfies SiteConfig;
 
-export const PRICE_LABEL = "Price available upon inquiry";
+/** Public pricing copy — no verified public price list exists in site data. */
+export const PRICE_LABEL =
+  "Pricing varies by puppy. We'll confirm the price and any delivery costs in our first personal reply.";
 
 export function getPublicEmail(): {
   address: string | null;

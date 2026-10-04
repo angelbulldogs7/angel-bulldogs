@@ -31,10 +31,10 @@ const publicEmail = getPublicEmail().address ?? "angelbulldogs7@gmail.com";
       </div>
       <div class="field" data-field>
         <label class="field__label" for="topic">Topic</label>
-        <select id="topic" name="topic" required>
+        <select id="topic" name="topic" data-contact-topic required>
           <option value="">Select one</option>
           <option value="available-puppy">Available Puppy</option>
-          <option value="application">Application Question</option>
+          <option value="inquiry">Inquiry Question</option>
           <option value="delivery">Nationwide Delivery</option>
           <option value="breeding-rights">Breeding Rights</option>
           <option value="general">General Question</option>
@@ -70,17 +70,22 @@ const publicEmail = getPublicEmail().address ?? "angelbulldogs7@gmail.com";
       <span>Send message</span>
       <span class="btn__arrow" aria-hidden="true">→</span>
     </button>
+    <p class="field__hint form-privacy-note">
+      We use the information you provide to respond to your message.
+      See our <a href="/privacy">Privacy Policy</a>.
+    </p>
     <p class="prototype-banner" data-form-notice role="status" aria-live="polite"></p>
   </div>
 </form>
 
 <script>
   import { parseFormspreeEndpoint } from "../lib/formDelivery";
-  import { initPrototypeForm, populateSelectFromQuery } from "../scripts/prototype-form";
+  import { initPrototypeForm, syncSelectFromQuery } from "../scripts/prototype-form";
 
   const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
   const notice = form?.querySelector<HTMLElement>("[data-form-notice]");
   const puppySelect = form?.querySelector<HTMLSelectElement>("[data-contact-puppy]");
+  const topicSelect = form?.querySelector<HTMLSelectElement>("[data-contact-topic]");
   const unknown = form?.querySelector<HTMLElement>("[data-unknown-puppy]");
   const publicEmail = form?.dataset.publicEmail ?? "angelbulldogs7@gmail.com";
 
@@ -97,6 +102,29 @@ const publicEmail = getPublicEmail().address ?? "angelbulldogs7@gmail.com";
   }
 
   if (puppySelect) {
-    populateSelectFromQuery(puppySelect, "puppy", unknown ?? undefined);
+    syncSelectFromQuery({
+      select: puppySelect,
+      param: "puppy",
+      unknownNotice: unknown ?? undefined,
+    });
+  }
+
+  // When a valid puppy context is present on Contact, preselect Available Puppy.
+  if (topicSelect && puppySelect) {
+    const applyTopic = () => {
+      const params = new URLSearchParams(window.location.search);
+      const puppy = params.get("puppy");
+      if (!puppy) return;
+      const match = Array.from(puppySelect.options).some((option) => option.value === puppy);
+      if (match && !topicSelect.value) {
+        topicSelect.value = "available-puppy";
+      }
+    };
+    applyTopic();
+    puppySelect.addEventListener("change", () => {
+      if (puppySelect.value && !topicSelect.value) {
+        topicSelect.value = "available-puppy";
+      }
+    });
   }
 </script>

@@ -27,30 +27,30 @@ export const faqGroups: FaqGroup[] = [
   },
   {
     id: "placement",
-    title: "Applying & placement",
+    title: "Inquiries & placement",
     items: [
       {
         id: "price",
         question: "How do I learn a puppy’s price?",
         answer: [
-          "Pricing is available upon inquiry. We share it during a personal conversation, once we understand the home and the puppy in question.",
+          "Pricing varies by puppy. We confirm the price and any delivery costs in our first personal reply.",
           "There is no public price list and no instant checkout on this website.",
         ],
         featured: true,
       },
       {
         id: "apply",
-        question: "How do I apply?",
+        question: "How do I inquire about a puppy?",
         answer: [
-          "Start with the puppy application. It helps us understand your household, your experience, and what you are hoping for in a French Bulldog.",
-          "After we review your application, we follow up to talk through fit, questions, and any request to discuss breeding rights.",
+          "Start with the short puppy inquiry. It only asks for a few quick details so we can follow up personally.",
+          "After that first reply about availability and pricing, we continue with a home and care conversation before any placement decision.",
         ],
       },
       {
         id: "reserve",
-        question: "Does submitting an application reserve a puppy?",
+        question: "Does sending an inquiry reserve a puppy?",
         answer: [
-          "No. An application is not a reservation, a hold, or a guarantee of approval.",
+          "No. An inquiry is not a reservation, a hold, or a guarantee of approval.",
           "Placement begins with a conversation. Paperwork and payment are coordinated privately after a family is approved.",
         ],
         featured: true,
@@ -60,7 +60,7 @@ export const faqGroups: FaqGroup[] = [
         question: "Are breeding rights available?",
         answer: [
           "Breeding rights are considered case by case. They are not automatically included with placement.",
-          "If that matters to you, mention it on your application so we can discuss it directly.",
+          "If that matters to you, choose “Discuss breeding rights” on the inquiry or mention it in your message so we can talk through it directly.",
         ],
       },
       {
@@ -120,7 +120,7 @@ export const faqGroups: FaqGroup[] = [
         question: "What if there are no available puppies?",
         answer: [
           "Availability can change, and we only list puppies that are currently available.",
-          "If none are listed, you are welcome to submit an application to join our list for future availability, or contact us to introduce yourself.",
+          "If none are listed, you are welcome to send a puppy inquiry for a future litter, join our availability list, or contact us to introduce yourself.",
         ],
         featured: true,
       },

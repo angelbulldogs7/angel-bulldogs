@@ -53,9 +53,10 @@ frenchie-color-lab-image-library/  Color Lab manifest and retired v1 archive (no
 - `/puppies` Available Puppies
 - `/color-lab` Frenchie Color Lab
 - `/bella` Meet Bella
-- `/application` Puppy Application
+- `/application` Puppy Inquiry (short first-contact form; URL kept for bookmarks)
 - `/faq` Frequently Asked Questions
-- `/contact` Contact
+- `/contact` Contact (general questions; legacy `?puppy=` redirects to `/application`)
+- `/privacy` Privacy Policy
 - Custom `404` page
 
 Main navigation is those pages. Do not add Pricing, Shop, Blog, or Stud Services as top-level nav.
@@ -113,7 +114,7 @@ Set these **public** build-time env vars (local `.env` and Cloudflare Pages → 
 
 | Variable | Service | Used by |
 | --- | --- | --- |
-| `PUBLIC_FORMSPREE_APPLICATION_ENDPOINT` | Formspree | `/application` |
+| `PUBLIC_FORMSPREE_APPLICATION_ENDPOINT` | Formspree | `/application` Puppy Inquiry |
 | `PUBLIC_FORMSPREE_CONTACT_ENDPOINT` | Formspree | `/contact` |
 | `PUBLIC_FORMSPREE_COLOR_LAB_ENDPOINT` | Formspree | Color Lab interest (when Color Lab is on) |
 | `PUBLIC_BREVO_NEWSLETTER_ENDPOINT` | Brevo Simple HTML form action | Footer newsletter |
@@ -142,8 +143,9 @@ Do not restore Guided/Advanced, Curl, Furnishings, lab sub-variant pickers, manu
 
 ## Integration boundaries
 
-- **Application and contact** — Formspree via `PUBLIC_FORMSPREE_APPLICATION_ENDPOINT` / `PUBLIC_FORMSPREE_CONTACT_ENDPOINT`. Shared client logic in `src/scripts/prototype-form.ts` and `src/lib/formDelivery.ts`.
-- **Newsletter** — footer only, Brevo via `PUBLIC_BREVO_NEWSLETTER_ENDPOINT`. Do not auto-subscribe anyone from the application or contact form.
+- **Puppy inquiry and contact** — Formspree via `PUBLIC_FORMSPREE_APPLICATION_ENDPOINT` / `PUBLIC_FORMSPREE_CONTACT_ENDPOINT`. Shared client logic in `src/scripts/prototype-form.ts`, `src/lib/formDelivery.ts`, and `src/lib/puppyInquiry.ts`. New inquiries send `formVersion=puppy-inquiry-v1`.
+- **Newsletter** — footer only, Brevo via `PUBLIC_BREVO_NEWSLETTER_ENDPOINT`. Do not auto-subscribe anyone from the inquiry or contact form.
+- **Follow-up screening** — owner checklist in `docs/puppy-follow-up-screening.md` (not a public form).
 - **Color Lab interest** — `PUBLIC_FORMSPREE_COLOR_LAB_ENDPOINT`. Sends only when the URL is valid **and** `prototypeMode` is `false`.
 - **Payments** — stay off the public site. No cart, deposit button, or instant checkout. Paperwork and payment are coordinated privately after approval.
 

@@ -1,0 +1,121 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import { getPublicEmail, siteConfig } from "../config/site";
+
+const { address } = getPublicEmail();
+---
+
+<BaseLayout
+  title="Privacy Policy | Angel Bulldogs"
+  description="How Angel Bulldogs uses inquiry, contact, and newsletter information on angelbulldogs.com."
+  path="/privacy"
+>
+  <PageHero
+    title="Privacy Policy"
+    lede="This page describes how Angel Bulldogs uses information you choose to send through this website."
+  />
+  <section class="section">
+    <div class="container prose measure">
+      <h2>Who we are</h2>
+      <p>
+        Angel Bulldogs is a small French Bulldog program based in {siteConfig.location}. This website
+        is a static site: it does not run visitor accounts, a public applicant portal, or a site-owned
+        database of form submissions.
+      </p>
+
+      <h2>Information we collect</h2>
+      <p>When you send a puppy inquiry, we ask for:</p>
+      <ul>
+        <li>Name</li>
+        <li>Email address</li>
+        <li>City and state</li>
+        <li>Which puppy interests you (or an undecided / future-litter choice)</li>
+        <li>Preferred timing</li>
+        <li>What you are looking for (family companion, breeding-rights discussion, or not sure yet)</li>
+        <li>Optional phone number</li>
+        <li>Optional message</li>
+        <li>Your acknowledgement that the inquiry is not a reservation</li>
+      </ul>
+      <p>
+        The general contact form collects your name, email, topic, optional puppy selection, and
+        message. The footer newsletter collects only the email address you submit there.
+      </p>
+      <p>
+        Please do not include a street address, payment details, or other sensitive financial
+        information in website forms.
+      </p>
+
+      <h2>How inquiry and contact messages are delivered</h2>
+      <p>
+        Puppy inquiry and contact forms are delivered through Formspree using public form endpoints
+        configured for this site. Messages are sent so the Angel Bulldogs team can reply using the
+        contact details you provide. We use inquiry information to respond and discuss puppy
+        placement. A successful inquiry is not an approved application, reservation, or purchase
+        contract.
+      </p>
+
+      <h2>Newsletter</h2>
+      <p>
+        The availability newsletter is separate and voluntary. Submitting a puppy inquiry or contact
+        message does not subscribe you to the newsletter. Newsletter signups use Brevo (Sendinblue)
+        when that public form endpoint is configured.
+      </p>
+
+      <h2>What this site does not do</h2>
+      <ul>
+        <li>It does not sell your personal information.</li>
+        <li>It does not create a public profile or login for applicants.</li>
+        <li>It does not process payments on this website.</li>
+      </ul>
+      <p>
+        This page does not claim specific retention periods, analytics vendors, certifications, or
+        legal designations beyond the delivery methods described above.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about this policy or a submission you made can be sent by email
+        {
+          address ? (
+            <>
+              to <a href={`mailto:${address}`}>{address}</a>
+            </>
+          ) : (
+            <> through the Contact page</>
+          )
+        }
+        .
+      </p>
+      <p>
+        <a href="/contact">Contact Angel Bulldogs</a>
+        {" · "}
+        <a href="/application">Puppy Inquiry</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .prose h2 {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--color-cocoa);
+  }
+
+  .prose p,
+  .prose li {
+    color: var(--color-text);
+  }
+
+  .prose ul {
+    margin: 0 0 1rem;
+    padding-left: 1.25rem;
+  }
+
+  .prose li + li {
+    margin-top: 0.35rem;
+  }
+</style>

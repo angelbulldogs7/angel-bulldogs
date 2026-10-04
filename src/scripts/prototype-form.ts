@@ -1,4 +1,5 @@
 import { decideFormDelivery, postFormspree } from "../lib/formDelivery";
+import { resolvePuppyInterestFromQuery } from "../lib/puppyInquiry";
 
 interface LiveFormOptions {
   form: HTMLFormElement;
@@ -9,6 +10,8 @@ interface LiveFormOptions {
   errorMessage: string;
   endpoint: string | null;
   prototypeMode: boolean;
+  /** Optional heading shown above the success message. */
+  successHeading?: string;
   /** Optional transform before send (e.g. newsletter field rename). */
   submit?: (endpoint: string, form: HTMLFormElement) => Promise<Response>;
 }
@@ -55,10 +58,26 @@ function validateField(field: HTMLElement): boolean {
   return false;
 }
 
-function showNotice(notice: HTMLElement, message: string, tone: "info" | "success" | "error"): void {
-  notice.textContent = message;
+function showNotice(
+  notice: HTMLElement,
+  message: string,
+  tone: "info" | "success" | "error",
+  heading?: string,
+): void {
   notice.dataset.tone = tone;
   notice.classList.add("is-visible");
+  if (heading && tone === "success") {
+    notice.replaceChildren();
+    const title = document.createElement("strong");
+    title.className = "form-notice__heading";
+    title.textContent = heading;
+    const body = document.createElement("p");
+    body.className = "form-notice__body";
+    body.textContent = message;
+    notice.append(title, body);
+  } else {
+    notice.textContent = message;
+  }
 }
 
 function clearNotice(notice: HTMLElement): void {
@@ -75,6 +94,7 @@ export function initPrototypeForm({
   errorMessage,
   endpoint,
   prototypeMode,
+  successHeading,
   submit = postFormspree,
 }: LiveFormOptions): void {
   const fields = Array.from(form.querySelectorAll<HTMLElement>("[data-field]"));
@@ -126,7 +146,7 @@ export function initPrototypeForm({
       const response = await submit(decision.endpoint, form);
       if (!response.ok) throw new Error(`Delivery responded ${response.status}`);
       form.reset();
-      showNotice(notice, successMessage, "success");
+      showNotice(notice, successMessage, "success", successHeading);
     } catch {
       showNotice(notice, errorMessage, "error");
     } finally {
@@ -137,18 +157,64 @@ export function initPrototypeForm({
   });
 }
 
+/**
+ * Prefills a select from the query string without overwriting a later manual choice.
+ * Re-applies on pageshow/popstate for refresh and history navigation.
+ */
+export function syncSelectFromQuery(options: {
+  select: HTMLSelectElement;
+  param: string;
+  unknownNotice?: HTMLElement;
+  /** Map additional query keys onto this select (e.g. interest → puppy). */
+  aliases?: Record<string, string>;
+}): void {
+  const { select, param, unknownNotice, aliases } = options;
+  let userTouched = false;
+
+  const apply = () => {
+    if (userTouched) return;
+    const params = new URLSearchParams(window.location.search);
+    let raw = params.get(param);
+    if (!raw && aliases) {
+      for (const [aliasKey, mapsTo] of Object.entries(aliases)) {
+        if (mapsTo !== param) continue;
+        const aliasValue = params.get(aliasKey);
+        if (aliasValue) {
+          raw = aliasValue;
+          break;
+        }
+      }
+    }
+
+    const availableSlugs = Array.from(select.options)
+      .map((option) => option.value)
+      .filter((value) => value && value !== "undecided" && value !== "future-litter");
+
+    const resolved = resolvePuppyInterestFromQuery(raw, availableSlugs);
+    if (resolved.value) {
+      select.value = resolved.value;
+      unknownNotice?.setAttribute("hidden", "");
+    } else if (resolved.unknown && unknownNotice) {
+      unknownNotice.removeAttribute("hidden");
+    } else {
+      unknownNotice?.setAttribute("hidden", "");
+    }
+  };
+
+  select.addEventListener("change", () => {
+    userTouched = true;
+  });
+
+  apply();
+  window.addEventListener("popstate", apply);
+  window.addEventListener("pageshow", apply);
+}
+
+/** @deprecated Prefer syncSelectFromQuery for inquiry/contact puppy fields. */
 export function populateSelectFromQuery(
   select: HTMLSelectElement,
   param: string,
   unknownNotice?: HTMLElement,
 ): void {
-  const value = new URLSearchParams(window.location.search).get(param);
-  if (!value) return;
-  const match = Array.from(select.options).some((option) => option.value === value);
-  if (match) {
-    select.value = value;
-    unknownNotice?.setAttribute("hidden", "");
-  } else if (unknownNotice) {
-    unknownNotice.removeAttribute("hidden");
-  }
+  syncSelectFromQuery({ select, param, unknownNotice });
 }

@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "check": "astro check",
-    "test": "node --experimental-strip-types --import ./scripts/color-lab-test-register.mjs --test src/lib/color-lab/*.test.ts",
+    "test": "node --experimental-strip-types --import ./scripts/color-lab-test-register.mjs --test src/lib/color-lab/*.test.ts src/lib/formDelivery.test.ts",
     "color-lab:manifest": "node --experimental-strip-types --import ./scripts/color-lab-test-register.mjs scripts/generate-color-lab-manifest.mjs",
     "color-lab:phenotypes": "node --experimental-strip-types --import ./scripts/color-lab-test-register.mjs scripts/export-color-lab-phenotypes.mjs",
     "build": "astro check && astro build",

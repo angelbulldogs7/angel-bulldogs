@@ -1,10 +1,21 @@
 ---
+import { getPublicEmail, siteConfig } from "../config/site";
 import { getAvailablePuppyOptions } from "../data/puppies";
+import { parseFormspreeEndpoint } from "../lib/formDelivery";
 
 const puppies = getAvailablePuppyOptions();
+const formspreeEndpoint = parseFormspreeEndpoint(import.meta.env.PUBLIC_FORMSPREE_CONTACT_ENDPOINT);
+const publicEmail = getPublicEmail().address ?? "angelbulldogs7@gmail.com";
 ---
 
-<form class="form" data-contact-form novalidate>
+<form
+  class="form"
+  data-contact-form
+  data-prototype-mode={siteConfig.prototypeMode ? "true" : "false"}
+  data-endpoint={formspreeEndpoint ?? ""}
+  data-public-email={publicEmail}
+  novalidate
+>
   <fieldset class="fieldset">
     <legend>Send a note</legend>
     <div class="form-grid form-grid--2">
@@ -47,8 +58,8 @@ const puppies = getAvailablePuppyOptions();
       </div>
       <div class="field full" data-field>
         <label class="check">
-          <input type="checkbox" name="prototypeAck" required />
-          <span>I understand that submitting this prototype form does not send data yet.</span>
+          <input type="checkbox" name="contactAck" required />
+          <span>I understand this is an inquiry, not a reservation, and Angel Bulldogs will reply using the email I provide.</span>
         </label>
         <p class="field__error" data-error hidden></p>
       </div>
@@ -64,18 +75,24 @@ const puppies = getAvailablePuppyOptions();
 </form>
 
 <script>
+  import { parseFormspreeEndpoint } from "../lib/formDelivery";
   import { initPrototypeForm, populateSelectFromQuery } from "../scripts/prototype-form";
 
   const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
   const notice = form?.querySelector<HTMLElement>("[data-form-notice]");
   const puppySelect = form?.querySelector<HTMLSelectElement>("[data-contact-puppy]");
   const unknown = form?.querySelector<HTMLElement>("[data-unknown-puppy]");
+  const publicEmail = form?.dataset.publicEmail ?? "angelbulldogs7@gmail.com";
 
   if (form && notice) {
     initPrototypeForm({
       form,
       notice,
-      message: "Frontend preview only — contact delivery will be connected before launch.",
+      endpoint: parseFormspreeEndpoint(form.dataset.endpoint),
+      prototypeMode: form.dataset.prototypeMode === "true",
+      unavailableMessage: `Contact delivery is not connected yet, so nothing was sent. Please email ${publicEmail} for now.`,
+      successMessage: "Thank you — your message was sent to Angel Bulldogs. We will follow up by email.",
+      errorMessage: `Something went wrong and your message was not sent. Your details are still in the form — please try again or email ${publicEmail}.`,
     });
   }
 

@@ -1,7 +1,16 @@
-interface PrototypeFormOptions {
+import { decideFormDelivery, postFormspree } from "../lib/formDelivery";
+
+interface LiveFormOptions {
   form: HTMLFormElement;
   notice: HTMLElement;
-  message: string;
+  /** Shown only when delivery is unavailable (prototype mode or missing endpoint). */
+  unavailableMessage: string;
+  successMessage: string;
+  errorMessage: string;
+  endpoint: string | null;
+  prototypeMode: boolean;
+  /** Optional transform before send (e.g. newsletter field rename). */
+  submit?: (endpoint: string, form: HTMLFormElement) => Promise<Response>;
 }
 
 function setError(field: HTMLElement, message: string | null): void {
@@ -46,8 +55,31 @@ function validateField(field: HTMLElement): boolean {
   return false;
 }
 
-export function initPrototypeForm({ form, notice, message }: PrototypeFormOptions): void {
+function showNotice(notice: HTMLElement, message: string, tone: "info" | "success" | "error"): void {
+  notice.textContent = message;
+  notice.dataset.tone = tone;
+  notice.classList.add("is-visible");
+}
+
+function clearNotice(notice: HTMLElement): void {
+  notice.textContent = "";
+  notice.removeAttribute("data-tone");
+  notice.classList.remove("is-visible");
+}
+
+export function initPrototypeForm({
+  form,
+  notice,
+  unavailableMessage,
+  successMessage,
+  errorMessage,
+  endpoint,
+  prototypeMode,
+  submit = postFormspree,
+}: LiveFormOptions): void {
   const fields = Array.from(form.querySelectorAll<HTMLElement>("[data-field]"));
+  const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+  let sending = false;
 
   fields.forEach((field) => {
     const control = field.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
@@ -59,9 +91,10 @@ export function initPrototypeForm({ form, notice, message }: PrototypeFormOption
     });
   });
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    // TODO: Connect Formspree here. Do not call fetch() until a verified endpoint exists.
+    if (sending) return;
+
     let valid = true;
     let firstInvalid: HTMLElement | null = null;
     for (const field of fields) {
@@ -74,12 +107,33 @@ export function initPrototypeForm({ form, notice, message }: PrototypeFormOption
     }
     if (!valid) {
       firstInvalid?.focus();
-      notice.classList.remove("is-visible");
-      notice.textContent = "";
+      clearNotice(notice);
       return;
     }
-    notice.textContent = message;
-    notice.classList.add("is-visible");
+
+    const decision = decideFormDelivery({ endpoint, prototypeMode });
+    if (decision.action === "unavailable") {
+      showNotice(notice, unavailableMessage, "info");
+      return;
+    }
+
+    sending = true;
+    form.setAttribute("aria-busy", "true");
+    if (submitButton) submitButton.disabled = true;
+    showNotice(notice, "Sending…", "info");
+
+    try {
+      const response = await submit(decision.endpoint, form);
+      if (!response.ok) throw new Error(`Delivery responded ${response.status}`);
+      form.reset();
+      showNotice(notice, successMessage, "success");
+    } catch {
+      showNotice(notice, errorMessage, "error");
+    } finally {
+      sending = false;
+      form.removeAttribute("aria-busy");
+      if (submitButton) submitButton.disabled = false;
+    }
   });
 }
 

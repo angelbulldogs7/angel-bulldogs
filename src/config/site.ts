@@ -48,11 +48,12 @@ export const siteConfig = {
   ogImage: "/placeholders/og-share.svg",
   socialLinks: {},
   /**
-   * While true, no form sends anything. Color Lab interest also needs
-   * PUBLIC_FORMSPREE_COLOR_LAB_ENDPOINT (a real https://formspree.io/f/… URL) at build time.
+   * While true, no form sends anything. Live delivery also needs the matching
+   * PUBLIC_FORMSPREE_* / PUBLIC_BREVO_* endpoints at build time.
    */
-  prototypeMode: true,
-  siteInDevelopment: true,
+  prototypeMode: false,
+  siteInDevelopment: false,
+  /** Keep Coming Soon until Color Lab images are approved; endpoint can still be set. */
   colorLabComingSoon: true,
   nav: [
     { href: "/", label: "Home" },

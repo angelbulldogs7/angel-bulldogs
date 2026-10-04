@@ -458,6 +458,16 @@ figure {
   accent-color: var(--color-cocoa);
 }
 
+.prototype-banner[data-tone="success"] {
+  color: var(--color-ink);
+  border-color: color-mix(in srgb, var(--color-ink) 18%, transparent);
+}
+
+.prototype-banner[data-tone="error"] {
+  color: #7a2e2e;
+  border-color: color-mix(in srgb, #7a2e2e 28%, transparent);
+}
+
 .prototype-banner {
   display: none;
   margin-top: 1rem;

@@ -1,6 +1,6 @@
 # Angel Bulldogs
 
-A static, frontend-only website for **Angel Bulldogs**, a small family-guided French Bulldog program in Chicago. Built with Astro, strict TypeScript, semantic HTML, and custom CSS. No backend, payments, or live third-party services in this phase.
+A static website for **Angel Bulldogs**, a small family-guided French Bulldog program in Chicago. Built with Astro, strict TypeScript, semantic HTML, and custom CSS. Hosted on Cloudflare Pages. Form delivery uses public Formspree and Brevo endpoints (no site backend). Payments stay off the public site.
 
 ## Local development
 
@@ -107,15 +107,20 @@ In `src/config/site.ts`:
 - Video: set `siteConfig.heroVideo` only when the file is in `public/`. Recommended: muted H.264, about 1600×900 or 1920×1080, no audio track, keep the file small (aim under ~4 MB).
 - If `heroVideo` is `null`, the poster is used. Small screens, `prefers-reduced-motion`, and Save-Data still prefer the poster.
 
-### Disable prototype form notices
+### Connect form delivery
 
-Forms never send data today. When Formspree (application/contact) and Brevo (footer newsletter) are connected:
+Set these **public** build-time env vars (local `.env` and Cloudflare Pages → Environment variables):
 
-1. Wire the real `action` / `fetch` only at the commented TODO in each form script.
-2. Set `siteConfig.prototypeMode` to `false` after the live endpoints work.
-3. Replace the prototype banner copy with a real confirmation only when a submission actually succeeded.
+| Variable | Service | Used by |
+| --- | --- | --- |
+| `PUBLIC_FORMSPREE_APPLICATION_ENDPOINT` | Formspree | `/application` |
+| `PUBLIC_FORMSPREE_CONTACT_ENDPOINT` | Formspree | `/contact` |
+| `PUBLIC_FORMSPREE_COLOR_LAB_ENDPOINT` | Formspree | Color Lab interest (when Color Lab is on) |
+| `PUBLIC_BREVO_NEWSLETTER_ENDPOINT` | Brevo Simple HTML form action | Footer newsletter |
 
-Until then, submit shows: **Frontend preview only — … will be connected before launch.** It must not say the application or subscription was received.
+See `.env.example`. Formspree URLs must look like `https://formspree.io/f/…`. Brevo URLs must be a `sibforms.com/serve/…` action URL.
+
+With `siteConfig.prototypeMode` set to `false` and valid endpoints present, forms POST for real and show success only after a successful response. Missing endpoints fall back to an honest “not connected” notice — never a fake success.
 
 ### Color Lab
 
@@ -135,11 +140,11 @@ Do not restore Guided/Advanced, Curl, Furnishings, lab sub-variant pickers, manu
 
 **Interest delivery.** Set `PUBLIC_FORMSPREE_COLOR_LAB_ENDPOINT` to a real `https://formspree.io/f/…` URL at build time. Anything else is treated as not configured. Nothing is sent while the endpoint is missing or `siteConfig.prototypeMode` is `true`, and the drawer never shows success without a real `response.ok`.
 
-## Future integration boundaries
+## Integration boundaries
 
-- **Application and contact** — `src/components/ApplicationForm.astro`, `src/components/ContactForm.astro`, `src/scripts/prototype-form.ts`. TODO comments mark the Formspree boundary. Do not call `fetch()` until a verified endpoint exists.
-- **Newsletter** — footer only, `src/components/NewsletterPrototype.astro`. TODO marks the Brevo boundary. Do not auto-subscribe anyone from the application or contact form.
-- **Color Lab interest** — `PUBLIC_FORMSPREE_COLOR_LAB_ENDPOINT` (public build-time env var). Fetch runs only when it is a valid Formspree URL **and** `prototypeMode` is `false`.
+- **Application and contact** — Formspree via `PUBLIC_FORMSPREE_APPLICATION_ENDPOINT` / `PUBLIC_FORMSPREE_CONTACT_ENDPOINT`. Shared client logic in `src/scripts/prototype-form.ts` and `src/lib/formDelivery.ts`.
+- **Newsletter** — footer only, Brevo via `PUBLIC_BREVO_NEWSLETTER_ENDPOINT`. Do not auto-subscribe anyone from the application or contact form.
+- **Color Lab interest** — `PUBLIC_FORMSPREE_COLOR_LAB_ENDPOINT`. Sends only when the URL is valid **and** `prototypeMode` is `false`.
 - **Payments** — stay off the public site. No cart, deposit button, or instant checkout. Paperwork and payment are coordinated privately after approval.
 
 ## Claim and content rules

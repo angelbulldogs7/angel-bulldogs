@@ -1,4 +1,17 @@
-<form class="newsletter" data-newsletter-form novalidate>
+---
+import { siteConfig } from "../config/site";
+import { parseBrevoFormEndpoint } from "../lib/formDelivery";
+
+const brevoEndpoint = parseBrevoFormEndpoint(import.meta.env.PUBLIC_BREVO_NEWSLETTER_ENDPOINT);
+---
+
+<form
+  class="newsletter"
+  data-newsletter-form
+  data-prototype-mode={siteConfig.prototypeMode ? "true" : "false"}
+  data-endpoint={brevoEndpoint ?? ""}
+  novalidate
+>
   <div class="newsletter-row">
     <div class="field" data-field>
       <label class="field__label" for="newsletter-email">Email</label>
@@ -17,23 +30,35 @@
     </button>
   </div>
   <p class="field__hint">
-    Subscribers will eventually receive availability updates. Joining does not reserve a puppy.
+    Subscribers receive availability updates. Joining does not reserve a puppy.
   </p>
   <p class="prototype-banner" data-form-notice role="status" aria-live="polite"></p>
 </form>
 
 <script>
+  import { parseBrevoFormEndpoint, postBrevoNewsletter } from "../lib/formDelivery";
   import { initPrototypeForm } from "../scripts/prototype-form";
 
   const form = document.querySelector<HTMLFormElement>("[data-newsletter-form]");
   const notice = form?.querySelector<HTMLElement>("[data-form-notice]");
 
   if (form && notice) {
-    // TODO: Connect Brevo here. Do not call fetch() until a verified list endpoint exists.
     initPrototypeForm({
       form,
       notice,
-      message: "Frontend preview only — newsletter signup will be connected before launch.",
+      endpoint: parseBrevoFormEndpoint(form.dataset.endpoint),
+      prototypeMode: form.dataset.prototypeMode === "true",
+      unavailableMessage:
+        "Newsletter signup is not connected yet, so nothing was sent. Please check back soon or use Contact.",
+      successMessage:
+        "You are on the Angel Bulldogs list. Joining does not reserve a puppy; we will share availability updates by email.",
+      errorMessage:
+        "Something went wrong and you were not added to the list. Your email is still in the form — please try again.",
+      submit: async (endpoint, liveForm) => {
+        const emailInput = liveForm.querySelector<HTMLInputElement>('input[name="email"]');
+        const email = emailInput?.value.trim() ?? "";
+        return postBrevoNewsletter(endpoint, email);
+      },
     });
   }
 </script>

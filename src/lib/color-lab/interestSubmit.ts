@@ -1,14 +1,8 @@
+import { parseFormspreeEndpoint } from "../formDelivery";
 import { missingAcknowledgements } from "./safetyRules";
 import type { AcknowledgementCode, InterestEligibility } from "./types";
 
-const FORMSPREE_ENDPOINT = /^https:\/\/formspree\.io\/f\/[A-Za-z0-9]+$/;
-
-/** Accepts only a real Formspree form URL. Anything else is treated as not configured. */
-export function parseFormspreeEndpoint(raw: unknown): string | null {
-  if (typeof raw !== "string") return null;
-  const trimmed = raw.trim();
-  return FORMSPREE_ENDPOINT.test(trimmed) ? trimmed : null;
-}
+export { parseFormspreeEndpoint };
 
 export type InterestSubmitDecision =
   | { readonly action: "blocked"; readonly reason: "ineligible" }

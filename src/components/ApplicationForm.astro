@@ -1,10 +1,21 @@
 ---
+import { getPublicEmail, siteConfig } from "../config/site";
 import { getAvailablePuppyOptions } from "../data/puppies";
+import { parseFormspreeEndpoint } from "../lib/formDelivery";
 
 const puppies = getAvailablePuppyOptions();
+const formspreeEndpoint = parseFormspreeEndpoint(import.meta.env.PUBLIC_FORMSPREE_APPLICATION_ENDPOINT);
+const publicEmail = getPublicEmail().address ?? "angelbulldogs7@gmail.com";
 ---
 
-<form class="form" data-application-form novalidate>
+<form
+  class="form"
+  data-application-form
+  data-prototype-mode={siteConfig.prototypeMode ? "true" : "false"}
+  data-endpoint={formspreeEndpoint ?? ""}
+  data-public-email={publicEmail}
+  novalidate
+>
   <fieldset class="fieldset">
     <legend>About you</legend>
     <div class="form-grid form-grid--2">
@@ -234,11 +245,14 @@ const puppies = getAvailablePuppyOptions();
         <label class="check">
           <input type="checkbox" name="privacyAck" required />
           <span>
-            I understand this privacy acknowledgement is a prototype placeholder and must be reviewed by
-            Angel Bulldogs’ owner and legal counsel before public launch.
+            I understand Angel Bulldogs will use the details I provide only to review my application and
+            follow up about placement. I should not include a street address or payment information.
           </span>
         </label>
-        <p class="field__hint">Owner/legal review required before launch. Do not treat this wording as an approved privacy policy.</p>
+        <p class="field__hint">
+          This is a practical consent notice, not a full privacy policy. Owner/legal review is still
+          recommended for a published Privacy page.
+        </p>
         <p class="field__error" data-error hidden></p>
       </div>
     </div>
@@ -254,6 +268,7 @@ const puppies = getAvailablePuppyOptions();
 </form>
 
 <script>
+  import { parseFormspreeEndpoint } from "../lib/formDelivery";
   import { initPrototypeForm, populateSelectFromQuery } from "../scripts/prototype-form";
 
   const form = document.querySelector<HTMLFormElement>("[data-application-form]");
@@ -262,13 +277,18 @@ const puppies = getAvailablePuppyOptions();
   const unknown = form?.querySelector<HTMLElement>("[data-unknown-puppy]");
   const ownRent = form?.querySelector<HTMLSelectElement>("[data-own-rent]");
   const petsPermitted = form?.querySelector<HTMLSelectElement>("[data-pets-permitted]");
+  const publicEmail = form?.dataset.publicEmail ?? "angelbulldogs7@gmail.com";
 
   if (form && notice) {
     initPrototypeForm({
       form,
       notice,
-      message:
-        "Frontend preview only — application delivery will be connected before launch.",
+      endpoint: parseFormspreeEndpoint(form.dataset.endpoint),
+      prototypeMode: form.dataset.prototypeMode === "true",
+      unavailableMessage: `Application delivery is not connected yet, so nothing was sent. Please email ${publicEmail} for now.`,
+      successMessage:
+        "Thank you — your application was sent to Angel Bulldogs. A team member will follow up personally. Submitting does not reserve a puppy.",
+      errorMessage: `Something went wrong and your application was not sent. Your details are still in the form — please try again or email ${publicEmail}.`,
     });
   }
 

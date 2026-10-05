@@ -68,24 +68,22 @@ const { address } = getPublicEmail();
         <li>It does not create a public profile or login for applicants.</li>
         <li>It does not process payments on this website.</li>
       </ul>
-      <p>
-        This page does not claim specific retention periods, analytics vendors, certifications, or
-        legal designations beyond the delivery methods described above.
-      </p>
 
       <h2>Contact</h2>
       <p>
-        Questions about this policy or a submission you made can be sent by email
         {
           address ? (
             <>
-              to <a href={`mailto:${address}`}>{address}</a>
+              Questions about this policy or a submission you made can be sent by email to{" "}
+              <a href={`mailto:${address}`}>{address}</a>.
             </>
           ) : (
-            <> through the Contact page</>
+            <>
+              Questions about this policy or a submission you made can be sent through the{" "}
+              <a href="/contact">Contact</a> page.
+            </>
           )
         }
-        .
       </p>
       <p>
         <a href="/contact">Contact Angel Bulldogs</a>

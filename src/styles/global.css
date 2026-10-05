@@ -1370,10 +1370,17 @@ figure {
 @media (min-width: 640px) {
   .form-grid--2 {
     grid-template-columns: 1fr 1fr;
+    align-items: start;
   }
 
   .form-grid--2 .full {
     grid-column: 1 / -1;
+  }
+
+  /* Keep side-by-side controls level when one label wraps to two lines. */
+  .form-grid--2 > .field:not(.full) > .field__label {
+    line-height: 1.35;
+    min-height: calc(1.35em * 2);
   }
 
   .btn--full-mobile {

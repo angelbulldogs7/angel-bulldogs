@@ -45,3 +45,15 @@ const sire = getSire();
     </div>
   </div>
 </section>
+
+{
+  currentLitter.gallery.length > 0 && (
+    <div class="gallery litter-intro__gallery" aria-label="More photos from Bella’s first litter">
+      {currentLitter.gallery.map((image) => (
+        <div class="media-frame aspect-landscape">
+          <MediaImage src={image.src} alt={image.alt} width={image.width} height={image.height} />
+        </div>
+      ))}
+    </div>
+  )
+}

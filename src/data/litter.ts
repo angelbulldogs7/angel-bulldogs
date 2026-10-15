@@ -11,7 +11,7 @@ export const currentLitter = {
   lede: "These puppies are from Bella’s first litter, raised in our Chicago home. Dam and sire details appear on each puppy card.",
   hero: {
     src: "/images/puppies/litter-1/hero.jpg",
-    alt: "Bella’s first litter resting together in their whelping box",
+    alt: "Bella’s first litter resting together on their bed",
     width: 1600,
     height: 1200,
     kind: "image",
@@ -19,21 +19,14 @@ export const currentLitter = {
   gallery: [
     {
       src: "/images/puppies/litter-1/gallery-01.jpg",
-      alt: "Two puppies from Bella’s first litter resting together",
+      alt: "Bella touching noses with a puppy from her first litter",
       width: 1200,
       height: 900,
       kind: "image",
     },
     {
       src: "/images/puppies/litter-1/gallery-02.jpg",
-      alt: "Puppies from Bella’s first litter on their paw-print blanket",
-      width: 1200,
-      height: 900,
-      kind: "image",
-    },
-    {
-      src: "/images/puppies/litter-1/gallery-03.jpg",
-      alt: "Close view of puppies from Bella’s first litter",
+      alt: "Bella resting close with a puppy from her first litter",
       width: 1200,
       height: 900,
       kind: "image",

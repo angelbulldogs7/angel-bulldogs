@@ -995,6 +995,10 @@ figure {
   margin-top: 0.25rem;
 }
 
+.litter-intro__gallery {
+  margin-top: 1.25rem;
+}
+
 @media (min-width: 800px) {
   .litter-intro {
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
@@ -1004,6 +1008,10 @@ figure {
   .litter-intro__parents {
     grid-template-columns: 1fr 1fr;
     gap: 1.25rem;
+  }
+
+  .litter-intro__gallery {
+    margin-top: 1.75rem;
   }
 }
 

@@ -9,8 +9,8 @@ export const parents: Parent[] = [
     dateOfBirth: "2024-12-23",
     coat: "New Shade Isabella Merle Fluffy",
     portrait: {
-      src: "/placeholders/bella-portrait.svg",
-      alt: "Placeholder for a portrait of Bella, 4:5",
+      src: "/images/bella/portrait.jpg",
+      alt: "Bella, a New Shade Isabella Merle Fluffy French Bulldog, looking up at the camera",
       width: 800,
       height: 1000,
       kind: "image",

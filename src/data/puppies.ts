@@ -5,6 +5,9 @@ import type { Puppy } from "./types";
  *
  * Sex is filled from typical naming for these records — confirm before launch.
  * Color and coat labels below are the owner-provided colorways for this litter.
+ *
+ * Gallery order: Finder Blue-tagged portraits first, then supporting angles
+ * (three-quarter, profile, personality) following common Frenchie listing practice.
  */
 export const puppies: Puppy[] = [
   {
@@ -31,14 +34,21 @@ export const puppies: Puppy[] = [
     gallery: [
       {
         src: "/images/puppies/aspy/gallery-01.jpg",
-        alt: "Aspy sitting in profile on a paw-print blanket",
+        alt: "Aspy in a three-quarter view on her paw-print bed",
         width: 800,
         height: 1000,
         kind: "image",
       },
       {
         src: "/images/puppies/aspy/gallery-02.jpg",
-        alt: "Another view of Aspy’s merle coat and blue eyes",
+        alt: "Aspy standing and facing the camera",
+        width: 800,
+        height: 1000,
+        kind: "image",
+      },
+      {
+        src: "/images/puppies/aspy/gallery-03.jpg",
+        alt: "Aspy in profile on her bed",
         width: 800,
         height: 1000,
         kind: "image",
@@ -65,7 +75,7 @@ export const puppies: Puppy[] = [
     sireId: "sire",
     primaryImage: {
       src: "/images/puppies/chloe/primary.jpg",
-      alt: "Chloe, a New Shade Isabella Pied French Bulldog puppy, sitting and looking upward",
+      alt: "Chloe, a New Shade Isabella Pied French Bulldog puppy, sitting and looking to the side",
       width: 800,
       height: 1000,
       kind: "image",
@@ -73,13 +83,20 @@ export const puppies: Puppy[] = [
     gallery: [
       {
         src: "/images/puppies/chloe/gallery-01.jpg",
-        alt: "Chloe sitting with her back toward the camera",
+        alt: "Chloe sitting on her bed and looking to the right",
         width: 800,
         height: 1000,
         kind: "image",
       },
       {
         src: "/images/puppies/chloe/gallery-02.jpg",
+        alt: "Chloe sitting toward the camera with an alert expression",
+        width: 800,
+        height: 1000,
+        kind: "image",
+      },
+      {
+        src: "/images/puppies/chloe/gallery-03.jpg",
         alt: "Chloe standing in profile on her blanket",
         width: 800,
         height: 1000,
@@ -107,7 +124,7 @@ export const puppies: Puppy[] = [
     sireId: "sire",
     primaryImage: {
       src: "/images/puppies/coco/primary.jpg",
-      alt: "Coco, a New Shade Rojo Merle French Bulldog puppy, sitting in profile",
+      alt: "Coco, a New Shade Rojo Merle French Bulldog puppy, looking toward the camera",
       width: 800,
       height: 1000,
       kind: "image",
@@ -115,21 +132,21 @@ export const puppies: Puppy[] = [
     gallery: [
       {
         src: "/images/puppies/coco/gallery-01.jpg",
-        alt: "Coco’s merle coat in a full side view",
+        alt: "Coco standing in full-body profile on her bed",
         width: 800,
         height: 1000,
         kind: "image",
       },
       {
         src: "/images/puppies/coco/gallery-02.jpg",
-        alt: "Another portrait of Coco on the paw-print blanket",
+        alt: "Coco in a three-quarter view at the edge of her bed",
         width: 800,
         height: 1000,
         kind: "image",
       },
       {
         src: "/images/puppies/coco/gallery-03.jpg",
-        alt: "Coco looking across the pen",
+        alt: "Coco sitting and looking across the room",
         width: 800,
         height: 1000,
         kind: "image",
@@ -164,21 +181,21 @@ export const puppies: Puppy[] = [
     gallery: [
       {
         src: "/images/puppies/hamilton/gallery-01.jpg",
-        alt: "Hamilton standing in three-quarter view",
+        alt: "Hamilton sitting and looking toward the camera",
         width: 800,
         height: 1000,
         kind: "image",
       },
       {
         src: "/images/puppies/hamilton/gallery-02.jpg",
-        alt: "Hamilton on the litter blanket",
+        alt: "Hamilton with a slight head tilt toward the light",
         width: 800,
         height: 1000,
         kind: "image",
       },
       {
         src: "/images/puppies/hamilton/gallery-03.jpg",
-        alt: "Another photo of Hamilton from Bella’s litter",
+        alt: "Hamilton sitting in profile on the litter blanket",
         width: 800,
         height: 1000,
         kind: "image",
@@ -213,21 +230,21 @@ export const puppies: Puppy[] = [
     gallery: [
       {
         src: "/images/puppies/romeo/gallery-01.jpg",
-        alt: "Romeo standing in three-quarter profile",
+        alt: "Romeo sitting and looking upward in bright window light",
         width: 800,
         height: 1000,
         kind: "image",
       },
       {
         src: "/images/puppies/romeo/gallery-02.jpg",
-        alt: "Romeo on the paw-print blanket",
+        alt: "Romeo standing in three-quarter profile",
         width: 800,
         height: 1000,
         kind: "image",
       },
       {
         src: "/images/puppies/romeo/gallery-03.jpg",
-        alt: "Another portrait of Romeo from Bella’s litter",
+        alt: "Romeo sitting with a soft head tilt toward the camera",
         width: 800,
         height: 1000,
         kind: "image",

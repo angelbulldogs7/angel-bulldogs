@@ -1048,7 +1048,8 @@ figure {
 
 .puppy-card__media {
   position: relative;
-  aspect-ratio: 4 / 5;
+  /* 4:3 so full landscape litter photos show without feeling cropped. */
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--color-cream);
 }
@@ -1226,7 +1227,7 @@ figure {
   border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--color-cream);
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 4 / 3;
   cursor: pointer;
 }
 

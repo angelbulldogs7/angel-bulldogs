@@ -30,6 +30,6 @@ export const currentLitter = {
       width: 1200,
       height: 900,
       kind: "image",
-    },
+    }
   ] as const satisfies readonly MediaAsset[],
 } as const;

@@ -1056,7 +1056,8 @@ figure {
 .puppy-card__photo {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  /* Contain so litter exports never clip ears/paws at card edges. */
+  object-fit: contain;
   object-position: center;
   background: var(--color-cream);
 }
@@ -1232,7 +1233,7 @@ figure {
 .gallery__thumb img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   display: block;
   background: var(--color-cream);

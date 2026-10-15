@@ -5,9 +5,9 @@ Order per puppy:
 1. Final Stenci photos (Blue-tagged preferred primary first)
 2. Old original-site photos from tmp/puppy-source (always last)
 
-All exports use fit-contain into a 4:3 cream canvas so the FULL photo is
-visible. Filenames are versioned (v3-*) to bust CDN/browser caches of older
-cropped primary.jpg / gallery-*.jpg assets.
+All exports use center-biased cover into a 4:3 frame so every card/thumb
+fills edge-to-edge (no cream letterboxing). Filenames are versioned (v4-*)
+to bust CDN/browser caches of older letterboxed v3 assets.
 """
 
 from __future__ import annotations
@@ -27,10 +27,9 @@ ARW_CACHE = ROOT / "tmp/stenci-arw-jpg"
 OUT = ROOT / "public/images"
 MANIFEST = ROOT / "tmp/stenci-export-manifest.json"
 JPEG_QUALITY = 88
-PAD = (245, 240, 232)
-# 4:3 — matches the “whole photo” letterbox look families prefer on cards.
+# 4:3 full-bleed — cards and thumbs fill the frame with no letterboxing.
 PUPPY_SIZE = (1200, 900)
-VERSION = "v3"
+VERSION = "v4"
 
 KNOWN_BLUE = {
     "Aspy/DSC03500.JPG",
@@ -139,20 +138,22 @@ def finder_tags(path: Path) -> list[str]:
     return []
 
 
-def fit_contain(img: Image.Image, size: tuple[int, int]) -> Image.Image:
+def fit_cover(img: Image.Image, size: tuple[int, int]) -> Image.Image:
+    """Scale to cover the target, then crop. Bias slightly upward for faces."""
     tw, th = size
-    scale = min(tw / img.width, th / img.height)
+    scale = max(tw / img.width, th / img.height)
     nw = max(1, int(round(img.width * scale)))
     nh = max(1, int(round(img.height * scale)))
     resized = img.resize((nw, nh), Image.Resampling.LANCZOS)
-    canvas = Image.new("RGB", size, PAD)
-    canvas.paste(resized, ((tw - nw) // 2, (th - nh) // 2))
-    return canvas
+    left = (nw - tw) // 2
+    # 0.35 keeps heads in frame better than pure center for tall litter shots.
+    top = max(0, min(nh - th, int((nh - th) * 0.35)))
+    return resized.crop((left, top, left + tw, top + th))
 
 
 def export(img: Image.Image, dest: Path, size: tuple[int, int]) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
-    fit_contain(img, size).save(dest, "JPEG", quality=JPEG_QUALITY, optimize=True, progressive=True)
+    fit_cover(img, size).save(dest, "JPEG", quality=JPEG_QUALITY, optimize=True, progressive=True)
     print(f"wrote {dest.relative_to(ROOT)} ({size[0]}x{size[1]})")
 
 

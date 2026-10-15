@@ -9,7 +9,7 @@ export const parents: Parent[] = [
     dateOfBirth: "2024-12-23",
     coat: "New Shade Isabella Merle Fluffy",
     portrait: {
-      src: "/images/bella/v3-portrait.jpg",
+      src: "/images/bella/v4-portrait.jpg",
       alt: "Bella, a New Shade Isabella Merle Fluffy French Bulldog, looking up at the camera",
       width: 800,
       height: 1000,

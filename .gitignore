@@ -44,3 +44,4 @@ tools/puppy-image-pipeline/outputs/review/gallery.html
 **/__pycache__/
 **/*.egg-info/
 tools/puppy-image-pipeline/outputs/
+.venv

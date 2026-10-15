@@ -209,15 +209,14 @@ const homeGallery = [
             <p>{sire.intro}</p>
           ) : (
             <p>
-              The sire appears here as supporting lineage for Bella’s puppies. His verified name
-              and details will replace this placeholder when they are supplied.
+              {displayParentName(sire)} is the sire of Bella’s puppies. Photos and additional
+              details will appear here when they are available.
             </p>
           )
         }
         {
           sire.coat && <p>Coat: {sire.coat}</p>
         }
-        <p class="dev-notice">Add verified sire details in src/data/parents.ts</p>
       </div>
     </div>
   </section>

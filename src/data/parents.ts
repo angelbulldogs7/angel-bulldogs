@@ -32,22 +32,21 @@ export const parents: Parent[] = [
   },
   {
     id: "sire",
-    name: "",
+    name: "Kiki",
     role: "sire",
-    // TODO: Add the sire’s verified name.
     origin: null,
-    // TODO: Add the sire’s verified date of birth (ISO YYYY-MM-DD).
+    // TODO: Add Kiki’s verified date of birth (ISO YYYY-MM-DD).
     dateOfBirth: null,
-    // TODO: Add the sire’s verified coat description.
+    // TODO: Add Kiki’s verified coat description.
     coat: null,
     portrait: {
       src: "/placeholders/stud-portrait.svg",
-      alt: "Placeholder for a portrait of the sire, 4:5",
+      alt: "Placeholder for a portrait of Kiki, the sire",
       width: 800,
       height: 1000,
       kind: "image",
     },
-    intro: null,
+    intro: "Kiki is the sire of Bella’s puppies. Photos and additional details will appear here when they are available.",
     highlights: [],
     registration: null,
     healthTesting: null,

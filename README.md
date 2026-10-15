@@ -90,9 +90,9 @@ Set `video` on the puppy record to a local file path, width, height, and alt tex
 
 Edit the `bella` object in `src/data/parents.ts`. Only fill fields that are verified. Leave unknown facts `null` and keep the TODOs.
 
-### Add the sire’s verified information
+### Update the sire (Kiki)
 
-Edit the `sire` object in `src/data/parents.ts`. The public label stays **The Sire** until `name` is set. Do not invent coat, DNA, registration, titles, or health details.
+Edit the `sire` object in `src/data/parents.ts`. His public name is **Kiki**. Add photos and other details only when verified. Leave unknown facts `null` and keep the TODOs. Do not invent coat, DNA, registration, titles, or health details.
 
 ### Set the public email and future domain
 

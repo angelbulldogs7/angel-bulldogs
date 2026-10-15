@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Export EVERY Final Stenci photo for the Angel Bulldogs site.
+"""Export puppy photos for Angel Bulldogs.
 
-Rules:
-- Include all JPG/JPEG files and embedded JPEG previews from every ARW.
-- Never crop the subject out: fit the full image into the target canvas with
-  cream padding (contain), centered.
-- Finder Blue-tagged shots come first (primary / early gallery), then the rest
-  in filename order.
+Order per puppy:
+1. Every Final Stenci photo (Blue-tagged preferred primary first)
+2. Old original-site photos from tmp/puppy-source (appended at the end)
+
+All exports use fit-contain into a 4:5 cream canvas so the full photo is
+visible and nothing is cropped out. New filenames (s-XX / o-XX) avoid CDN
+cache of older cropped exports at primary.jpg / gallery-NN.jpg.
 """
 
 from __future__ import annotations
@@ -21,13 +22,14 @@ from PIL import Image, ImageOps
 
 ROOT = Path("/Users/mojsa/Desktop/Puppy Website")
 STENCI = Path("/Users/mojsa/Desktop/Final Stenci")
+OLD_SRC = ROOT / "tmp/puppy-source"
 ARW_CACHE = ROOT / "tmp/stenci-arw-jpg"
 OUT = ROOT / "public/images"
 MANIFEST = ROOT / "tmp/stenci-export-manifest.json"
 JPEG_QUALITY = 88
 PAD = (245, 240, 232)
+PUPPY_SIZE = (800, 1000)
 
-# Known Blue tags from the Final Stenci set (Finder tags). Used when xattr is unavailable.
 KNOWN_BLUE = {
     "Aspy/DSC03500.JPG",
     "Aspy/DSC03502.ARW",
@@ -58,57 +60,32 @@ KNOWN_BLUE = {
     "coco/DSC03906.ARW",
 }
 
-# Folder on disk -> site slug / output dir / canvas
-DOG_SPECS: dict[str, dict] = {
+# Final Stenci folder -> site slug, old-source folder, preferred primary filename
+PUPPIES: dict[str, dict] = {
     "Aspy": {
         "slug": "aspy",
-        "out": "puppies/aspy",
-        "size": (800, 1000),
-        "kind": "puppy",
+        "old": "Aspy",
         "preferred_primary": "DSC03722.JPG",
     },
     "Chloe": {
         "slug": "chloe",
-        "out": "puppies/chloe",
-        "size": (800, 1000),
-        "kind": "puppy",
+        "old": "Chloe",
         "preferred_primary": "DSC03308.JPG",
     },
     "coco": {
         "slug": "coco",
-        "out": "puppies/coco",
-        "size": (800, 1000),
-        "kind": "puppy",
+        "old": "Coco",
         "preferred_primary": "DSC03894.ARW",
     },
     "Hami": {
         "slug": "hamilton",
-        "out": "puppies/hamilton",
-        "size": (800, 1000),
-        "kind": "puppy",
-        # Full-body blue shot — DSC03171 is a tight face crop in-camera.
+        "old": "Hamilton",
         "preferred_primary": "DSC03186.JPG",
     },
     "Romeo": {
         "slug": "romeo",
-        "out": "puppies/romeo",
-        "size": (800, 1000),
-        "kind": "puppy",
+        "old": "Romeo",
         "preferred_primary": "DSC03489.JPG",
-    },
-    "Litter 1": {
-        "slug": "litter-1",
-        "out": "puppies/litter-1",
-        "size": (1600, 1200),
-        "kind": "litter",
-        "preferred_primary": "DSC03963.JPG",
-    },
-    "Bella": {
-        "slug": "bella",
-        "out": "bella",
-        "size": (1200, 800),
-        "kind": "bella",
-        "preferred_primary": "DSC04040.JPG",
     },
 }
 
@@ -181,7 +158,6 @@ def finder_tags(path: Path) -> list[str]:
 
 
 def fit_contain(img: Image.Image, size: tuple[int, int]) -> Image.Image:
-    """Scale the full image to fit inside the canvas. Never crops the subject."""
     tw, th = size
     scale = min(tw / img.width, th / img.height)
     nw = max(1, int(round(img.width * scale)))
@@ -198,11 +174,10 @@ def export(img: Image.Image, dest: Path, size: tuple[int, int]) -> None:
     print(f"wrote {dest.relative_to(ROOT)} ({size[0]}x{size[1]})")
 
 
-def list_sources(folder: str, preferred_primary: str | None = None) -> list[Path]:
-    src_dir = STENCI / folder
+def list_stenci(folder: str, preferred_primary: str | None) -> list[Path]:
     files = [
         p
-        for p in src_dir.iterdir()
+        for p in (STENCI / folder).iterdir()
         if p.suffix.lower() in {".jpg", ".jpeg", ".arw"} and p.is_file()
     ]
 
@@ -215,75 +190,139 @@ def list_sources(folder: str, preferred_primary: str | None = None) -> list[Path
     return sorted(files, key=sort_key)
 
 
-def bella_size_for(index: int, total: int) -> tuple[int, int]:
-    # First (blue portrait preference): 4:5 portrait; rest: 3:2 lifestyle.
-    if index == 0:
-        return (800, 1000)
-    return (1200, 800)
+def list_old(old_folder: str) -> list[Path]:
+    src = OLD_SRC / old_folder
+    if not src.exists():
+        return []
+    return sorted(
+        p for p in src.iterdir() if p.suffix.lower() in {".jpg", ".jpeg"} and p.is_file()
+    )
 
 
-def litter_size_for(index: int) -> tuple[int, int]:
-    if index == 0:
-        return (1600, 1200)
-    return (1200, 900)
+def clear_dir(path: Path) -> None:
+    if not path.exists():
+        return
+    for file in path.rglob("*"):
+        if file.is_file() and file.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"}:
+            file.unlink()
 
 
-def clear_outputs() -> None:
-    for folder in (OUT / "puppies", OUT / "bella"):
-        if not folder.exists():
-            continue
-        for path in folder.rglob("*"):
-            if path.is_file() and path.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"}:
-                path.unlink()
+def export_litter_and_bella() -> dict[str, list[dict]]:
+    """Litter + Bella keep dedicated folders; still fit-contain, new names."""
+    result: dict[str, list[dict]] = {}
+
+    # Litter 1 — Final Stenci only (free photos); also append old Litter1 at end
+    litter_entries: list[dict] = []
+    litter_out = OUT / "puppies/litter-1"
+    clear_dir(litter_out)
+    stenci_litter = list_stenci("Litter 1", "DSC03963.JPG")
+    for i, src in enumerate(stenci_litter):
+        size = (1600, 1200) if i == 0 else (1200, 900)
+        name = "hero.jpg" if i == 0 else f"s-{i:02d}.jpg"
+        export(load(resolve_source(src)), litter_out / name, size)
+        litter_entries.append(
+            {
+                "source": f"Litter 1/{src.name}",
+                "group": "stenci",
+                "blue": "Blue" in finder_tags(src),
+                "dest": f"/images/puppies/litter-1/{name}",
+                "width": size[0],
+                "height": size[1],
+            }
+        )
+    for j, src in enumerate(list_old("Litter1"), start=1):
+        size = (1200, 900)
+        name = f"o-{j:02d}.jpg"
+        export(load(src), litter_out / name, size)
+        litter_entries.append(
+            {
+                "source": f"old/Litter1/{src.name}",
+                "group": "old",
+                "blue": False,
+                "dest": f"/images/puppies/litter-1/{name}",
+                "width": size[0],
+                "height": size[1],
+            }
+        )
+    result["litter-1"] = litter_entries
+
+    # Bella
+    bella_out = OUT / "bella"
+    clear_dir(bella_out)
+    bella_entries: list[dict] = []
+    for i, src in enumerate(list_stenci("Bella", "DSC04040.JPG")):
+        size = (800, 1000) if i == 0 else (1200, 800)
+        if i == 0:
+            name = "portrait.jpg"
+        elif i == 1:
+            name = "lifestyle.jpg"
+        else:
+            name = f"home-{i - 1:02d}.jpg"
+        export(load(resolve_source(src)), bella_out / name, size)
+        bella_entries.append(
+            {
+                "source": f"Bella/{src.name}",
+                "group": "stenci",
+                "blue": True,
+                "dest": f"/images/bella/{name}",
+                "width": size[0],
+                "height": size[1],
+            }
+        )
+    result["bella"] = bella_entries
+    return result
 
 
 def main() -> None:
-    clear_outputs()
     manifest: dict[str, list[dict]] = {}
 
-    for folder, spec in DOG_SPECS.items():
-        sources = list_sources(folder, spec.get("preferred_primary"))
-        if not sources:
-            raise SystemExit(f"no sources in {folder}")
+    for folder, spec in PUPPIES.items():
+        slug = spec["slug"]
+        out_dir = OUT / "puppies" / slug
+        clear_dir(out_dir)
         entries: list[dict] = []
-        for i, src in enumerate(sources):
-            tags = finder_tags(src)
-            resolved = resolve_source(src)
-            img = load(resolved)
-            if spec["kind"] == "bella":
-                size = bella_size_for(i, len(sources))
-                if i == 0:
-                    name = "portrait.jpg"
-                elif i == 1:
-                    name = "lifestyle.jpg"
-                else:
-                    name = f"home-{i - 1:02d}.jpg"
-            elif spec["kind"] == "litter":
-                size = litter_size_for(i)
-                name = "hero.jpg" if i == 0 else f"gallery-{i:02d}.jpg"
-            else:
-                size = spec["size"]
-                name = "primary.jpg" if i == 0 else f"gallery-{i:02d}.jpg"
 
-            dest = OUT / spec["out"] / name
-            export(img, dest, size)
+        # 1) Final Stenci first
+        stenci_files = list_stenci(folder, spec.get("preferred_primary"))
+        for i, src in enumerate(stenci_files, start=1):
+            name = "primary.jpg" if i == 1 else f"s-{i - 1:02d}.jpg"
+            export(load(resolve_source(src)), out_dir / name, PUPPY_SIZE)
             entries.append(
                 {
                     "source": f"{folder}/{src.name}",
-                    "tags": tags,
-                    "blue": "Blue" in tags,
-                    "dest": f"/images/{spec['out']}/{name}",
-                    "width": size[0],
-                    "height": size[1],
-                    "index": i,
+                    "group": "stenci",
+                    "blue": "Blue" in finder_tags(src),
+                    "dest": f"/images/puppies/{slug}/{name}",
+                    "width": PUPPY_SIZE[0],
+                    "height": PUPPY_SIZE[1],
                 }
             )
-        manifest[spec["slug"]] = entries
-        print(f"{folder}: {len(entries)} photos (blue first: {[e['source'] for e in entries if e['blue']]})")
 
+        # 2) Old original-site photos last
+        for j, src in enumerate(list_old(spec["old"]), start=1):
+            name = f"o-{j:02d}.jpg"
+            export(load(src), out_dir / name, PUPPY_SIZE)
+            entries.append(
+                {
+                    "source": f"old/{spec['old']}/{src.name}",
+                    "group": "old",
+                    "blue": False,
+                    "dest": f"/images/puppies/{slug}/{name}",
+                    "width": PUPPY_SIZE[0],
+                    "height": PUPPY_SIZE[1],
+                }
+            )
+
+        manifest[slug] = entries
+        stenci_n = sum(1 for e in entries if e["group"] == "stenci")
+        old_n = sum(1 for e in entries if e["group"] == "old")
+        print(f"{slug}: {stenci_n} Final Stenci + {old_n} old = {len(entries)}")
+
+    manifest.update(export_litter_and_bella())
     MANIFEST.parent.mkdir(parents=True, exist_ok=True)
     MANIFEST.write_text(json.dumps(manifest, indent=2))
     print(f"wrote {MANIFEST.relative_to(ROOT)}")
+    print("TOTAL", sum(len(v) for v in manifest.values()))
 
 
 if __name__ == "__main__":

@@ -29,6 +29,8 @@ interface NewsletterJson {
     | "rejected"
     | "unconfirmed_after_network_failure";
   message: string;
+  /** Safe owner-facing code only; never includes secrets or upstream bodies. */
+  reasonCode?: "config" | "brevo_auth" | "brevo_upstream";
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -185,6 +187,7 @@ export async function onRequest(context: {
       {
         ok: false,
         state: "unavailable",
+        reasonCode: "config",
         message: UNAVAILABLE_MESSAGE,
       },
       503,
@@ -265,6 +268,7 @@ export async function onRequest(context: {
         {
           ok: false,
           state: "unavailable",
+          reasonCode: "brevo_auth",
           message: UNAVAILABLE_MESSAGE,
         },
         503,
@@ -297,6 +301,7 @@ export async function onRequest(context: {
       {
         ok: false,
         state: "rejected",
+        reasonCode: "brevo_upstream",
         message:
           "Something went wrong and confirmation could not be started. Your email is still available to try again, or you can use Contact.",
       },

@@ -1,9 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import BellaStory from "../components/BellaStory.astro";
 import CtaBanner from "../components/CtaBanner.astro";
 import MediaImage from "../components/MediaImage.astro";
 import { formatDate } from "../utils/format";
 import { displayParentName, getDam, getSire } from "../data/parents";
+import { getBellaStoryPortrait } from "../data/bellaMedia";
 import {
   BELLA_LITTER_LIMIT_COPY,
   BELLA_PERSONALITY_COPY,
@@ -13,70 +15,34 @@ import {
 
 const bella = getDam();
 const sire = getSire();
+const storyPortrait = getBellaStoryPortrait();
 const facts = [
   { label: "Name", value: bella.name },
   { label: "Origin", value: bella.origin },
   { label: "Date of birth", value: bella.dateOfBirth ? formatDate(bella.dateOfBirth) : null },
   { label: "Coat", value: bella.coat },
 ].filter((fact): fact is { label: string; value: string } => Boolean(fact.value));
-
-const homeGallery = [
-  {
-    src: "/images/bella/v5-lifestyle.jpg",
-    alt: "Bella sitting on her bed at home in Chicago",
-    width: 1200,
-    height: 800,
-  },
-  {
-    src: "/images/bella/v5-home-01.jpg",
-    alt: "Bella at home interacting with her family",
-    width: 1200,
-    height: 800,
-  },
-  {
-    src: "/images/bella/v5-home-02.jpg",
-    alt: "Bella standing in profile on her bed",
-    width: 1200,
-    height: 800,
-  },
-  {
-    src: "/images/bella/v5-home-03.jpg",
-    alt: "Bella standing and looking upward on her bed",
-    width: 1200,
-    height: 800,
-  },
-  {
-    src: "/images/bella/v5-home-04.jpg",
-    alt: "Bella looking up toward the camera at home",
-    width: 1200,
-    height: 800,
-  },
-];
 ---
 
 <BaseLayout
   title="Meet Bella | Angel Bulldogs"
   description="Meet Bella, the heart of Angel Bulldogs. A French Bulldog from Serbia who shares life with her family in Chicago."
   path="/bella"
-  ogImage={bella.portrait?.src}
-  imageAlt={bella.portrait?.alt}
+  ogImage={storyPortrait.viewer.src}
+  imageAlt={storyPortrait.alt}
 >
   <section class="section">
     <div class="container split split--2">
-      {
-        bella.portrait && (
-          <div class="media-frame aspect-portrait">
-            <MediaImage
-              src={bella.portrait.src}
-              alt={bella.portrait.alt}
-              width={bella.portrait.width}
-              height={bella.portrait.height}
-              loading="eager"
-              fetchpriority="high"
-            />
-          </div>
-        )
-      }
+      <div class="bella-frame bella-frame--natural bella-intro-portrait">
+        <MediaImage
+          src={storyPortrait.viewer.src}
+          alt={storyPortrait.alt}
+          width={storyPortrait.viewer.width}
+          height={storyPortrait.viewer.height}
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
       <div>
         <p class="eyebrow">The heart of Angel Bulldogs</p>
         <h1>Our angel, Bella</h1>
@@ -110,22 +76,7 @@ const homeGallery = [
     </div>
   </section>
 
-  <section class="section section--cream">
-    <div class="container reveal" data-reveal>
-      <p class="eyebrow">At home</p>
-      <h2>Life with Bella</h2>
-      <p class="lede measure">Quiet days in Chicago, and the first litter she raised beside us.</p>
-      <div class="gallery">
-        {
-          homeGallery.map((image) => (
-            <div class="media-frame aspect-landscape">
-              <MediaImage src={image.src} alt={image.alt} width={image.width} height={image.height} />
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
+  <BellaStory />
 
   <section class="section">
     <div class="container measure reveal" data-reveal>

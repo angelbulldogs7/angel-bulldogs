@@ -1,0 +1,191 @@
+---
+import BellaMosaicTile from "./BellaMosaicTile.astro";
+import {
+  getBellaItemById,
+  getBellaPhotos,
+  type BellaPhotoItem,
+} from "../data/bellaMedia";
+
+const younger = getBellaPhotos("younger-days");
+const celebrations = getBellaPhotos("little-celebrations");
+const everyday = getBellaPhotos("everyday");
+const serbiaPhoto = getBellaPhotos("serbia")[0];
+const serbiaVideo = getBellaItemById("S02");
+if (!serbiaPhoto) throw new Error("Serbia photo (S01) is missing");
+if (!serbiaVideo || serbiaVideo.kind !== "video") {
+  throw new Error("Serbia video (S02) is missing");
+}
+
+function photo(id: string, collection: BellaPhotoItem[]): BellaPhotoItem {
+  const item = collection.find((entry) => entry.id === id);
+  if (!item) throw new Error(`Missing Bella photo ${id}`);
+  return item;
+}
+
+const videoAspect = serbiaVideo.video.width / serbiaVideo.video.height;
+const photoAspect = serbiaPhoto.preview.width / serbiaPhoto.preview.height;
+---
+
+<section class="section section--cream bella-story" aria-labelledby="bella-story-title">
+  <div class="container">
+    <div class="measure reveal" data-reveal>
+      <p class="eyebrow">Photo story</p>
+      <h2 id="bella-story-title">Life with Bella</h2>
+      <p class="lede">
+        Moments from her puppy days, little celebrations, everyday life, and a visit in Serbia.
+      </p>
+    </div>
+
+    <div class="bella-story__chapters">
+      <article
+        id="bella-album-younger-days"
+        class="bella-album reveal"
+        data-reveal
+        aria-labelledby="bella-album-younger-days-title"
+      >
+        <header class="bella-album__header">
+          <h3 id="bella-album-younger-days-title">Younger days</h3>
+          <p>A few moments from Bella's puppy days.</p>
+        </header>
+        <div class="bella-mosaic">
+          <div class="bella-row">
+            <BellaMosaicTile item={photo("Y03", younger)} />
+            <BellaMosaicTile item={photo("Y05", younger)} />
+            <BellaMosaicTile item={photo("Y07", younger)} />
+          </div>
+          <div class="bella-row">
+            <BellaMosaicTile item={photo("Y01", younger)} />
+            <BellaMosaicTile item={photo("Y04", younger)} />
+            <BellaMosaicTile item={photo("Y02", younger)} />
+            <BellaMosaicTile item={photo("Y06", younger)} />
+          </div>
+        </div>
+      </article>
+
+      <article
+        id="bella-album-little-celebrations"
+        class="bella-album reveal"
+        data-reveal
+        aria-labelledby="bella-album-little-celebrations-title"
+      >
+        <header class="bella-album__header">
+          <h3 id="bella-album-little-celebrations-title">Little celebrations</h3>
+          <p>Her first birthday and New Year's memories.</p>
+        </header>
+        <div class="bella-mosaic">
+          <div class="bella-row">
+            <BellaMosaicTile item={photo("C01", celebrations)} />
+            <BellaMosaicTile item={photo("N01", celebrations)} />
+            <BellaMosaicTile item={photo("N02", celebrations)} />
+            <BellaMosaicTile item={photo("N03", celebrations)} />
+          </div>
+        </div>
+      </article>
+
+      <article
+        id="bella-album-everyday"
+        class="bella-album reveal"
+        data-reveal
+        aria-labelledby="bella-album-everyday-title"
+      >
+        <header class="bella-album__header">
+          <h3 id="bella-album-everyday-title">Everyday with Bella</h3>
+          <p>Walks, naps, and time with Seb.</p>
+        </header>
+        <div class="bella-mosaic">
+          <div class="bella-row">
+            <BellaMosaicTile item={photo("E05", everyday)} />
+            <BellaMosaicTile item={photo("E03", everyday)} />
+            <BellaMosaicTile item={photo("X01", everyday)} />
+          </div>
+          <div class="bella-row">
+            <BellaMosaicTile item={photo("E01", everyday)} />
+            <BellaMosaicTile item={photo("X02", everyday)} />
+          </div>
+          <div class="bella-row">
+            <BellaMosaicTile item={photo("E02", everyday)} />
+            <BellaMosaicTile item={photo("X03", everyday)} />
+          </div>
+          <div class="bella-row">
+            <BellaMosaicTile item={photo("E04", everyday)} />
+            <BellaMosaicTile item={photo("X04", everyday)} />
+          </div>
+          <div class="bella-row">
+            <BellaMosaicTile item={photo("X05", everyday)} />
+            <BellaMosaicTile item={photo("X06", everyday)} />
+          </div>
+        </div>
+      </article>
+
+      <article
+        id="bella-album-serbia"
+        class="bella-album bella-serbia reveal"
+        data-reveal
+        data-bella-serbia
+        aria-labelledby="bella-album-serbia-title"
+      >
+        <header class="bella-album__header">
+          <h3 id="bella-album-serbia-title">A moment in Serbia</h3>
+        </header>
+        <div class="bella-serbia__layout">
+          <div
+            class="bella-serbia__video bella-tile"
+            style={`flex-grow: ${videoAspect};`}
+          >
+            <video
+              data-bella-serbia-video
+              muted
+              loop
+              playsinline
+              preload="none"
+              poster={serbiaVideo.poster.src}
+              width={serbiaVideo.video.width}
+              height={serbiaVideo.video.height}
+              aria-label="Bella visiting Tumane Monastery"
+            >
+              <source src={serbiaVideo.video.src} type="video/mp4" />
+            </video>
+          </div>
+          <figure class="bella-serbia__photo bella-tile" style={`flex-grow: ${photoAspect};`}>
+            <img
+              src={serbiaPhoto.preview.src}
+              alt={serbiaPhoto.alt}
+              width={serbiaPhoto.preview.width}
+              height={serbiaPhoto.preview.height}
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+          <div class="bella-serbia__story">
+            <h4 class="bella-serbia__title">Tumane Monastery</h4>
+            <p>
+              A visit with Bella to Tumane Monastery, tucked into woodland near Golubac in eastern
+              Serbia.
+            </p>
+            <p>
+              Tumane's beginnings are traditionally traced to the 14th century, with its founding
+              linked to Miloš Obilić. Its first documented mention appears in Ottoman records from
+              1572–1573.
+            </p>
+            <p>
+              About a kilometer from the monastery is the cave hermitage of Saint Zosimus, whose
+              life is closely woven into Tumane's history.
+            </p>
+            <button
+              type="button"
+              class="bella-serbia__motion"
+              data-bella-serbia-motion
+              aria-pressed="false"
+            >
+              Pause motion
+            </button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<script>
+  import "../scripts/bella-serbia-video";
+</script>

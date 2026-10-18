@@ -48,3 +48,6 @@ tools/puppy-image-pipeline/outputs/review/gallery.html
 **/*.egg-info/
 tools/puppy-image-pipeline/outputs/
 .venv
+
+# local agent scratch
+.tmp/

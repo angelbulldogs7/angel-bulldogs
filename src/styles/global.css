@@ -1894,3 +1894,233 @@ figure {
     transform: none;
   }
 }
+
+/* —— Bella photo story (scoped; do not alter puppy/hero cover behavior) —— */
+
+.bella-frame {
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-cream);
+  border: 1px solid var(--color-border);
+}
+
+.bella-frame--natural img,
+.bella-frame--natural video,
+.bella-tile img,
+.bella-tile video {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  background: transparent;
+}
+
+.bella-intro-portrait {
+  max-width: 28rem;
+}
+
+.bella-feature__grid {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
+.bella-feature__media {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.bella-feature__portrait {
+  max-width: 22rem;
+}
+
+.bella-feature__pair {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.bella-story__chapters {
+  display: grid;
+  gap: 3rem;
+  margin-top: 2.5rem;
+}
+
+.bella-album__header {
+  margin-bottom: 1.25rem;
+}
+
+.bella-album__header h3 {
+  margin-bottom: 0.35rem;
+}
+
+.bella-album__header p {
+  margin: 0;
+  max-width: 40rem;
+}
+
+.bella-mosaic {
+  --bella-gutter: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--bella-gutter);
+}
+
+.bella-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  gap: var(--bella-gutter);
+  width: 100%;
+}
+
+.bella-tile {
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  flex-basis: 0;
+  flex-shrink: 1;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: transparent;
+  border: 0;
+  line-height: 0;
+}
+
+.bella-tile img,
+.bella-tile video {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: top;
+  object-fit: contain;
+  object-position: center;
+  background: transparent;
+  border-radius: var(--radius-lg);
+}
+
+.bella-serbia__layout {
+  --bella-gutter: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.bella-serbia__video,
+.bella-serbia__photo {
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  line-height: 0;
+}
+
+.bella-serbia__video video,
+.bella-serbia__photo img {
+  pointer-events: none;
+}
+
+.bella-serbia__story {
+  min-width: 0;
+}
+
+.bella-serbia__title {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display, inherit);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.bella-serbia__story p {
+  margin: 0 0 0.9rem;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  color: var(--color-ink);
+}
+
+.bella-serbia__story p:last-of-type {
+  margin-bottom: 1rem;
+}
+
+.bella-serbia__motion {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  color: inherit;
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.bella-serbia__motion:focus-visible {
+  outline: 2px solid var(--color-accent, #8b6b4a);
+  outline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+  .bella-feature__grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 2.5rem;
+  }
+
+  .bella-mosaic,
+  .bella-serbia__layout {
+    --bella-gutter: 12px;
+  }
+
+  .bella-serbia__layout {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--bella-gutter);
+  }
+
+  .bella-serbia__video,
+  .bella-serbia__photo {
+    flex-basis: 0;
+    flex-shrink: 1;
+  }
+
+  .bella-serbia__story {
+    flex: 1 1 30%;
+    max-width: 35%;
+    padding-left: 0.35rem;
+  }
+
+  .bella-serbia__title {
+    font-size: 1.5rem;
+  }
+
+  .bella-serbia__story p {
+    font-size: 1.25rem;
+    line-height: 1.55;
+  }
+}
+
+@media (max-width: 767px) {
+  .bella-feature__portrait {
+    max-width: none;
+  }
+
+  .bella-intro-portrait {
+    max-width: none;
+  }
+
+  .bella-row {
+    flex-direction: column;
+  }
+
+  .bella-row .bella-tile {
+    flex: none !important;
+    width: 100%;
+  }
+}

@@ -1,0 +1,20 @@
+---
+import MediaImage from "./MediaImage.astro";
+import type { BellaPhotoItem } from "../data/bellaMedia";
+
+interface Props {
+  item: BellaPhotoItem;
+}
+
+const { item } = Astro.props;
+const aspectRatio = item.preview.width / item.preview.height;
+---
+
+<figure class="bella-tile" style={`flex-grow: ${aspectRatio};`}>
+  <MediaImage
+    src={item.preview.src}
+    alt={item.alt}
+    width={item.preview.width}
+    height={item.preview.height}
+  />
+</figure>

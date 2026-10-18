@@ -1,25 +1,42 @@
 ---
-import { getDam } from "../data/parents";
 import ButtonLink from "./ButtonLink.astro";
 import MediaImage from "./MediaImage.astro";
+import { getBellaHomepagePortrait, getBellaHomepageSupports } from "../data/bellaMedia";
 
-const bella = getDam();
+const portrait = getBellaHomepagePortrait();
+const supports = getBellaHomepageSupports();
 ---
 
-<section class="section">
-  <div class="container split split--2 reveal" data-reveal>
-    {
-      bella.portrait && (
-        <div class="media-frame aspect-portrait">
-          <MediaImage
-            src={bella.portrait.src}
-            alt={bella.portrait.alt}
-            width={bella.portrait.width}
-            height={bella.portrait.height}
-          />
-        </div>
-      )
-    }
+<section class="section bella-feature">
+  <div class="container bella-feature__grid reveal" data-reveal>
+    <div class="bella-feature__media">
+      <div class="bella-frame bella-frame--natural bella-feature__portrait">
+        <MediaImage
+          src={portrait.preview.src}
+          alt={portrait.alt}
+          width={portrait.preview.width}
+          height={portrait.preview.height}
+        />
+      </div>
+      {
+        supports.length > 0 && (
+          <ul class="bella-feature__pair" role="list">
+            {supports.map((photo) => (
+              <li>
+                <div class="bella-frame bella-frame--natural">
+                  <MediaImage
+                    src={photo.preview.src}
+                    alt={photo.alt}
+                    width={photo.preview.width}
+                    height={photo.preview.height}
+                  />
+                </div>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
     <div>
       <p class="eyebrow">Bella</p>
       <h2>Our angel, Bella</h2>

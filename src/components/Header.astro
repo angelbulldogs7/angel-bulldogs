@@ -21,9 +21,11 @@ const { currentPath } = Astro.props;
         siteConfig.nav.map((item) => (
           <a
             href={item.href}
+            class:list={{ "desktop-nav__link--badged": "badge" in item && !!item.badge }}
             aria-current={isCurrentPath(currentPath, item.href) ? "page" : undefined}
           >
-            {item.label}
+            <span>{item.label}</span>
+            {"badge" in item && item.badge ? <span class="nav-badge">{item.badge}</span> : null}
           </a>
         ))
       }
@@ -82,3 +84,19 @@ const { currentPath } = Astro.props;
 <script>
   import "../scripts/mobile-nav";
 </script>
+
+<style>
+  .desktop-nav__link--badged {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.15rem;
+  }
+
+  .desktop-nav__link--badged .nav-badge {
+    margin-left: 0;
+    padding: 0.08rem 0.35rem;
+    font-size: 0.55rem;
+    line-height: 1.25;
+  }
+</style>

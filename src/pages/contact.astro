@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import ContactForm from "../components/ContactForm.astro";
+import InstagramLink from "../components/InstagramLink.astro";
 import { getPublicEmail, siteConfig } from "../config/site";
 
 const { address, notice } = getPublicEmail();
@@ -44,6 +45,7 @@ const { address, notice } = getPublicEmail();
             </p>
           )
         }
+        <p><InstagramLink showHandle /></p>
         <p>Looking for a puppy?</p>
         <p>
           <a href="/application">Start a Puppy Inquiry</a>

@@ -24,7 +24,9 @@ export interface SiteConfig {
   heroVideo: string | null;
   heroPoster: string;
   ogImage: string;
-  socialLinks: Record<string, never>;
+  socialLinks: {
+    instagram: { url: string; handle: string } | null;
+  };
   prototypeMode: boolean;
   /** Site-wide top banner: website still in development. */
   siteInDevelopment: boolean;
@@ -33,7 +35,7 @@ export interface SiteConfig {
    * Full Color Lab source stays in the repo - flip to false to restore the tool.
    */
   colorLabComingSoon: boolean;
-  /** Primary header links (desktop). Color Lab is not required here. */
+  /** Primary header links (desktop), including Frenchie Color Lab Coming soon. */
   nav: readonly NavItem[];
   /** Mobile drawer links, including Frenchie Color Lab Coming soon. */
   mobileNav: readonly NavItem[];
@@ -53,7 +55,12 @@ export const siteConfig = {
   heroVideo: null,
   heroPoster: "/images/bella/v5-lifestyle.jpg",
   ogImage: "/images/og-share.jpg",
-  socialLinks: {},
+  socialLinks: {
+    instagram: {
+      url: "https://www.instagram.com/angelbulldogs/",
+      handle: "@angelbulldogs",
+    },
+  },
   /**
    * While true, no form sends anything. Live delivery also needs the matching
    * PUBLIC_FORMSPREE_* endpoints at build time, plus server Brevo bindings for newsletter.
@@ -67,6 +74,7 @@ export const siteConfig = {
     { href: "/puppies", label: "Available Puppies" },
     { href: "/bella", label: "Meet Bella" },
     { href: "/application", label: "Puppy Inquiry" },
+    { href: "/color-lab", label: "Frenchie Color Lab" },
     { href: "/faq", label: "FAQ" },
     { href: "/contact", label: "Contact" },
   ],
@@ -75,18 +83,18 @@ export const siteConfig = {
     { href: "/puppies", label: "Available Puppies" },
     { href: "/bella", label: "Meet Bella" },
     { href: "/application", label: "Puppy Inquiry" },
+    { href: "/color-lab", label: "Frenchie Color Lab", badge: "Coming soon" },
     { href: "/faq", label: "FAQ" },
     { href: "/contact", label: "Contact" },
-    { href: "/color-lab", label: "Frenchie Color Lab", badge: "Coming soon" },
   ],
   footerNav: [
     { href: "/", label: "Home" },
     { href: "/puppies", label: "Available Puppies" },
     { href: "/bella", label: "Meet Bella" },
     { href: "/application", label: "Puppy Inquiry" },
+    { href: "/color-lab", label: "Frenchie Color Lab", badge: "Coming soon" },
     { href: "/faq", label: "FAQ" },
     { href: "/contact", label: "Contact" },
-    { href: "/color-lab", label: "Frenchie Color Lab", badge: "Coming soon" },
   ],
 } as const satisfies SiteConfig;
 

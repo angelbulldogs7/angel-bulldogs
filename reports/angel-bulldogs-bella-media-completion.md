@@ -2,7 +2,7 @@
 
 **Updated:** October 18, 2026 (America/Chicago)  
 **Starting revision:** `08193d130f1cbb58c124b3d90ffe8a177c059d2a`  
-**Release state:** Local only. Not committed, pushed, or deployed. Ready for owner review.
+**Release state:** Shipped. Commit `059422f` on `main`; live on https://angelbulldogs.com/bella and https://angel-bulldogs.pages.dev/bella (verified Tumane copy, justified mosaics, silent looping video).
 
 ## 1. Starting state and changed files
 

@@ -1,5 +1,6 @@
 ---
 import type { Puppy } from "../data/types";
+import { PRICE_LABEL } from "../config/site";
 import PuppyCard from "./PuppyCard.astro";
 import ButtonLink from "./ButtonLink.astro";
 
@@ -24,10 +25,13 @@ const { puppies } = Astro.props;
       </div>
     </div>
   ) : (
-    <div class="puppy-grid" data-puppy-grid>
-      {puppies.map((puppy) => (
-        <PuppyCard puppy={puppy} />
-      ))}
+    <div class="puppy-grid-block">
+      <p class="price-note measure">{PRICE_LABEL}</p>
+      <div class="puppy-grid" data-puppy-grid>
+        {puppies.map((puppy) => (
+          <PuppyCard puppy={puppy} />
+        ))}
+      </div>
     </div>
   )
 }

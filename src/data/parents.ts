@@ -42,7 +42,7 @@ export const parents: Parent[] = [
     coat: null,
     portrait: null,
     intro:
-      "Kiki is the sire of Bella’s puppies. Additional details will be shared during a personal inquiry when they are useful for placement.",
+      "Kiki is the sire of Bella's puppies. Additional details will be shared during a personal inquiry when they are useful for placement.",
     highlights: [],
     registration: null,
     healthTesting: null,

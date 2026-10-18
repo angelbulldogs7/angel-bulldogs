@@ -157,8 +157,7 @@ const description = `${puppy.name} is a ${formatSex(puppy.sex).toLowerCase()} Fr
               </dd>
             </div>
           </dl>
-          <p class="lede">{puppy.shortDescription}</p>
-          {puppy.longDescription && <p>{puppy.longDescription}</p>}
+          {puppy.longDescription && <p class="lede">{puppy.longDescription}</p>}
           <p class="field__hint">{PERSONALITY_QUALIFIER}</p>
           <p class="field__hint">{DAILY_LIFE_DETAIL}</p>
           {

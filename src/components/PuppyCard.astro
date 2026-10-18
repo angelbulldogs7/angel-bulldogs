@@ -1,6 +1,5 @@
 ---
 import type { Puppy } from "../data/types";
-import { PRICE_LABEL } from "../config/site";
 import { formatEstimatedCarriers, formatPuppyStatus, formatSex } from "../utils/format";
 import ButtonLink from "./ButtonLink.astro";
 import MediaImage from "./MediaImage.astro";
@@ -91,7 +90,6 @@ const galleryJson = JSON.stringify(
       </div>
       {puppy.shortDescription && <p>{puppy.shortDescription}</p>}
       {carrierLabel && <p class="field__hint">{carrierLabel}</p>}
-      <p class="price-note">{PRICE_LABEL}</p>
       <div class="puppy-card__actions">
         <ButtonLink href={detailHref} variant="secondary">
           View details

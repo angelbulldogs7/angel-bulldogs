@@ -627,6 +627,7 @@ figure {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: 0.15rem 1rem 0.15rem;
+  scroll-margin-top: calc(var(--header-h) + 1.25rem);
 }
 
 .faq-item summary {
@@ -1268,14 +1269,20 @@ figure {
   min-height: 0;
 }
 
-/* Push price + actions to the bottom so every card in a row shares one action baseline. */
-.puppy-card__body > .price-note {
+/* Push actions to the bottom so every card in a row shares one action baseline. */
+.puppy-card__body > .puppy-card__actions {
   margin-top: auto;
   padding-top: 0.85rem;
+  flex-shrink: 0;
 }
 
-.puppy-card__body > .puppy-card__actions {
-  flex-shrink: 0;
+.puppy-grid-block {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.puppy-grid-block > .price-note {
+  margin: 0;
 }
 
 .puppy-card__meta {
@@ -1720,6 +1727,10 @@ figure {
   }
 
   .puppy-card {
+    scroll-margin-top: calc(var(--header-h) + 2.75rem);
+  }
+
+  .faq-item {
     scroll-margin-top: calc(var(--header-h) + 2.75rem);
   }
 

@@ -99,4 +99,4 @@ export const TRUST_STRIP_ITEMS = [
   { title: "Chicago-based care", icon: "map" },
 ] as const;
 
-export const PRIVACY_REVISED = "October 17, 2026" as const;
+export const PRIVACY_REVISED = "October 18, 2026" as const;

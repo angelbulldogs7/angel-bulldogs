@@ -9,7 +9,6 @@ import {
   BELLA_PERSONALITY_COPY,
   BELLA_STORY_COPY,
   MENTORSHIP_COPY,
-  NATURAL_DELIVERY_COPY,
 } from "../data/content";
 
 const bella = getDam();
@@ -108,10 +107,6 @@ const homeGallery = [
       <p class="eyebrow">Personality</p>
       <h2>Clever, cuddly, and strong-willed</h2>
       <p>{BELLA_PERSONALITY_COPY}</p>
-      <p class="field__hint">
-        Bella's enjoyment of children describes her temperament. It does not mean the puppies have
-        met children or that any puppy is guaranteed suitable for a specific home.
-      </p>
     </div>
   </section>
 
@@ -137,14 +132,13 @@ const homeGallery = [
       <p class="eyebrow">Quality over quantity</p>
       <h2>Three litters, chosen with care</h2>
       <p>
-        {BELLA_LITTER_LIMIT_COPY} That decision keeps Angel Bulldogs small: enough time to raise
-        puppies inside the home, to know them well, and to stay close to the families who welcome
-        them.
+        {BELLA_LITTER_LIMIT_COPY} Keeping the program small gives us time to care for the puppies at
+        home, learn their personalities, and stay in touch with their families.
       </p>
       <p>
-        The limit is a program philosophy. It does not, by itself, guarantee health outcomes.
+        Bella naturally delivered this litter and comes from a maternal line with a history of
+        natural deliveries.
       </p>
-      <p>{NATURAL_DELIVERY_COPY} We share that family history as background, not as a guarantee about every future birth.</p>
     </div>
   </section>
 
@@ -175,7 +169,6 @@ const homeGallery = [
         )
       }
       {sire.coat && <p>Coat: {sire.coat}</p>}
-      <p class="field__hint">No approved photograph of Kiki is published on this site.</p>
     </div>
   </section>
 

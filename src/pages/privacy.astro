@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import { getPublicEmail, siteConfig } from "../config/site";
+import { PRIVACY_REVISED } from "../data/content";
 
 const { address } = getPublicEmail();
 ---
@@ -16,16 +17,18 @@ const { address } = getPublicEmail();
     lede="This page describes how Angel Bulldogs uses information you choose to send through this website."
   />
   <section class="section">
-    <div class="container prose measure">
+    <div class="container prose measure privacy-doc">
+      <p class="field__hint">Revised {PRIVACY_REVISED}.</p>
+
       <h2>Who we are</h2>
       <p>
         Angel Bulldogs is a small French Bulldog program based in {siteConfig.location}. This website
-        is a static site: it does not run visitor accounts, a public applicant portal, or a site-owned
-        database of form submissions.
+        is primarily a static site. It does not run visitor accounts, a public applicant portal, or a
+        site-owned database of form submissions.
       </p>
 
       <h2>Information we collect</h2>
-      <p>When you send a puppy inquiry, we ask for:</p>
+      <p>When you send a Puppy Inquiry, we ask for:</p>
       <ul>
         <li>Name</li>
         <li>Email address</li>
@@ -38,8 +41,8 @@ const { address } = getPublicEmail();
         <li>Your acknowledgement that the inquiry is not a reservation</li>
       </ul>
       <p>
-        The general contact form collects your name, email, topic, optional puppy selection, and
-        message. The footer newsletter collects only the email address you submit there.
+        The general contact form collects your name, email, topic, optional puppy selection, message,
+        and acknowledgement. The footer newsletter collects only the email address you submit there.
       </p>
       <p>
         Please do not include a street address, payment details, or other sensitive financial
@@ -48,18 +51,36 @@ const { address } = getPublicEmail();
 
       <h2>How inquiry and contact messages are delivered</h2>
       <p>
-        Puppy inquiry and contact forms are delivered through Formspree using public form endpoints
+        Puppy Inquiry and contact forms are delivered through Formspree using public form endpoints
         configured for this site. Messages are sent so the Angel Bulldogs team can reply using the
         contact details you provide. We use inquiry information to respond and discuss puppy
         placement. A successful inquiry is not an approved application, reservation, or purchase
         contract.
       </p>
+      <p>
+        Ordinary Puppy Inquiry and contact submissions do not subscribe you to marketing or the
+        availability newsletter.
+      </p>
 
       <h2>Newsletter</h2>
       <p>
-        The availability newsletter is separate and voluntary. Submitting a puppy inquiry or contact
-        message does not subscribe you to the newsletter. Newsletter signups use Brevo (Sendinblue)
-        when that public form endpoint is configured.
+        The availability newsletter is separate and voluntary. Signups are posted to a same-origin
+        server route on this site (`/api/newsletter`) and, when configured, are processed with Brevo
+        using a server-side API key that is not exposed in the browser.
+      </p>
+      <p>
+        Newsletter signup uses double opt-in. An accepted signup request means Brevo accepted a
+        confirmation email request, not that you are already on the marketing list. You must click
+        the confirmation link in that email to finish joining. Until Brevo and Cloudflare bindings
+        are connected, the form may report that signup is temporarily unavailable. You can
+        unsubscribe through Brevo’s standard unsubscribe links in list emails.
+      </p>
+
+      <h2>Analytics and cookies</h2>
+      <p>
+        This site does not currently load a third-party analytics suite or advertising pixels in
+        source. Hosting providers may keep ordinary server or CDN request logs. We do not claim that
+        browsing is anonymous or that no cookies of any kind can appear from the host platform.
       </p>
 
       <h2>What this site does not do</h2>

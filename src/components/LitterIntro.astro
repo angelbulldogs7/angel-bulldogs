@@ -4,6 +4,12 @@ import { getDam, getSire, displayParentName } from "../data/parents";
 import MediaImage from "./MediaImage.astro";
 import ButtonLink from "./ButtonLink.astro";
 
+interface Props {
+  /** When false, omit the extended litter gallery (render separately below cards). */
+  showGallery?: boolean;
+}
+
+const { showGallery = true } = Astro.props;
 const dam = getDam();
 const sire = getSire();
 ---
@@ -34,25 +40,22 @@ const sire = getSire();
       <article>
         <p class="eyebrow">Sire</p>
         <p><strong>{displayParentName(sire)}</strong></p>
-        {
-          sire.coat ? (
-            <p class="field__hint">{sire.coat}</p>
-          ) : (
-            <p class="field__hint">Photos and details coming soon.</p>
-          )
-        }
+        {sire.intro ? <p class="field__hint">{sire.intro}</p> : null}
       </article>
     </div>
   </div>
 </section>
 
 {
-  currentLitter.gallery.length > 0 && (
+  showGallery && currentLitter.gallery.length > 0 && (
     <div class="gallery litter-intro__gallery" aria-label="More photos from Bella’s first litter">
       {currentLitter.gallery.map((image) => (
-        <div class="media-frame aspect-landscape">
+        <figure class="media-frame aspect-landscape litter-gallery-item">
           <MediaImage src={image.src} alt={image.alt} width={image.width} height={image.height} />
-        </div>
+          {image.alt.toLowerCase().includes("earlier") ? (
+            <figcaption class="litter-gallery-caption">Earlier photograph</figcaption>
+          ) : null}
+        </figure>
       ))}
     </div>
   )

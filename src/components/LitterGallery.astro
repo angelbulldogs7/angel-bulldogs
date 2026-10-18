@@ -1,0 +1,31 @@
+---
+import { currentLitter } from "../data/litter";
+import MediaImage from "./MediaImage.astro";
+---
+
+{
+  currentLitter.gallery.length > 0 && (
+    <section class="section section--ivory litter-gallery-section" aria-labelledby="litter-gallery-title">
+      <div class="container stack">
+        <div>
+          <p class="eyebrow">Litter photos</p>
+          <h2 id="litter-gallery-title">More from Bella’s first litter</h2>
+          <p class="lede measure">
+            Additional photographs from the litter. Earlier images are labeled so they are easy to
+            tell apart from newer photos.
+          </p>
+        </div>
+        <div class="gallery litter-intro__gallery" aria-label="More photos from Bella’s first litter">
+          {currentLitter.gallery.map((image) => (
+            <figure class="media-frame aspect-landscape litter-gallery-item">
+              <MediaImage src={image.src} alt={image.alt} width={image.width} height={image.height} />
+              {image.alt.toLowerCase().includes("earlier") ? (
+                <figcaption class="litter-gallery-caption">Earlier photograph</figcaption>
+              ) : null}
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

@@ -8,6 +8,7 @@ interface Props {
   loading?: "lazy" | "eager";
   fetchpriority?: "high" | "low" | "auto";
   heroPoster?: boolean;
+  "data-gallery-main"?: boolean | string;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   loading = "lazy",
   fetchpriority = "auto",
   heroPoster = false,
+  "data-gallery-main": dataGalleryMain,
 } = Astro.props;
 ---
 
@@ -32,4 +34,5 @@ const {
   decoding="async"
   fetchpriority={fetchpriority}
   data-hero-poster={heroPoster ? true : undefined}
+  data-gallery-main={dataGalleryMain !== undefined ? "" : undefined}
 />

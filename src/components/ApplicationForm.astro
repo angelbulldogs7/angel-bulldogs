@@ -21,13 +21,14 @@ const publicEmail = getPublicEmail().address ?? "angelbulldogs7@gmail.com";
   data-prototype-mode={siteConfig.prototypeMode ? "true" : "false"}
   data-endpoint={formspreeEndpoint ?? ""}
   data-public-email={publicEmail}
-  novalidate
+  action={formspreeEndpoint ?? undefined}
+  method={formspreeEndpoint ? "post" : undefined}
 >
   <input type="hidden" name="formVersion" value={PUPPY_INQUIRY_FORM_VERSION} />
-  <input type="hidden" name="_subject" value="Puppy Inquiry — Angel Bulldogs" />
+  <input type="hidden" name="_subject" value="Puppy Inquiry, Angel Bulldogs" />
 
   <p class="field__hint" id="inquiry-required-note">Required fields are marked with an asterisk (*).</p>
-  <p class="field__hint measure">{PRICE_LABEL}</p>
+  <p class="field__hint measure" id="inquiry-price-note">{PRICE_LABEL}</p>
 
   <fieldset class="fieldset">
     <legend>Puppy inquiry</legend>
@@ -61,8 +62,9 @@ const publicEmail = getPublicEmail().address ?? "angelbulldogs7@gmail.com";
           required
           aria-required="true"
           placeholder="Chicago, IL"
+          aria-describedby="location-hint"
         />
-        <p class="field__hint">City and state only — no street address or ZIP needed here.</p>
+        <p class="field__hint" id="location-hint">Enter your city and state. You can leave out your street address and ZIP code.</p>
         <p class="field__error" data-error hidden></p>
       </div>
       <div class="field full" data-field>
@@ -74,7 +76,7 @@ const publicEmail = getPublicEmail().address ?? "angelbulldogs7@gmail.com";
               <option value={puppy.slug}>{puppy.name}</option>
             ))
           }
-          <option value={PUPPY_INTEREST_UNDECIDED}>No specific puppy yet — help me choose</option>
+          <option value={PUPPY_INTEREST_UNDECIDED}>Help me choose</option>
           <option value={PUPPY_INTEREST_FUTURE_LITTER}>Future litter</option>
         </select>
         <p class="field__hint" data-unknown-puppy hidden>
@@ -167,7 +169,7 @@ const publicEmail = getPublicEmail().address ?? "angelbulldogs7@gmail.com";
       unavailableMessage: `Inquiry delivery is not connected yet, so nothing was sent. Please email ${publicEmail} for now.`,
       successMessage:
         "Thank you for reaching out. We'll reply personally with availability, pricing, and next steps. Please check your inbox and spam folder.",
-      errorMessage: `Something went wrong and your inquiry was not sent. Your details are still in the form — please try again or email ${publicEmail}.`,
+      errorMessage: `Something went wrong and your inquiry was not sent. Your details are still in the form. Please try again or email ${publicEmail}.`,
       submit: async (endpoint, liveForm) => {
         const data = new FormData(liveForm);
         const fields: PuppyInquiryFields = {

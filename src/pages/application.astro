@@ -2,17 +2,19 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import ApplicationForm from "../components/ApplicationForm.astro";
+import { INQUIRY_INTRO_COPY } from "../data/content";
 ---
 
 <BaseLayout
   title="Puppy Inquiry | Angel Bulldogs"
-  description="Start a short puppy inquiry with Angel Bulldogs in Chicago. We’ll follow up personally with availability, pricing, and next steps."
+  description="Start a short puppy inquiry with Angel Bulldogs in Chicago. We will follow up personally with availability, pricing, and next steps."
   path="/application"
 >
   <PageHero
     eyebrow="Placement"
     title="Puppy Inquiry"
-    lede="Start with a few quick details. We'll follow up personally with availability, pricing, and next steps."
+    lede={INQUIRY_INTRO_COPY}
+    narrow
   />
   <section class="section">
     <div class="container form-narrow">

@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import ButtonLink from "../components/ButtonLink.astro";
 import ColorLabShell from "../components/color-lab/ColorLabShell.astro";
+import { COLOR_LAB_COMING_SOON_COPY } from "../data/content";
 import { siteConfig } from "../config/site";
 import { GENERAL_QUALIFICATION } from "../lib/color-lab/safetyRules";
 import { parseFormspreeEndpoint } from "../lib/color-lab/interestSubmit";
@@ -16,7 +17,7 @@ const formspreeEndpoint = parseFormspreeEndpoint(import.meta.env.PUBLIC_FORMSPRE
   title="Frenchie Color Lab | Angel Bulldogs"
   description={
     comingSoon
-      ? "The Angel Bulldogs Frenchie Color Lab is coming soon — build a French Bulldog from gene choices and explore educational pairing outcomes."
+      ? "The Angel Bulldogs Frenchie Color Lab is coming soon. Meet Bella's puppies or contact us while the tool takes shape."
       : "Build a French Bulldog from simple gene choices, or estimate educational per-conception outcomes for a stud and dam with the Angel Bulldogs Frenchie Color Lab."
   }
   path="/color-lab"
@@ -25,9 +26,9 @@ const formspreeEndpoint = parseFormspreeEndpoint(import.meta.env.PUBLIC_FORMSPRE
     comingSoon ? (
       <>
         <PageHero
-          eyebrow="Frenchie Color Lab"
-          title="Coming soon."
-          lede="We're finishing the main Angel Bulldogs website first. The Color Lab — build a Frenchie from gene choices, or explore educational pairing outcomes — will open after launch."
+          eyebrow="Coming soon"
+          title="Frenchie Color Lab"
+          lede={COLOR_LAB_COMING_SOON_COPY}
         />
         <section class="section cl-section" aria-label="Color Lab coming soon">
           <div class="container">
@@ -42,14 +43,10 @@ const formspreeEndpoint = parseFormspreeEndpoint(import.meta.env.PUBLIC_FORMSPRE
               />
               <div class="cl-coming-soon__copy">
                 <h2>Still in the works</h2>
-                <p>
-                  We&apos;re pausing the Color Lab while we finish the main site and picture library.
-                  It will open later. In the meantime, browse available puppies or reach out with
-                  questions.
-                </p>
+                <p>{COLOR_LAB_COMING_SOON_COPY}</p>
                 <div class="cl-coming-soon__actions">
-                  <ButtonLink href="/puppies">View Available Puppies</ButtonLink>
-                  <ButtonLink href="/contact" variant="secondary">Contact</ButtonLink>
+                  <ButtonLink href="/puppies">Meet the puppies</ButtonLink>
+                  <ButtonLink href="/contact" variant="secondary">Contact us</ButtonLink>
                 </div>
               </div>
             </div>

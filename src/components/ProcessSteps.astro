@@ -1,37 +1,18 @@
 ---
-const steps = [
-  {
-    num: "01",
-    title: "Meet the puppies",
-    body: "Review currently available puppies and see which one feels like a possible match.",
-  },
-  {
-    num: "02",
-    title: "Send a short inquiry",
-    body: "Share a few quick details about timing, interest, and how to reach you — no long essays.",
-  },
-  {
-    num: "03",
-    title: "Talk it through",
-    body: "We follow up personally with availability, pricing, and a care conversation before any placement decision.",
-  },
-  {
-    num: "04",
-    title: "Plan the homecoming",
-    body: "Approved families coordinate paperwork, payment, Chicago pickup, or nationwide delivery privately.",
-  },
-];
+import ButtonLink from "./ButtonLink.astro";
+import { PROCESS_REFUND_NOTE, PROCESS_STEPS } from "../data/content";
+
+const steps = PROCESS_STEPS.map((step, index) => ({
+  num: String(index + 1).padStart(2, "0"),
+  ...step,
+}));
 ---
 
 <section class="section section--cream">
   <div class="container">
     <div class="reveal" data-reveal>
-      <p class="eyebrow">Placement</p>
-      <h2>A personal process, not a checkout.</h2>
-      <p class="lede measure">
-        Sending an inquiry does not reserve a puppy. Placement begins with a conversation
-        and continues only when the fit feels right on both sides.
-      </p>
+      <p class="eyebrow">Next steps</p>
+      <h2>From first hello to coming home</h2>
     </div>
     <ol class="process-grid reveal" data-reveal>
       {
@@ -44,5 +25,12 @@ const steps = [
         ))
       }
     </ol>
+    <p class="measure reveal" data-reveal style="margin-top: 1.5rem">
+      {PROCESS_REFUND_NOTE}
+    </p>
+    <p class="cluster reveal" data-reveal style="margin-top: 1rem">
+      <ButtonLink href="/faq" variant="secondary">Read the FAQ</ButtonLink>
+      <ButtonLink href="/application">Start a Puppy Inquiry</ButtonLink>
+    </p>
   </div>
 </section>

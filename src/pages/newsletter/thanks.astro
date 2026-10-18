@@ -1,0 +1,25 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ButtonLink from "../../components/ButtonLink.astro";
+---
+
+<BaseLayout
+  title="Thanks for confirming | Angel Bulldogs"
+  description="Thanks for confirming your Angel Bulldogs newsletter interest."
+  path="/newsletter/thanks"
+  noindex
+>
+  <section class="section">
+    <div class="container form-narrow stack">
+      <p class="eyebrow">Newsletter</p>
+      <h1>Thanks for your interest in Angel Bulldogs.</h1>
+      <p class="lede">
+        Explore our available puppies or contact us with any questions.
+      </p>
+      <div class="cluster">
+        <ButtonLink href="/puppies">Available puppies</ButtonLink>
+        <ButtonLink href="/contact" variant="secondary">Contact</ButtonLink>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

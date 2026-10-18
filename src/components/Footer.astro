@@ -16,7 +16,7 @@ const year = copyrightYear();
         A small, family-guided French Bulldog program in {siteConfig.location}, raising puppies
         at home with personal care.
       </p>
-      <p>{siteConfig.locationShort} · {siteConfig.serviceArea} for approved families.</p>
+      <p>{siteConfig.locationShort} · {siteConfig.serviceArea}.</p>
       {
         address ? (
           <p>
@@ -29,14 +29,17 @@ const year = copyrightYear();
     </div>
     <nav class="footer-nav" aria-label="Footer">
       {
-        siteConfig.nav.map((item) => (
-          <a href={item.href}>{item.label}</a>
+        siteConfig.footerNav.map((item) => (
+          <a href={item.href}>
+            <span>{item.label}</span>
+            {"badge" in item && item.badge ? <span class="nav-badge">{item.badge}</span> : null}
+          </a>
         ))
       }
     </nav>
     <div>
       <h2 class="eyebrow">Join the Angel Bulldogs list</h2>
-      <p>Be the first to hear when a puppy becomes available.</p>
+      <p>Receive puppy and litter updates. Confirm your email to join.</p>
       <NewsletterPrototype />
     </div>
   </div>

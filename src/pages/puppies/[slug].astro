@@ -1,0 +1,241 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ButtonLink from "../../components/ButtonLink.astro";
+import MediaImage from "../../components/MediaImage.astro";
+import { PRICE_LABEL } from "../../config/site";
+import {
+  CARE_PACKAGE_COMPACT,
+  DAILY_LIFE_DETAIL,
+  PERSONALITY_QUALIFIER,
+  TRAIT_ASSESSMENT_NOTE,
+} from "../../data/content";
+import { getDam, getSire, displayParentName } from "../../data/parents";
+import { getAllPuppies, getPuppyBySlug } from "../../data/puppies";
+import {
+  formatEstimatedCarriers,
+  formatPuppyStatus,
+  formatSex,
+  getPuppyBirthDate,
+} from "../../utils/format";
+import { formatBirthDateLong } from "../../utils/puppyAge";
+
+export function getStaticPaths() {
+  return getAllPuppies().map((puppy) => ({
+    params: { slug: puppy.slug },
+  }));
+}
+
+const slug = Astro.params.slug!;
+const puppy = getPuppyBySlug(slug);
+if (!puppy) {
+  throw new Error(`Missing puppy for slug: ${slug}`);
+}
+
+const dam = getDam();
+const sire = getSire();
+const gallery = [
+  puppy.primaryImage,
+  ...puppy.gallery.filter((asset) => asset.src !== puppy.primaryImage.src),
+];
+const hasGallery = gallery.length > 1;
+const galleryJson = JSON.stringify(
+  gallery.map((asset) => ({
+    src: asset.src,
+    alt: asset.alt,
+    width: asset.width,
+    height: asset.height,
+  })),
+);
+const statusLabel = formatPuppyStatus(puppy.status);
+const canInquire = puppy.status === "available";
+const birthDate = getPuppyBirthDate(puppy);
+const birthLabel = formatBirthDateLong(birthDate);
+const carrierLabel = formatEstimatedCarriers(puppy.estimatedCarrierTraits);
+const backHref = `/puppies#puppy-${puppy.slug}`;
+const title = `${puppy.name} | French Bulldog Puppy | Angel Bulldogs`;
+const description = `${puppy.name} is a ${formatSex(puppy.sex).toLowerCase()} French Bulldog puppy from Bella's litter at Angel Bulldogs in Chicago. ${puppy.shortDescription}`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={`/puppies/${puppy.slug}`}
+  ogImage={puppy.primaryImage.src}
+  imageAlt={puppy.primaryImage.alt}
+>
+  <section class="section puppy-detail">
+    <div class="container">
+      <p class="puppy-detail__back">
+        <a href={backHref}>Back to available puppies</a>
+      </p>
+
+      <div class="puppy-detail__layout">
+        <div
+          class="puppy-detail__gallery"
+          data-puppy-gallery
+          data-gallery={galleryJson}
+        >
+          <div class="puppy-detail__stage">
+            <MediaImage
+              class="puppy-detail__photo"
+              data-gallery-main
+              src={gallery[0].src}
+              alt={gallery[0].alt}
+              width={gallery[0].width}
+              height={gallery[0].height}
+              loading="eager"
+              fetchpriority="high"
+            />
+          </div>
+          {
+            hasGallery && (
+              <>
+                <div class="puppy-detail__nav" data-gallery-controls>
+                  <button
+                    type="button"
+                    class="puppy-card__gallery-btn"
+                    data-gallery-prev
+                    aria-label={`Previous photo of ${puppy.name}`}
+                  >
+                    ‹
+                  </button>
+                  <p class="puppy-card__gallery-count" data-gallery-count aria-live="polite">
+                    1 / {gallery.length}
+                  </p>
+                  <button
+                    type="button"
+                    class="puppy-card__gallery-btn"
+                    data-gallery-next
+                    aria-label={`Next photo of ${puppy.name}`}
+                  >
+                    ›
+                  </button>
+                </div>
+                <ul class="puppy-detail__thumbs" data-gallery-thumbs role="list" aria-label={`Photos of ${puppy.name}`}>
+                  {gallery.map((asset, index) => (
+                    <li>
+                      <button
+                        type="button"
+                        class:list={["gallery__thumb", index === 0 && "is-selected"]}
+                        data-gallery-thumb
+                        data-gallery-index={String(index)}
+                        aria-label={`Show photo ${index + 1} of ${puppy.name}`}
+                        aria-current={index === 0 ? "true" : "false"}
+                      >
+                        <MediaImage src={asset.src} alt="" width={asset.width} height={asset.height} />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )
+          }
+        </div>
+
+        <div class="puppy-detail__summary stack">
+          <div class="cluster">
+            <span class:list={["status-pill", puppy.status !== "available" && "status-pill--muted"]}>
+              {statusLabel}
+            </span>
+          </div>
+          <h1>{puppy.name}</h1>
+          <div class="puppy-card__meta">
+            <span>{formatSex(puppy.sex)}</span>
+            <span>{puppy.color}</span>
+            <span>{puppy.coatType}</span>
+          </div>
+          <dl class="puppy-detail__facts">
+            <div>
+              <dt>Born</dt>
+              <dd><time datetime={birthDate}>{birthLabel}</time></dd>
+            </div>
+            <div>
+              <dt>Age</dt>
+              <dd>
+                <span data-puppy-age data-birth-date={birthDate} hidden></span>
+                <noscript>See birth date</noscript>
+              </dd>
+            </div>
+          </dl>
+          <p class="lede">{puppy.shortDescription}</p>
+          {puppy.longDescription && <p>{puppy.longDescription}</p>}
+          <p class="field__hint">{PERSONALITY_QUALIFIER}</p>
+          <p class="field__hint">{DAILY_LIFE_DETAIL}</p>
+          {
+            carrierLabel && (
+              <div class="puppy-detail__traits">
+                <h2 class="eyebrow">Coat notes</h2>
+                <p>{carrierLabel}</p>
+                <p class="field__hint">{TRAIT_ASSESSMENT_NOTE}</p>
+              </div>
+            )
+          }
+          <p class="price-note">{PRICE_LABEL}</p>
+          <div class="cluster puppy-detail__actions">
+            {
+              canInquire ? (
+                <ButtonLink href={`/application?puppy=${puppy.slug}`}>
+                  Inquire about {puppy.name}
+                </ButtonLink>
+              ) : (
+                <ButtonLink href="/application?puppy=undecided">
+                  Ask about availability
+                </ButtonLink>
+              )
+            }
+            <ButtonLink href={backHref} variant="secondary">
+              Back to puppies
+            </ButtonLink>
+          </div>
+        </div>
+      </div>
+
+      <div class="puppy-detail__parents stack">
+        <h2>Parents</h2>
+        <div class="puppy-detail__parent-grid">
+          <article class="puppy-detail__parent">
+            {
+              dam.portrait && (
+                <MediaImage
+                  src={dam.portrait.src}
+                  alt={dam.portrait.alt}
+                  width={dam.portrait.width}
+                  height={dam.portrait.height}
+                />
+              )
+            }
+            <div>
+              <p class="eyebrow">Dam</p>
+              <h3>{displayParentName(dam)}</h3>
+              {dam.coat && <p>{dam.coat}</p>}
+              {dam.intro && <p>{dam.intro}</p>}
+              <p><a href="/bella">Meet Bella</a></p>
+            </div>
+          </article>
+          <article class="puppy-detail__parent puppy-detail__parent--text">
+            <div>
+              <p class="eyebrow">Meet the sire</p>
+              <h3>{displayParentName(sire)}</h3>
+              {sire.intro && <p>{sire.intro}</p>}
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="puppy-detail__care measure stack">
+        <h2>Going home</h2>
+        <p>{CARE_PACKAGE_COMPACT}</p>
+        <p>
+          <a href="/faq#records">Read the full records answer</a>
+          {" · "}
+          <a href="/faq#agree-hold">How holds and deposits work</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    import "../../scripts/puppy-gallery";
+    import "../../scripts/puppy-age";
+  </script>
+</BaseLayout>

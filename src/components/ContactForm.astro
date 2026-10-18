@@ -14,24 +14,26 @@ const publicEmail = getPublicEmail().address ?? "angelbulldogs7@gmail.com";
   data-prototype-mode={siteConfig.prototypeMode ? "true" : "false"}
   data-endpoint={formspreeEndpoint ?? ""}
   data-public-email={publicEmail}
-  novalidate
+  action={formspreeEndpoint ?? undefined}
+  method={formspreeEndpoint ? "post" : undefined}
 >
+  <p class="field__hint" id="contact-required-note">Required fields are marked with an asterisk (*).</p>
   <fieldset class="fieldset">
     <legend>Send a note</legend>
     <div class="form-grid form-grid--2">
       <div class="field" data-field>
-        <label class="field__label" for="contact-name">Name</label>
-        <input id="contact-name" name="name" type="text" autocomplete="name" required />
+        <label class="field__label" for="contact-name">Name <span aria-hidden="true">*</span></label>
+        <input id="contact-name" name="name" type="text" autocomplete="name" required aria-required="true" />
         <p class="field__error" data-error hidden></p>
       </div>
       <div class="field" data-field>
-        <label class="field__label" for="contact-email">Email</label>
-        <input id="contact-email" name="email" type="email" autocomplete="email" required />
+        <label class="field__label" for="contact-email">Email <span aria-hidden="true">*</span></label>
+        <input id="contact-email" name="email" type="email" autocomplete="email" required aria-required="true" />
         <p class="field__error" data-error hidden></p>
       </div>
       <div class="field" data-field>
-        <label class="field__label" for="topic">Topic</label>
-        <select id="topic" name="topic" data-contact-topic required>
+        <label class="field__label" for="topic">Topic <span aria-hidden="true">*</span></label>
+        <select id="topic" name="topic" data-contact-topic required aria-required="true">
           <option value="">Select one</option>
           <option value="available-puppy">Available Puppy</option>
           <option value="inquiry">Inquiry Question</option>
@@ -52,14 +54,17 @@ const publicEmail = getPublicEmail().address ?? "angelbulldogs7@gmail.com";
         </p>
       </div>
       <div class="field full" data-field>
-        <label class="field__label" for="message">Message</label>
-        <textarea id="message" name="message" required></textarea>
+        <label class="field__label" for="contact-message">Message <span aria-hidden="true">*</span></label>
+        <textarea id="contact-message" name="message" required aria-required="true"></textarea>
         <p class="field__error" data-error hidden></p>
       </div>
       <div class="field full" data-field>
         <label class="check">
-          <input type="checkbox" name="contactAck" required />
-          <span>I understand this is an inquiry, not a reservation, and Angel Bulldogs will reply using the email I provide.</span>
+          <input type="checkbox" name="contactAck" required aria-required="true" />
+          <span>
+            I understand this is an inquiry, not a reservation, and Angel Bulldogs will reply using the
+            email I provide. <span aria-hidden="true">*</span>
+          </span>
         </label>
         <p class="field__error" data-error hidden></p>
       </div>
@@ -96,8 +101,8 @@ const publicEmail = getPublicEmail().address ?? "angelbulldogs7@gmail.com";
       endpoint: parseFormspreeEndpoint(form.dataset.endpoint),
       prototypeMode: form.dataset.prototypeMode === "true",
       unavailableMessage: `Contact delivery is not connected yet, so nothing was sent. Please email ${publicEmail} for now.`,
-      successMessage: "Thank you — your message was sent to Angel Bulldogs. We will follow up by email.",
-      errorMessage: `Something went wrong and your message was not sent. Your details are still in the form — please try again or email ${publicEmail}.`,
+      successMessage: "Thank you. Your message was sent to Angel Bulldogs. We will follow up by email.",
+      errorMessage: `Something went wrong and your message was not sent. Your details are still in the form. Please try again or email ${publicEmail}.`,
     });
   }
 

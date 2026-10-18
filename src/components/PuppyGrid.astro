@@ -13,15 +13,14 @@ const { puppies } = Astro.props;
 {
   puppies.length === 0 ? (
     <div class="empty-state">
-      <p class="eyebrow">Availability</p>
-      <h2>No puppies listed right now</h2>
-      <p class="lede measure">
-        We do not have a puppy publicly available at this moment. You can join our list for
-        future availability or contact us to introduce yourself.
+      <h2>No puppies are listed right now</h2>
+      <p>
+        Availability changes. You can still send a short inquiry for a future litter, or contact us
+        with a general question.
       </p>
       <div class="cluster">
-        <ButtonLink href="/application">Start a Puppy Inquiry</ButtonLink>
-        <ButtonLink href="/contact" variant="secondary">Contact Angel Bulldogs</ButtonLink>
+        <ButtonLink href="/application?puppy=future-litter">Inquire about a future litter</ButtonLink>
+        <ButtonLink href="/contact" variant="secondary">Contact</ButtonLink>
       </div>
     </div>
   ) : (
@@ -36,7 +35,7 @@ const { puppies } = Astro.props;
 {
   puppies.length > 0 && (
     <script>
-      import "../scripts/puppy-cards";
+      import "../scripts/puppy-gallery";
     </script>
   )
 }

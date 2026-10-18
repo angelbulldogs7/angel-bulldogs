@@ -1,4 +1,5 @@
 import type { Parent } from "./types";
+import { BELLA_LITTER_LIMIT_COPY, NATURAL_DELIVERY_COPY } from "./content";
 
 export const parents: Parent[] = [
   {
@@ -19,9 +20,9 @@ export const parents: Parent[] = [
       "Bella is the heart of Angel Bulldogs. She came from Serbia and now lives as part of our family in Chicago.",
     highlights: [
       "Raised and living as part of the family in Chicago",
-      "Natural-whelping family history: Bella, her mother, maternal grandmother, and maternal aunt",
+      NATURAL_DELIVERY_COPY,
       "Bella herself naturally delivered her litter",
-      "A maximum of three litters in her lifetime",
+      BELLA_LITTER_LIMIT_COPY,
     ],
     registration: null,
     healthTesting: null,
@@ -35,18 +36,13 @@ export const parents: Parent[] = [
     name: "Kiki",
     role: "sire",
     origin: null,
-    // TODO: Add Kiki’s verified date of birth (ISO YYYY-MM-DD).
+    // TODO: Add Kiki’s verified date of birth (ISO YYYY-MM-DD) when confirmed for publication.
     dateOfBirth: null,
-    // TODO: Add Kiki’s verified coat description.
+    // TODO: Add Kiki’s verified coat description when confirmed for publication.
     coat: null,
-    portrait: {
-      src: "/placeholders/stud-portrait.svg",
-      alt: "Placeholder for a portrait of Kiki, the sire",
-      width: 800,
-      height: 1000,
-      kind: "image",
-    },
-    intro: "Kiki is the sire of Bella’s puppies. Photos and additional details will appear here when they are available.",
+    portrait: null,
+    intro:
+      "Kiki is the sire of Bella’s puppies. Additional details will be shared during a personal inquiry when they are useful for placement.",
     highlights: [],
     registration: null,
     healthTesting: null,

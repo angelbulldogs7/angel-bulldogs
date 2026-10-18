@@ -3,6 +3,9 @@ dist/
 # generated types
 .astro/
 
+# local Wrangler / Pages Functions preview state
+.wrangler/
+
 # dependencies
 node_modules/
 .venv-img/

@@ -2,27 +2,27 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import LitterIntro from "../components/LitterIntro.astro";
+import LitterGallery from "../components/LitterGallery.astro";
+import LitterAge from "../components/LitterAge.astro";
 import PuppyGrid from "../components/PuppyGrid.astro";
-import { PRICE_LABEL, siteConfig } from "../config/site";
-import { getAvailablePuppies } from "../data/puppies";
+import { LISTING_INTRO_COPY } from "../data/content";
+import { getListedPuppies } from "../data/puppies";
 
-const available = getAvailablePuppies();
+const listed = getListedPuppies();
 ---
 
 <BaseLayout
   title="Available French Bulldog Puppies | Angel Bulldogs"
-  description="See currently available French Bulldog puppies from Bella’s first litter at Angel Bulldogs in Chicago. Pricing varies by puppy and is confirmed in a personal reply. Chicago pickup and nationwide delivery for approved families."
+  description="Meet Bella's five French Bulldog puppies, born in Serbia and now with Angel Bulldogs in Chicago. Compare personalities, photos, and current availability."
   path="/puppies"
 >
-  <PageHero
-    eyebrow={siteConfig.locationShort}
-    title="Available Puppies"
-    lede={`Bella’s first litter is ready to meet approved families. Every placement begins with a personal conversation, and availability can change. ${PRICE_LABEL} Chicago pickup and nationwide delivery can be discussed for approved families.`}
-  />
+  <PageHero eyebrow="Bella's first litter" title="Available Puppies" lede={LISTING_INTRO_COPY} />
   <section class="section">
     <div class="container stack-lg">
-      <LitterIntro />
-      <PuppyGrid puppies={available} />
+      <LitterAge compact />
+      <LitterIntro showGallery={false} />
+      <PuppyGrid puppies={listed} />
     </div>
   </section>
+  <LitterGallery />
 </BaseLayout>

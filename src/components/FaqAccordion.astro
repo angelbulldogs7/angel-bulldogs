@@ -11,7 +11,7 @@ const { items } = Astro.props;
 <div class="faq-list">
   {
     items.map((item) => (
-      <details class="faq-item">
+      <details class="faq-item" id={item.id}>
         <summary>{item.question}</summary>
         <div class="faq-item__body">
           {item.answer.map((paragraph) => (

@@ -1,0 +1,46 @@
+---
+import { currentLitter } from "../data/litter";
+import { formatBirthDateLong } from "../utils/puppyAge";
+
+interface Props {
+  /** Compact single-line litter fact for listing intro. */
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+const birthDate = currentLitter.birthDate;
+const birthLabel = formatBirthDateLong(birthDate);
+---
+
+{
+  compact ? (
+    <p class="litter-age litter-age--compact">
+      <span>
+        Born{" "}
+        <time datetime={birthDate}>{birthLabel}</time>
+      </span>
+      <span aria-hidden="true"> · </span>
+      <span class="litter-age__live" data-puppy-age data-birth-date={birthDate} hidden></span>
+    </p>
+  ) : (
+    <dl class="litter-age fact-row">
+      <div class="fact">
+        <dt>Born</dt>
+        <dd>
+          <time datetime={birthDate}>{birthLabel}</time>
+        </dd>
+      </div>
+      <div class="fact">
+        <dt>Age</dt>
+        <dd>
+          <span data-puppy-age data-birth-date={birthDate} hidden></span>
+          <noscript>See birth date above</noscript>
+        </dd>
+      </div>
+    </dl>
+  )
+}
+
+<script>
+  import "../scripts/puppy-age";
+</script>

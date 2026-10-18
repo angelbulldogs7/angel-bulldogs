@@ -4,6 +4,13 @@ import CtaBanner from "../components/CtaBanner.astro";
 import MediaImage from "../components/MediaImage.astro";
 import { formatDate } from "../utils/format";
 import { displayParentName, getDam, getSire } from "../data/parents";
+import {
+  BELLA_LITTER_LIMIT_COPY,
+  BELLA_PERSONALITY_COPY,
+  BELLA_STORY_COPY,
+  MENTORSHIP_COPY,
+  NATURAL_DELIVERY_COPY,
+} from "../data/content";
 
 const bella = getDam();
 const sire = getSire();
@@ -50,29 +57,31 @@ const homeGallery = [
 
 <BaseLayout
   title="Meet Bella | Angel Bulldogs"
-  description="Meet Bella, the heart of Angel Bulldogs. A home-raised French Bulldog from Serbia now living with her family in Chicago."
+  description="Meet Bella, the heart of Angel Bulldogs. A French Bulldog from Serbia who shares life with her family in Chicago."
   path="/bella"
+  ogImage={bella.portrait?.src}
+  imageAlt={bella.portrait?.alt}
 >
   <section class="section">
     <div class="container split split--2">
-      <div class="media-frame aspect-portrait">
-        <MediaImage
-          src={bella.portrait.src}
-          alt={bella.portrait.alt}
-          width={bella.portrait.width}
-          height={bella.portrait.height}
-          loading="eager"
-          fetchpriority="high"
-        />
-      </div>
+      {
+        bella.portrait && (
+          <div class="media-frame aspect-portrait">
+            <MediaImage
+              src={bella.portrait.src}
+              alt={bella.portrait.alt}
+              width={bella.portrait.width}
+              height={bella.portrait.height}
+              loading="eager"
+              fetchpriority="high"
+            />
+          </div>
+        )
+      }
       <div>
         <p class="eyebrow">The heart of Angel Bulldogs</p>
-        <h1>Meet Bella</h1>
-        <p class="lede">
-          Bella came from Serbia and now lives as part of our family in Chicago. She is the
-          center of this small program—loved first as a companion, and trusted as the dam of
-          our home-raised puppies.
-        </p>
+        <h1>Our angel, Bella</h1>
+        {BELLA_STORY_COPY.map((paragraph) => <p class="lede">{paragraph}</p>)}
       </div>
     </div>
   </section>
@@ -80,7 +89,7 @@ const homeGallery = [
   <section class="section section--ivory">
     <div class="container reveal" data-reveal>
       <p class="eyebrow">Bella at a glance</p>
-      <h2>Confirmed details only.</h2>
+      <h2>A few facts about Bella</h2>
       <dl class="fact-row">
         {
           facts.map((fact) => (
@@ -95,28 +104,14 @@ const homeGallery = [
   </section>
 
   <section class="section">
-    <div class="container split split--2 reveal" data-reveal>
-      <div>
-        <p class="eyebrow">From Serbia to Chicago</p>
-        <h2>A family dog, and the start of Angel Bulldogs.</h2>
-        <p>
-          Bella’s story begins in Serbia. She now lives inside our home in Chicago, woven into
-          ordinary days—naps, company, and the kind of close observation that a kennel cannot
-          offer.
-        </p>
-        <p>
-          Her {bella.coat} coat is part of what families notice. It is not more important than
-          her temperament, her care, or the puppies she raises beside us.
-        </p>
-      </div>
-      <div class="media-frame aspect-landscape">
-        <MediaImage
-          src="/images/bella/v5-lifestyle.jpg"
-          alt="Bella sitting on her bed at home in Chicago"
-          width={1200}
-          height={800}
-        />
-      </div>
+    <div class="container measure reveal" data-reveal>
+      <p class="eyebrow">Personality</p>
+      <h2>Clever, cuddly, and strong-willed</h2>
+      <p>{BELLA_PERSONALITY_COPY}</p>
+      <p class="field__hint">
+        Bella's enjoyment of children describes her temperament. It does not mean the puppies have
+        met children or that any puppy is guaranteed suitable for a specific home.
+      </p>
     </div>
   </section>
 
@@ -124,7 +119,7 @@ const homeGallery = [
     <div class="container reveal" data-reveal>
       <p class="eyebrow">At home</p>
       <h2>Life with Bella</h2>
-      <p class="lede measure">Quiet days in Chicago—and the first litter she raised beside us.</p>
+      <p class="lede measure">Quiet days in Chicago, and the first litter she raised beside us.</p>
       <div class="gallery">
         {
           homeGallery.map((image) => (
@@ -140,89 +135,52 @@ const homeGallery = [
   <section class="section">
     <div class="container measure reveal" data-reveal>
       <p class="eyebrow">Quality over quantity</p>
-      <h2>Three litters, chosen with care.</h2>
+      <h2>Three litters, chosen with care</h2>
       <p>
-        Bella will have a maximum of three litters in her lifetime. That decision keeps Angel
-        Bulldogs small: enough time to raise puppies inside the home, to know them well, and to
-        stay close to the families who welcome them.
+        {BELLA_LITTER_LIMIT_COPY} That decision keeps Angel Bulldogs small: enough time to raise
+        puppies inside the home, to know them well, and to stay close to the families who welcome
+        them.
       </p>
       <p>
         The limit is a program philosophy. It does not, by itself, guarantee health outcomes.
       </p>
+      <p>{NATURAL_DELIVERY_COPY} We share that family history as background, not as a guarantee about every future birth.</p>
     </div>
   </section>
 
   <section class="section section--ivory">
     <div class="container measure reveal" data-reveal>
-      <p class="eyebrow">Natural whelping</p>
-      <h2>A family history of natural delivery.</h2>
+      <p class="eyebrow">Serbian mentorship</p>
+      <h2>Guidance that shaped this program</h2>
+      <p>{MENTORSHIP_COPY.short}</p>
       <p>
-        Bella naturally delivered her litter. Her mother, maternal grandmother, and maternal
-        aunt also whelped naturally. We share that family history because it is part of how we
-        understand Bella—not as a promise about every future birth or a substitute for
-        veterinary care.
+        Bella's Serbian origin remains part of her story. Angel Bulldogs brings that care into a
+        small Chicago home.
       </p>
     </div>
   </section>
 
-  <section class="section">
-    <div class="container split split--2 reveal" data-reveal>
-      <div class="media-frame aspect-landscape">
-        <MediaImage
-          src="/placeholders/serbian-roots.svg"
-          alt="Placeholder for an editorial visual about Serbian breeding roots"
-          width={1600}
-          height={1000}
-        />
-      </div>
-      <div>
-        <p class="eyebrow">Family connection</p>
-        <h2>Serbian breeding experience, now in Chicago.</h2>
-        <p>
-          The family and partner connected to Angel Bulldogs have extensive French Bulldog
-          breeding experience in Serbia. That same family connection is part of Bella’s original
-          breeding story.
-        </p>
-        <p>
-          Angel Bulldogs brings that experience into a small Chicago home. We do not present
-          this as a long-established U.S. business under the Angel Bulldogs name.
-        </p>
-      </div>
-    </div>
-  </section>
-
   <section class="section section--cream">
-    <div class="container split split--2 reveal" data-reveal>
-      <div class="media-frame aspect-portrait">
-        <MediaImage
-          src={sire.portrait.src}
-          alt={sire.portrait.alt}
-          width={sire.portrait.width}
-          height={sire.portrait.height}
-        />
-      </div>
-      <div>
-        <p class="eyebrow">Supporting parent</p>
-        <h2>{displayParentName(sire)}</h2>
-        {
-          sire.intro ? (
-            <p>{sire.intro}</p>
-          ) : (
-            <p>
-              {displayParentName(sire)} is the sire of Bella’s puppies. Photos and additional
-              details will appear here when they are available.
-            </p>
-          )
-        }
-        {
-          sire.coat && <p>Coat: {sire.coat}</p>
-        }
-      </div>
+    <div class="container measure reveal" data-reveal>
+      <p class="eyebrow">Meet the sire</p>
+      <h2>{displayParentName(sire)}</h2>
+      {
+        sire.intro ? (
+          <p>{sire.intro}</p>
+        ) : (
+          <p>
+            {displayParentName(sire)} is the sire of Bella's puppies. Additional details are shared
+            during a personal inquiry when they are useful for placement.
+          </p>
+        )
+      }
+      {sire.coat && <p>Coat: {sire.coat}</p>}
+      <p class="field__hint">No approved photograph of Kiki is published on this site.</p>
     </div>
   </section>
 
   <CtaBanner
-    title="Meet the puppies Bella is raising"
-    lede="When a puppy is available, we introduce them here. You can also apply so we can get to know your home."
+    title="Meet Bella's available puppies"
+    lede="Explore the litter, or send a short inquiry so we can learn what you are looking for."
   />
 </BaseLayout>

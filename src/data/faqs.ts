@@ -1,128 +1,72 @@
 import type { FaqGroup, FaqItem } from "./types";
+import { CARE_PACKAGE, SUPPORT_COPY } from "./content";
 
 export const faqGroups: FaqGroup[] = [
   {
-    id: "location",
-    title: "Location & delivery",
-    items: [
-      {
-        id: "where",
-        question: "Where is Angel Bulldogs located?",
-        answer: [
-          "Angel Bulldogs is based in Chicago, Illinois. We do not publish a private home address.",
-          "Chicago pickup can be arranged for approved families, and we can also discuss nationwide delivery.",
-        ],
-        featured: true,
-      },
-      {
-        id: "delivery",
-        question: "Is nationwide delivery available?",
-        answer: [
-          "Yes. For approved families, Angel Bulldogs can coordinate nationwide delivery.",
-          "Exact arrangements are discussed individually. We do not publish a single carrier, method, price, or timeline because those details depend on the family and the moment.",
-        ],
-        featured: true,
-      },
-    ],
-  },
-  {
     id: "placement",
-    title: "Inquiries & placement",
+    title: "Placement and meetings",
     items: [
       {
-        id: "price",
-        question: "How do I learn a puppy’s price?",
+        id: "agree-hold",
+        question: "What happens when we agree on a puppy?",
         answer: [
-          "Pricing varies by puppy. We confirm the price and any delivery costs in our first personal reply.",
-          "There is no public price list and no instant checkout on this website.",
-        ],
-        featured: true,
-      },
-      {
-        id: "apply",
-        question: "How do I inquire about a puppy?",
-        answer: [
-          "Start with the short puppy inquiry. It only asks for a few quick details so we can follow up personally.",
-          "After that first reply about availability and pricing, we continue with a home and care conversation before any placement decision.",
+          "After we agree on the puppy and next steps, we can place a temporary hold until a deposit deadline agreed together. We provide written terms before you pay. When the deposit is received, the puppy becomes reserved for you. If it is not received by the agreed deadline, the puppy becomes available again. The puppy is marked sold when the purchase is completed.",
         ],
       },
       {
-        id: "reserve",
-        question: "Does sending an inquiry reserve a puppy?",
+        id: "meetings",
+        question: "Can I arrange a video call or an in-person appointment?",
         answer: [
-          "No. An inquiry is not a reservation, a hold, or a guarantee of approval.",
-          "Placement begins with a conversation. Paperwork and payment are coordinated privately after a family is approved.",
-        ],
-        featured: true,
-      },
-      {
-        id: "breeding-rights",
-        question: "Are breeding rights available?",
-        answer: [
-          "Breeding rights are considered case by case. They are not automatically included with placement.",
-          "If that matters to you, choose “Discuss breeding rights” on the inquiry or mention it in your message so we can talk through it directly.",
+          "Yes. We offer both by appointment after a reservation deposit has been paid. We will agree on the arrangements with you directly. Reservation deposits are refundable if you decide not to proceed.",
         ],
       },
       {
-        id: "after-approval",
-        question: "What happens after approval?",
+        id: "deposit-refund",
+        question: "What if I decide not to go ahead after paying a deposit?",
         answer: [
-          "Approved families coordinate paperwork, payment, Chicago pickup, or nationwide delivery with us privately.",
-          "Those details are not handled as an instant online checkout, and they are not published as a one-size-fits-all policy on this site.",
+          "We return the reservation deposit if you decide not to proceed, including after a video call or appointment. We also return it if we cannot complete the placement. The written terms provided before payment explain the arrangement.",
+        ],
+      },
+      {
+        id: "handover",
+        question: "How can my puppy come home?",
+        answer: [
+          "We can discuss local pickup, an airport meeting, or personal delivery by one of us. We agree on what works for your situation, including the location, timing, and any delivery costs, before finalizing the arrangements.",
         ],
       },
     ],
   },
   {
-    id: "program",
-    title: "Our program",
+    id: "records-support",
+    title: "Records and support",
     items: [
       {
-        id: "raised",
-        question: "How are the puppies raised?",
+        id: "records",
+        question: "What records come with a puppy?",
         answer: [
-          "Puppies are raised inside our home, as part of daily family life, with personal attention rather than a kennel environment.",
-          "Families receive personal support after puppy placement.",
+          CARE_PACKAGE.vaccinesDeworming,
+          CARE_PACKAGE.pedigrees,
+          CARE_PACKAGE.akcOptional,
         ],
       },
       {
-        id: "dna",
-        question: "What does DNA-confirmed parentage mean?",
+        id: "dna-traits",
+        question: "Are the puppies' coat and carrier descriptions individual DNA results?",
         answer: [
-          "DNA testing confirmed that both parents are 100% French Bulldog. That result speaks to breed parentage.",
-          "It is not the same as a comprehensive hereditary-health panel, and we do not describe our dogs as fully health tested on that basis alone.",
+          "No. We use both parents' DNA results and each puppy's appearance to assess coat traits. Our puppies have not been individually DNA tested, so genetic and carrier descriptions are breeder assessments rather than individual test results.",
         ],
       },
       {
-        id: "serbia",
-        question: "What are Angel Bulldogs’ Serbian roots?",
-        answer: [
-          "The family and partner connected to Angel Bulldogs have extensive French Bulldog breeding experience in Serbia, and that same family connection is part of Bella’s original breeding story.",
-          "The program now brings that family experience into a small Chicago home. Angel Bulldogs is a Chicago-based program; we do not present it as a long-running U.S. kennel under this name.",
-        ],
+        id: "after-home",
+        question: "Can I contact you after my puppy comes home?",
+        answer: [SUPPORT_COPY.personal],
       },
       {
-        id: "three-litters",
-        question: "Why will Bella have no more than three litters?",
+        id: "rehoming",
+        question: "What if my circumstances change and I cannot keep my dog?",
         answer: [
-          "Bella will have a maximum of three litters in her lifetime. That limit reflects a small-program philosophy: individual care, close observation, and personal attention.",
-          "The three-litter limit is not a health guarantee. It is how we choose to work.",
+          "Please contact us so we can discuss the situation. Depending on the circumstances, we may be able to help find a new home or consider welcoming the dog back.",
         ],
-      },
-    ],
-  },
-  {
-    id: "availability",
-    title: "Availability",
-    items: [
-      {
-        id: "none",
-        question: "What if there are no available puppies?",
-        answer: [
-          "Availability can change, and we only list puppies that are currently available.",
-          "If none are listed, you are welcome to send a puppy inquiry for a future litter, join our availability list, or contact us to introduce yourself.",
-        ],
-        featured: true,
       },
     ],
   },
@@ -132,7 +76,7 @@ export function getAllFaqs(): FaqItem[] {
   return faqGroups.flatMap((group) => group.items);
 }
 
+/** Homepage no longer mirrors the FAQ accordion; keep helper for tests/legacy callers. */
 export function getFeaturedFaqs(limit = 5): FaqItem[] {
-  const featured = getAllFaqs().filter((item) => item.featured);
-  return featured.slice(0, limit);
+  return getAllFaqs().slice(0, limit);
 }

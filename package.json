@@ -8,11 +8,13 @@
   "scripts": {
     "dev": "astro dev",
     "check": "astro check",
-    "test": "node --experimental-strip-types --import ./scripts/color-lab-test-register.mjs --test src/lib/color-lab/*.test.ts src/lib/formDelivery.test.ts src/lib/puppyInquiry.test.ts",
+    "test": "node --experimental-strip-types --import ./scripts/color-lab-test-register.mjs --test src/lib/color-lab/*.test.ts src/lib/formDelivery.test.ts src/lib/puppyInquiry.test.ts src/utils/puppyAge.test.ts functions/api/newsletter.test.ts",
     "color-lab:manifest": "node --experimental-strip-types --import ./scripts/color-lab-test-register.mjs scripts/generate-color-lab-manifest.mjs",
     "color-lab:phenotypes": "node --experimental-strip-types --import ./scripts/color-lab-test-register.mjs scripts/export-color-lab-phenotypes.mjs",
     "build": "astro check && astro build",
     "preview": "astro preview",
+    "preview:functions": "npm run build && wrangler pages dev dist --ip 0.0.0.0 --port 8788",
+    "preview:phone": "npm run preview:functions",
     "astro": "astro"
   },
   "dependencies": {
@@ -24,6 +26,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "typescript": "^5.9.2"
+    "playwright-core": "^1.55.0",
+    "typescript": "^5.9.2",
+    "wrangler": "^4.45.3"
   }
 }

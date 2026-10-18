@@ -1,6 +1,8 @@
 export interface NavItem {
   href: string;
   label: string;
+  /** Adjacent status chip, e.g. Coming soon for Color Lab. */
+  badge?: string;
 }
 
 export interface SiteConfig {
@@ -15,7 +17,7 @@ export interface SiteConfig {
   email: string;
   /**
    * Public hostname without protocol, e.g. "angelbulldogs.com".
-   * Leave empty until verified — do not invent a domain.
+   * Leave empty until verified - do not invent a domain.
    */
   domain: string;
   /** Path under /public. Empty/null skips the <video> element entirely. */
@@ -27,29 +29,34 @@ export interface SiteConfig {
   /** Site-wide top banner: website still in development. */
   siteInDevelopment: boolean;
   /**
-   * When true, /color-lab stays in the nav but shows Coming Soon.
-   * Full Color Lab source stays in the repo — flip to false to restore the tool.
+   * When true, /color-lab stays reachable but shows Coming Soon.
+   * Full Color Lab source stays in the repo - flip to false to restore the tool.
    */
   colorLabComingSoon: boolean;
+  /** Primary header links (desktop). Color Lab is not required here. */
   nav: readonly NavItem[];
+  /** Mobile drawer links, including Frenchie Color Lab Coming soon. */
+  mobileNav: readonly NavItem[];
+  /** Footer links, including Frenchie Color Lab Coming soon. */
+  footerNav: readonly NavItem[];
 }
 
 export const siteConfig = {
   name: "Angel Bulldogs",
   location: "Chicago, Illinois",
   locationShort: "Chicago-based",
-  serviceArea: "Nationwide delivery available",
+  serviceArea: "Pickup, airport meeting, or owner delivery by arrangement",
   email: "angelbulldogs7@gmail.com",
   domain: "angelbulldogs.com",
   // TODO: Add a compressed muted hero video path (e.g. "/media/hero-bella.mp4") when the file exists.
   // Recommended: H.264, 1920×1080 or 1600×900, under ~4 MB, no audio track.
   heroVideo: null,
-  heroPoster: "/placeholders/hero-bella-poster.svg",
-  ogImage: "/placeholders/og-share.svg",
+  heroPoster: "/images/bella/v5-lifestyle.jpg",
+  ogImage: "/images/og-share.jpg",
   socialLinks: {},
   /**
    * While true, no form sends anything. Live delivery also needs the matching
-   * PUBLIC_FORMSPREE_* / PUBLIC_BREVO_* endpoints at build time.
+   * PUBLIC_FORMSPREE_* endpoints at build time, plus server Brevo bindings for newsletter.
    */
   prototypeMode: false,
   siteInDevelopment: false,
@@ -58,15 +65,32 @@ export const siteConfig = {
   nav: [
     { href: "/", label: "Home" },
     { href: "/puppies", label: "Available Puppies" },
-    { href: "/color-lab", label: "Color Lab" },
     { href: "/bella", label: "Meet Bella" },
     { href: "/application", label: "Puppy Inquiry" },
     { href: "/faq", label: "FAQ" },
     { href: "/contact", label: "Contact" },
   ],
+  mobileNav: [
+    { href: "/", label: "Home" },
+    { href: "/puppies", label: "Available Puppies" },
+    { href: "/bella", label: "Meet Bella" },
+    { href: "/application", label: "Puppy Inquiry" },
+    { href: "/faq", label: "FAQ" },
+    { href: "/contact", label: "Contact" },
+    { href: "/color-lab", label: "Frenchie Color Lab", badge: "Coming soon" },
+  ],
+  footerNav: [
+    { href: "/", label: "Home" },
+    { href: "/puppies", label: "Available Puppies" },
+    { href: "/bella", label: "Meet Bella" },
+    { href: "/application", label: "Puppy Inquiry" },
+    { href: "/faq", label: "FAQ" },
+    { href: "/contact", label: "Contact" },
+    { href: "/color-lab", label: "Frenchie Color Lab", badge: "Coming soon" },
+  ],
 } as const satisfies SiteConfig;
 
-/** Public pricing copy — no verified public price list exists in site data. */
+/** Public pricing copy - no verified public price list exists in site data. */
 export const PRICE_LABEL =
   "Pricing varies by puppy. We'll confirm the price and any delivery costs in our first personal reply.";
 

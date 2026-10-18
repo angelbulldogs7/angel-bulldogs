@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { decideFormDelivery, parseBrevoFormEndpoint, parseFormspreeEndpoint } from "./formDelivery";
+import {
+  decideFormDelivery,
+  parseBrevoFormEndpoint,
+  parseFormspreeEndpoint,
+  postBrevoNewsletter,
+} from "./formDelivery";
 
 const FORMSPREE = "https://formspree.io/f/abc123XYZ";
 const BREVO = "https://xxxyyyzzz.sibforms.com/serve/MUIFA_example_token_here";
@@ -38,5 +43,11 @@ describe("decideFormDelivery", () => {
       action: "submit",
       endpoint: FORMSPREE,
     });
+  });
+});
+
+describe("postBrevoNewsletter", () => {
+  it("rejects the removed iframe assumed-success path", async () => {
+    await assert.rejects(() => postBrevoNewsletter(BREVO, "test@example.com"), /Legacy Brevo iframe/);
   });
 });

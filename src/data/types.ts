@@ -1,6 +1,13 @@
-export type PuppyStatus = "available" | "unavailable";
+export type PuppyStatus = "available" | "on-hold" | "reserved" | "sold";
 export type PuppySex = "female" | "male";
 export type ParentRole = "dam" | "sire";
+
+export const PUPPY_STATUS_LABELS: Record<PuppyStatus, string> = {
+  available: "Available",
+  "on-hold": "On hold",
+  reserved: "Reserved",
+  sold: "Sold",
+};
 
 export interface MediaAsset {
   src: string;
@@ -17,7 +24,8 @@ export interface Parent {
   origin: string | null;
   dateOfBirth: string | null;
   coat: string | null;
-  portrait: MediaAsset;
+  /** Null for a finished text-only parent section (e.g. Kiki). */
+  portrait: MediaAsset | null;
   intro: string | null;
   /** Confirmed story points only. Never invent health, titles, or registration. */
   highlights: string[];
@@ -37,10 +45,19 @@ export interface Puppy {
   name: string;
   status: PuppyStatus;
   sex: PuppySex;
-  /** ISO YYYY-MM-DD when confirmed. Null until the owner supplies a verified date. */
+  /**
+   * Prefer shared litter birthDate. Per-puppy ISO YYYY-MM-DD only when a puppy
+   * differs from the litter (none currently do).
+   */
   dateOfBirth: string | null;
   color: string;
+  /** Visible / breeder-assessed coat description (not a genotype string). */
   coatType: string;
+  /**
+   * Owner-assessed carrier traits from parental DNA and appearance.
+   * Not individual puppy DNA test results.
+   */
+  estimatedCarrierTraits: readonly string[];
   shortDescription: string;
   longDescription: string;
   damId: string;

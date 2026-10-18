@@ -2,8 +2,8 @@
 const FORMSPREE_ENDPOINT = /^https:\/\/formspree\.io\/f\/[A-Za-z0-9]+$/;
 
 /**
- * Brevo "Simple HTML" form action URLs look like:
- * https://…sibforms.com/serve/…
+ * Legacy Brevo "Simple HTML" form action URLs. Kept for parse tests and migration.
+ * Live newsletter delivery uses the same-origin `/api/newsletter` Pages Function.
  */
 const BREVO_FORM_ENDPOINT = /^https:\/\/([a-z0-9-]+\.)?sibforms\.com\/serve\/[A-Za-z0-9_=-]+$/i;
 
@@ -41,53 +41,78 @@ export async function postFormspree(endpoint: string, form: HTMLFormElement): Pr
   });
 }
 
+export type NewsletterApiState =
+  | "accepted"
+  | "confirmation_pending"
+  | "invalid"
+  | "unavailable"
+  | "rejected"
+  | "unconfirmed_after_network_failure";
+
+export interface NewsletterApiResult {
+  readonly ok: boolean;
+  readonly state: NewsletterApiState;
+  readonly message: string;
+  readonly status: number;
+}
+
 /**
- * Brevo Simple HTML forms expect the email field named `EMAIL`.
- * They rarely allow CORS fetch, so we POST through a hidden iframe.
+ * Posts to the same-origin newsletter function. Never assumes success from timers or iframes.
  */
-export function postBrevoNewsletter(endpoint: string, email: string): Promise<Response> {
-  return new Promise((resolve, reject) => {
-    const frameName = `brevo_${Date.now()}`;
-    const iframe = document.createElement("iframe");
-    iframe.name = frameName;
-    iframe.title = "Newsletter signup";
-    iframe.setAttribute("aria-hidden", "true");
-    iframe.tabIndex = -1;
-    iframe.style.cssText = "position:absolute;width:0;height:0;border:0;clip:rect(0,0,0,0)";
-
-    const proxy = document.createElement("form");
-    proxy.method = "POST";
-    proxy.action = endpoint;
-    proxy.target = frameName;
-    proxy.setAttribute("aria-hidden", "true");
-    proxy.style.cssText = "display:none";
-
-    const input = document.createElement("input");
-    input.type = "email";
-    input.name = "EMAIL";
-    input.value = email;
-    proxy.appendChild(input);
-
-    let settled = false;
-    const finish = (ok: boolean) => {
-      if (settled) return;
-      settled = true;
-      window.clearTimeout(timer);
-      proxy.remove();
-      iframe.remove();
-      if (ok) resolve(new Response(null, { status: 200 }));
-      else reject(new Error("Brevo newsletter submission failed"));
+export async function postNewsletterSignup(
+  endpoint: string,
+  email: string,
+  signal?: AbortSignal,
+): Promise<NewsletterApiResult> {
+  let response: Response;
+  try {
+    response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+      signal,
+    });
+  } catch {
+    return {
+      ok: false,
+      state: "unconfirmed_after_network_failure",
+      message:
+        "The connection dropped before we could confirm the result. Please wait a moment and check your inbox before trying again, or email us through Contact.",
+      status: 0,
     };
+  }
 
-    iframe.addEventListener("load", () => finish(true));
-    const timer = window.setTimeout(() => finish(true), 2500);
+  let payload: Partial<NewsletterApiResult> | null = null;
+  try {
+    payload = (await response.json()) as Partial<NewsletterApiResult>;
+  } catch {
+    payload = null;
+  }
 
-    document.body.appendChild(iframe);
-    document.body.appendChild(proxy);
-    try {
-      proxy.submit();
-    } catch {
-      finish(false);
-    }
-  });
+  const state = (payload?.state as NewsletterApiState | undefined) ?? (response.ok ? "accepted" : "rejected");
+  const message =
+    typeof payload?.message === "string" && payload.message.trim()
+      ? payload.message.trim()
+      : response.ok
+        ? "Signup received."
+        : "Something went wrong and you were not added to the list.";
+
+  const ok = Boolean(payload?.ok) && (state === "accepted" || state === "confirmation_pending");
+
+  return {
+    ok,
+    state,
+    message,
+    status: response.status,
+  };
+}
+
+/** @deprecated Removed assumed-success iframe/timer path. Use postNewsletterSignup. */
+export function postBrevoNewsletter(_endpoint: string, _email: string): Promise<Response> {
+  return Promise.reject(
+    new Error("Legacy Brevo iframe signup removed. Use postNewsletterSignup('/api/newsletter', email)."),
+  );
 }

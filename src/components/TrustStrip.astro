@@ -1,10 +1,7 @@
 ---
-const items = [
-  { title: "Raised inside our home", icon: "home" },
-  { title: "DNA-confirmed parentage", icon: "dna" },
-  { title: "Serbian breeding roots", icon: "roots" },
-  { title: "Chicago-based, nationwide delivery", icon: "map" },
-] as const;
+import { TRUST_STRIP_ITEMS } from "../data/content";
+
+const items = TRUST_STRIP_ITEMS;
 ---
 
 <div class="trust-strip container">
@@ -18,11 +15,10 @@ const items = [
               <path d="M9 20v-7h6v7" />
             </svg>
           )}
-          {item.icon === "dna" && (
+          {item.icon === "conversation" && (
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-              <path d="M8 4c8 4 0 8 8 12" />
-              <path d="M16 4C8 8 16 12 8 16" />
-              <path d="M7 8h10M7 16h10" />
+              <path d="M5 6.5h14v8.5H9l-4 3V6.5Z" />
+              <path d="M8 10h8M8 13h5" />
             </svg>
           )}
           {item.icon === "roots" && (

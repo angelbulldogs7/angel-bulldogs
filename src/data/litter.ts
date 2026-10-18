@@ -1,17 +1,19 @@
 import type { MediaAsset } from "./types";
 
 /**
- * Current public litter context for the Available Puppies page.
- * Keep nav labeled "Available Puppies"; this block carries parent/litter story.
+ * Current public litter context. Shared birth date is the single source of truth
+ * for age display across listing and detail pages.
  */
 export const currentLitter = {
   id: "litter-1",
-  label: "Bella’s first litter",
-  /** Short page framing — parents matter more than a litter number in the menu. */
-  lede: "These puppies are from Bella’s first litter, raised in our Chicago home. Dam and sire details appear on each puppy card.",
+  label: "Bella's first litter",
+  /** ISO date, America/Chicago calendar age. */
+  birthDate: "2026-08-05",
+  ageTimeZone: "America/Chicago",
+  lede: "Dam and sire details appear with each puppy. Meet Bella for the fuller family story.",
   hero: {
     src: "/images/puppies/litter-1/v5-hero.jpg",
-    alt: "Bella’s first litter resting together on their bed",
+    alt: "Bella's first litter resting together on their bed",
     width: 1600,
     height: 1200,
     kind: "image",
@@ -33,45 +35,49 @@ export const currentLitter = {
     },
     {
       src: "/images/puppies/litter-1/v5-o-01.jpg",
-      alt: "Earlier photo from Bella’s first litter",
+      alt: "Earlier photo from Bella's first litter",
       width: 1200,
       height: 900,
       kind: "image",
     },
     {
       src: "/images/puppies/litter-1/v5-o-02.jpg",
-      alt: "Earlier photo from Bella’s first litter",
+      alt: "Earlier photo from Bella's first litter",
       width: 1200,
       height: 900,
       kind: "image",
     },
     {
       src: "/images/puppies/litter-1/v5-o-03.jpg",
-      alt: "Earlier photo from Bella’s first litter",
+      alt: "Earlier photo from Bella's first litter",
       width: 1200,
       height: 900,
       kind: "image",
     },
     {
       src: "/images/puppies/litter-1/v5-o-04.jpg",
-      alt: "Earlier photo from Bella’s first litter",
+      alt: "Earlier photo from Bella's first litter",
       width: 1200,
       height: 900,
       kind: "image",
     },
     {
       src: "/images/puppies/litter-1/v5-o-05.jpg",
-      alt: "Earlier photo from Bella’s first litter",
+      alt: "Earlier photo from Bella's first litter",
       width: 1200,
       height: 900,
       kind: "image",
     },
     {
       src: "/images/puppies/litter-1/v5-o-06.jpg",
-      alt: "Earlier photo from Bella’s first litter",
+      alt: "Earlier photo from Bella's first litter",
       width: 1200,
       height: 900,
       kind: "image",
-    }
+    },
   ] as const satisfies readonly MediaAsset[],
 } as const;
+
+export function getLitterBirthDate(): string {
+  return currentLitter.birthDate;
+}

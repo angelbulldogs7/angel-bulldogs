@@ -16,20 +16,37 @@ interface LiveFormOptions {
   submit?: (endpoint: string, form: HTMLFormElement) => Promise<Response>;
 }
 
+function errorIdFor(control: HTMLElement): string {
+  return `${control.id || control.getAttribute("name") || "field"}-error`;
+}
+
+function mergeDescribedBy(control: HTMLElement, errorId: string, active: boolean): void {
+  const existing = (control.getAttribute("aria-describedby") ?? "")
+    .split(/\s+/)
+    .filter(Boolean)
+    .filter((id) => id !== errorId);
+  if (active) existing.push(errorId);
+  if (existing.length > 0) control.setAttribute("aria-describedby", existing.join(" "));
+  else control.removeAttribute("aria-describedby");
+}
+
 function setError(field: HTMLElement, message: string | null): void {
   const error = field.querySelector<HTMLElement>("[data-error]");
   const control = field.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
     "input, select, textarea",
   );
   if (!error || !control) return;
+  if (!error.id) error.id = errorIdFor(control);
   if (message) {
     error.textContent = message;
     error.hidden = false;
     control.setAttribute("aria-invalid", "true");
+    mergeDescribedBy(control, error.id, true);
   } else {
     error.textContent = "";
     error.hidden = true;
     control.removeAttribute("aria-invalid");
+    mergeDescribedBy(control, error.id, false);
   }
 }
 
@@ -97,9 +114,22 @@ export function initPrototypeForm({
   successHeading,
   submit = postFormspree,
 }: LiveFormOptions): void {
+  if (form.dataset.formInit === "true") return;
+  form.dataset.formInit = "true";
+
+  // Custom validation only after enhancement is ready.
+  form.setAttribute("novalidate", "");
+
   const fields = Array.from(form.querySelectorAll<HTMLElement>("[data-field]"));
   const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
   let sending = false;
+
+  // Native POST fallback when an endpoint exists and JS later fails mid-flight.
+  if (!endpoint && !form.getAttribute("action")) {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+    });
+  }
 
   fields.forEach((field) => {
     const control = field.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
@@ -147,8 +177,12 @@ export function initPrototypeForm({
       if (!response.ok) throw new Error(`Delivery responded ${response.status}`);
       form.reset();
       showNotice(notice, successMessage, "success", successHeading);
-    } catch {
-      showNotice(notice, errorMessage, "error");
+    } catch (error) {
+      const message =
+        error instanceof TypeError
+          ? "The connection dropped before we could confirm delivery. Your details are still in the form. Please wait a moment before trying again, or email us directly."
+          : errorMessage;
+      showNotice(notice, message, "error");
     } finally {
       sending = false;
       form.removeAttribute("aria-busy");

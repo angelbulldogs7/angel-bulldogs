@@ -24,11 +24,11 @@ const { address, notice } = getPublicEmail();
   </script>
   <PageHero
     title="Contact"
-    lede="For general questions, send a short note here. For availability and pricing, start with a puppy inquiry — it only takes a couple of minutes."
+    lede="Have a general question for us? Use the contact form or our contact email. If you are interested in a puppy, start with a Puppy Inquiry."
   />
   <section class="section">
-    <div class="container split split--2">
-      <div>
+    <div class="container split split--2 contact-align">
+      <div class="contact-info">
         <p class="eyebrow">Angel Bulldogs</p>
         <h2>{siteConfig.location}</h2>
         <p>{siteConfig.serviceArea} for approved families.</p>
@@ -44,9 +44,9 @@ const { address, notice } = getPublicEmail();
             </p>
           )
         }
+        <p>Looking for a puppy?</p>
         <p>
-          Looking for a puppy?
-          <a href="/application">Start a Puppy Inquiry</a>.
+          <a href="/application">Start a Puppy Inquiry</a>
         </p>
         <p class="field__hint">
           <a href="/privacy">Privacy Policy</a>

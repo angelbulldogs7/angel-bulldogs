@@ -1,16 +1,16 @@
 ---
 import { siteConfig } from "../config/site";
-import { parseBrevoFormEndpoint } from "../lib/formDelivery";
 
-const brevoEndpoint = parseBrevoFormEndpoint(import.meta.env.PUBLIC_BREVO_NEWSLETTER_ENDPOINT);
+const newsletterEndpoint = "/api/newsletter";
 ---
 
 <form
   class="newsletter"
   data-newsletter-form
   data-prototype-mode={siteConfig.prototypeMode ? "true" : "false"}
-  data-endpoint={brevoEndpoint ?? ""}
-  novalidate
+  data-endpoint={newsletterEndpoint}
+  action={newsletterEndpoint}
+  method="post"
 >
   <div class="newsletter-row">
     <div class="field" data-field>
@@ -22,43 +22,108 @@ const brevoEndpoint = parseBrevoFormEndpoint(import.meta.env.PUBLIC_BREVO_NEWSLE
         autocomplete="email"
         required
         placeholder="you@example.com"
+        aria-describedby="newsletter-hint"
       />
-      <p class="field__error" data-error hidden></p>
     </div>
     <button class="btn btn--primary" type="submit">
       <span>Join the list</span>
     </button>
   </div>
-  <p class="field__hint">
-    Subscribers receive availability updates. Joining does not reserve a puppy.
-  </p>
-  <p class="prototype-banner" data-form-notice role="status" aria-live="polite"></p>
+  <div class="newsletter-feedback">
+    <p class="field__hint" id="newsletter-hint">
+      Receive puppy and litter updates. Confirm your email to join. Joining does not reserve a puppy.
+    </p>
+    <p class="field__error" data-error id="newsletter-email-error" hidden></p>
+    <p class="prototype-banner" data-form-notice role="status" aria-live="polite"></p>
+  </div>
 </form>
 
 <script>
-  import { parseBrevoFormEndpoint, postBrevoNewsletter } from "../lib/formDelivery";
-  import { initPrototypeForm } from "../scripts/prototype-form";
+  import { decideFormDelivery, postNewsletterSignup } from "../lib/formDelivery";
 
   const form = document.querySelector<HTMLFormElement>("[data-newsletter-form]");
   const notice = form?.querySelector<HTMLElement>("[data-form-notice]");
+  const error = form?.querySelector<HTMLElement>("[data-error]");
+  const emailInput = form?.querySelector<HTMLInputElement>('input[name="email"]');
+  const submitButton = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
 
-  if (form && notice) {
-    initPrototypeForm({
-      form,
-      notice,
-      endpoint: parseBrevoFormEndpoint(form.dataset.endpoint),
-      prototypeMode: form.dataset.prototypeMode === "true",
-      unavailableMessage:
-        "Newsletter signup is not connected yet, so nothing was sent. Please check back soon or use Contact.",
-      successMessage:
-        "You are on the Angel Bulldogs list. Joining does not reserve a puppy; we will share availability updates by email.",
-      errorMessage:
-        "Something went wrong and you were not added to the list. Your email is still in the form — please try again.",
-      submit: async (endpoint, liveForm) => {
-        const emailInput = liveForm.querySelector<HTMLInputElement>('input[name="email"]');
-        const email = emailInput?.value.trim() ?? "";
-        return postBrevoNewsletter(endpoint, email);
-      },
+  if (form && notice && emailInput) {
+    // Enable custom validation only after enhancement is ready.
+    form.setAttribute("novalidate", "");
+
+    const setFieldError = (message: string | null) => {
+      if (!error) return;
+      if (message) {
+        error.textContent = message;
+        error.hidden = false;
+        emailInput.setAttribute("aria-invalid", "true");
+        emailInput.setAttribute(
+          "aria-describedby",
+          ["newsletter-hint", "newsletter-email-error"].join(" "),
+        );
+      } else {
+        error.textContent = "";
+        error.hidden = true;
+        emailInput.removeAttribute("aria-invalid");
+        emailInput.setAttribute("aria-describedby", "newsletter-hint");
+      }
+    };
+
+    const showNotice = (message: string, tone: "info" | "success" | "error") => {
+      notice.dataset.tone = tone;
+      notice.classList.add("is-visible");
+      notice.textContent = message;
+    };
+
+    let sending = false;
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (sending) return;
+
+      if (!emailInput.validity.valid) {
+        setFieldError(
+          emailInput.validity.valueMissing ? "This field is required." : "Please enter a valid email address.",
+        );
+        emailInput.focus();
+        return;
+      }
+      setFieldError(null);
+
+      const decision = decideFormDelivery({
+        endpoint: form.dataset.endpoint || null,
+        prototypeMode: form.dataset.prototypeMode === "true",
+      });
+      if (decision.action === "unavailable") {
+        showNotice(
+          "Newsletter signup is temporarily unavailable. Please try again later, or use Contact.",
+          "info",
+        );
+        return;
+      }
+
+      sending = true;
+      form.setAttribute("aria-busy", "true");
+      if (submitButton) submitButton.disabled = true;
+      showNotice("Sending…", "info");
+
+      const result = await postNewsletterSignup(decision.endpoint, emailInput.value.trim());
+      if (result.ok && result.state === "confirmation_pending") {
+        // Keep the address so the visitor can check spam without retyping.
+        showNotice(result.message, "success");
+      } else if (result.ok) {
+        form.reset();
+        showNotice(result.message, "success");
+      } else if (result.state === "invalid") {
+        setFieldError(result.message);
+        showNotice(result.message, "error");
+        emailInput.focus();
+      } else {
+        showNotice(result.message, result.state === "unavailable" ? "info" : "error");
+      }
+
+      sending = false;
+      form.removeAttribute("aria-busy");
+      if (submitButton) submitButton.disabled = false;
     });
   }
 </script>

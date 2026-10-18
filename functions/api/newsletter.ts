@@ -180,6 +180,7 @@ export async function onRequest(context: {
 
   const ready = configReady(env);
   if (!ready.ok) {
+    console.error("[newsletter] config not ready:", ready.reason);
     return json(
       {
         ok: false,
@@ -259,6 +260,7 @@ export async function onRequest(context: {
     }
 
     if (response.status === 401 || response.status === 403) {
+      console.error("[newsletter] Brevo auth failed:", response.status);
       return json(
         {
           ok: false,
@@ -267,6 +269,15 @@ export async function onRequest(context: {
         },
         503,
         html,
+      );
+    }
+
+    if (!response.ok) {
+      const detail = await response.text().catch(() => "");
+      console.error(
+        "[newsletter] Brevo error:",
+        response.status,
+        detail.slice(0, 300),
       );
     }
 

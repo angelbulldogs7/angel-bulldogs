@@ -914,6 +914,14 @@ figure {
   object-position: 72% center;
 }
 
+/* Desktop: bias upward so Bella's head and ears stay in frame */
+@media (min-width: 768px) {
+  .hero__media img,
+  .hero__media video {
+    object-position: 72% 10%;
+  }
+}
+
 .hero__media video[hidden] {
   display: none;
 }

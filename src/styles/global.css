@@ -2131,4 +2131,11 @@ figure {
     flex: none !important;
     width: 100%;
   }
+
+  /* Column layout: aspect flex-grow + overflow:hidden collapses tiles to 0 height */
+  .bella-serbia__video,
+  .bella-serbia__photo {
+    flex: none;
+    width: 100%;
+  }
 }

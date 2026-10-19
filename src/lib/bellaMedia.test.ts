@@ -17,6 +17,7 @@ import { siteConfig } from "../config/site";
 const publicRoot = join(process.cwd(), "public");
 const storySource = readFileSync(join(process.cwd(), "src/components/BellaStory.astro"), "utf8");
 const videoScript = readFileSync(join(process.cwd(), "src/scripts/bella-serbia-video.ts"), "utf8");
+const globalCss = readFileSync(join(process.cwd(), "src/styles/global.css"), "utf8");
 
 function assertPublicAsset(src: string): void {
   const path = join(publicRoot, src.replace(/^\//, ""));
@@ -116,5 +117,10 @@ describe("bellaMedia collection", () => {
     assert.match(videoScript, /prefers-reduced-motion/);
     assert.match(videoScript, /muted/);
     assert.match(videoScript, /IntersectionObserver/);
+    // Mobile column: aspect flex-grow + overflow:hidden must not collapse Serbia tiles
+    assert.match(
+      globalCss,
+      /\.bella-serbia__video,\s*\n\s*\.bella-serbia__photo \{\s*\n\s*flex: none;/,
+    );
   });
 });
